@@ -1,0 +1,7 @@
+.vs
+.deps.
+*bin/
+obj/
+*.user
+.idea
+/.env

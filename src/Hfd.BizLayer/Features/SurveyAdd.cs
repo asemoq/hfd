@@ -1,0 +1,69 @@
+using Hfd.Base.Contract.Services;
+using Hfd.Contract.Dto;
+using Hfd.Contract.Enums;
+using Hfd.Contract.Model;
+using Hfd.Contract.Services;
+
+namespace Hfd.BizLayer.Features;
+
+/// <summary>
+///     Add survey.
+/// </summary>
+public static class SurveyAdd
+{
+	/// <summary>
+	///     Request.
+	/// </summary>
+	public sealed class Request : ISurveyInfo, IRequest<SurveyModel>
+	{
+		/// <inheritdoc />
+		public DyspneaType Dyspnea { get; set; }
+
+		/// <inheritdoc />
+		public double AdValue { get; set; }
+
+		/// <inheritdoc />
+		public double WeightValue { get; set; }
+
+		/// <inheritdoc />
+		public EdemaType Edema { get; set; }
+
+		/// <inheritdoc />
+		public double HeartRateValue { get; set; }
+
+		/// <inheritdoc />
+		public PositionInBedType PositionInBed { get; set; }
+
+		/// <inheritdoc />
+		public long PatientId { get; set; }
+
+		/// <inheritdoc />
+		public DateTime Date => DateTime.Now;
+	}
+
+	/// <inheritdoc />
+	public sealed class Handler : IRequestHandler<Request, SurveyModel>
+	{
+		private readonly IBizContext _context;
+
+		/// <summary>
+		///     Creates an instance of <see cref="Handler" />.
+		/// </summary>
+		public Handler(IBizContext context)
+		{
+			_context = context;
+		}
+
+		/// <inheritdoc />
+		public async Task<SurveyModel> Handle(Request rq, CancellationToken token)
+		{
+			var service = _context.Services.GetRequiredService<IDbStorage>().Get<ISurveyService>();
+			return _context.GetMapper().Map<ISurveyModel, SurveyModel>(await service.Add(rq));
+		}
+
+		/// <inheritdoc />
+		public sealed class Validator : AbstractValidator<Request>
+		{
+		}
+	}
+}

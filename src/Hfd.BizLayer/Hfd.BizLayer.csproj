@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>Hfd.BizLayer</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation" Version="11.10.0"/>
+        <PackageReference Include="Quartz" Version="3.13.0"/>
+        <PackageReference Include="Scrutor" Version="5.0.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Hfd.Contract\Hfd.Contract.csproj"/>
+        <ProjectReference Include="..\Hfd.Provider.Telegram\Hfd.Provider.Telegram.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Features\Hfd*.cs">
+            <DependentUpon>Hfd.md</DependentUpon>
+        </Compile>
+        <Compile Update="Features\Patient*.cs">
+            <DependentUpon>Patient.md</DependentUpon>
+        </Compile>
+        <Compile Update="Features\User*.cs">
+            <DependentUpon>User.md</DependentUpon>
+        </Compile>
+        <Compile Update="Features\Survey*.cs">
+            <DependentUpon>Survey.md</DependentUpon>
+        </Compile>
+        <Compile Update="Features\Nurse*.cs">
+            <DependentUpon>Nurse.md</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,36 @@
+using Hfd.Base.Contract.Model;
+using Hfd.Base.Contract.Services;
+using Hfd.Contract.Model;
+
+namespace Hfd.Contract.Services;
+
+/// <summary>
+///     Сервис управления опросами.
+/// </summary>
+public interface ISurveyService : IDbService
+{
+	/// <summary>
+	///     Сохранить опрос в БД.
+	/// </summary>
+	Task<ISurveyModel> Add(ISurveyInfo surveyInfo);
+
+	/// <summary>
+	///     Изменить опрос в БД.
+	/// </summary>
+	Task<ISurveyModel> Edit(long surveyId, ISurveyInfo surveyInfo);
+
+	/// <summary>
+	///     Получить список опросов из БД.
+	/// </summary>
+	Task<IPageList<ISurveyModel>> GetAll(ISkipTakeRq request, long? patientId);
+
+	/// <summary>
+	///     Получить опрос из БД по идентификатору.
+	/// </summary>
+	Task<ISurveyModel> GetById(long surveyId);
+
+	/// <summary>
+	///     Удалить опрос.
+	/// </summary>
+	Task<ISurveyModel> Delete(long surveyId);
+}
