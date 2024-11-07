@@ -1,4 +1,4 @@
-include:
-  - project: 'HFD/ci_cd'
-    ref: main
-    file: 'hfd.yaml'
+hfd:
+  stage: build & deploy
+  only:
+    - master
