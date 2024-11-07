@@ -7,27 +7,29 @@ workflow:
 build:
   stage: build
   script:
-    - sleep 60
+    - sleep 10
   tags:
     - docker
 
 first_test_case:
   stage: test
   script:
-    - sleep 30
+    - sleep 10
   tags:
     - docker
 
 second_test_case:
   stage: test
   script:
-    - sleep 30
+    - sleep 10
   tags:
     - docker
 
 deploy:
+  only:
+    - master
   stage: deploy
   script:
-    - sleep 30
+    - sleep 10
   tags:
     - docker
