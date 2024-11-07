@@ -9,21 +9,21 @@ build:
   script:
     - sleep 10
   tags:
-    - docker
+    - build & test
 
 first_test_case:
   stage: test
   script:
     - sleep 10
   tags:
-    - docker
+    - build & test
 
 second_test_case:
   stage: test
   script:
     - sleep 10
   tags:
-    - docker
+    - build & test
 
 deploy:
   only:
@@ -32,4 +32,4 @@ deploy:
   script:
     - sleep 10
   tags:
-    - docker
+    - deploy
