@@ -149,6 +149,7 @@ public class Startup
 	public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 	{
 		app.UseExceptionHandler("/api/error");
+
 		app
 			.UseSwagger(o => { o.SerializeAsV2 = false; })
 			.UseSwaggerUI(c =>
