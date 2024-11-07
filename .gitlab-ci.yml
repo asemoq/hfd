@@ -8,7 +8,6 @@ build:
   stage: build
   script:
     - sleep 60
-    - exit 1
   tags:
     - docker
 
@@ -16,7 +15,6 @@ first_test_case:
   stage: test
   script:
     - sleep 30
-    - exit 1
   tags:
     - docker
 
@@ -24,7 +22,6 @@ second_test_case:
   stage: test
   script:
     - sleep 30
-    - exit 1
   tags:
     - docker
 
@@ -32,6 +29,5 @@ deploy:
   stage: deploy
   script:
     - sleep 30
-    - exit 1
   tags:
     - docker
