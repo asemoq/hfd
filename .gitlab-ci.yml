@@ -1,4 +1,4 @@
 include:
-  - project: 'HFD/CI_CD'
+  - project: 'HFD/ci_cd'
     ref: main
     file: 'hfd.yaml'
