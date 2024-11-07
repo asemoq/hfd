@@ -1,0 +1,4 @@
+include:
+  - project: 'HFD/CI_CD'
+    ref: main
+    file: 'hfd.yaml'
