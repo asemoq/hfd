@@ -10,6 +10,7 @@ workflow:
 build:
   stage: build
   script:
+    - docker rmi hfd:latest
     - docker build -t hfd:latest .
   tags:
     - build & test
@@ -38,8 +39,6 @@ deploy:
   only:
     - master
   stage: deploy
-  variables:
-    SERVICE_PORT_INTERNAL: 8080
   script:
     - docker rm -f hfd || true
     - docker run -d -it -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e "ASPNETCORE_ENVIRONMENT=Development" -p 8080  --name hfd --network hfd --ip 172.18.0.4 --restart=always hfd:latest
