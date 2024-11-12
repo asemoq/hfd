@@ -15,5 +15,5 @@ COPY --from=build-env /app/out .
 LABEL com.docker.compose.depends_on=database:service_healthy:false
 LABEL traefik.enable=true
 LABEL traefik.http.routers.hfd.entrypoints=web
-LABEL traefik.http.routers.hfd.rule=Host(`${BACK_DOMAIN}`)
+LABEL traefik.http.routers.hfd.rule=Host(`api.hfd.su`)
 ENTRYPOINT ["dotnet", "Hfd.Backend.dll"]
