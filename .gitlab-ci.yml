@@ -43,6 +43,6 @@ deploy:
   script:
     - docker stop hfd
     - docker rm hfd
-    - docker run -d -it -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e "ASPNETCORE_ENVIRONMENT=Development" -p 8080  --name hfd -network hfd --ip 172.18.0.4 --restart=always hfd:latest
+    - docker run -d -it -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e "ASPNETCORE_ENVIRONMENT=Development" -p 8080  --name hfd --network hfd --ip 172.18.0.4 --restart=always hfd:latest
   tags:
     - deploy
