@@ -39,7 +39,7 @@ deploy:
     - master
   stage: deploy
   script:
-    - docker image prune -a
+    - docker image prune -f
     - docker rm -f hfd || true
     - docker run -d -it -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e "ASPNETCORE_ENVIRONMENT=Development" -p 8080  --name hfd --network hfd --ip 172.18.0.4 --restart=always hfd:latest
   tags:
