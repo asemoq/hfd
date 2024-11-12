@@ -10,7 +10,7 @@ workflow:
 build:
   stage: build
   script:
-    - docker rmi hfd:latest
+    - docker rmi -f hfd:latest
     - docker build -t hfd:latest .
   tags:
     - build & test
