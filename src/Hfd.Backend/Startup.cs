@@ -27,6 +27,8 @@ public class Startup
 {
 	public static readonly Assembly[] Assemblies =
 	{
+		typeof(Base.Backend.Backend).Assembly,
+		typeof(Base.BizLayer.BizLayer).Assembly,
 		typeof(Base.Contract.Contract).Assembly,
 		typeof(Base.DbLayer.DbLayer).Assembly,
 		typeof(Contract.Contract).Assembly,
@@ -59,7 +61,7 @@ public class Startup
 			.AddHfdBizLayerServices(Assemblies)
 			.AddProviderServices(Assemblies)
 			.AddJwtAuthentication()
-			.AddScoped<IHfdContext, HfdContext>()
+			.AddScoped<IBackendContext, BackendContext>()
 			.AddQuartzJobs(_configuration);
 
 		services

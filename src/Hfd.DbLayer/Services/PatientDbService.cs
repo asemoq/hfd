@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hfd.Base.Contract.Exceptions;
 using Hfd.Base.Contract.Model;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
@@ -64,10 +65,10 @@ public class PatientDbService : HfdDbService, IPatientService
 				await trans.CommitAsync();
 				return patient;
 			}
-			catch (Exception ex)
+			catch
 			{
 				await trans.RollbackAsync();
-				throw new Exception(ex.Message);
+				throw;
 			}
 		});
 	}
@@ -81,7 +82,7 @@ public class PatientDbService : HfdDbService, IPatientService
 			{
 				var patient = await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId);
 				if (patient == null)
-					throw new Exception(nameof(HfdError.HFD_Patient_Not_Exists));
+					throw new HfdException(nameof(HfdError.HFD_Patient_Not_Exists));
 
 				patient.UserId = patientInfo.UserId;
 				patient.Scale = patientInfo.Scale;
@@ -93,7 +94,7 @@ public class PatientDbService : HfdDbService, IPatientService
 
 				var patientCard = await model.PatientCards.SingleOrDefaultAsync(x => x.Id == patient.PatientCardId);
 				if (patientCard == null)
-					throw new Exception(nameof(HfdError.HFD_PatientCard_Not_Exists));
+					throw new HfdException(nameof(HfdError.HFD_PatientCard_Not_Exists));
 
 				patientCard.Gender = patientCardInfo.Gender;
 				patientCard.Birthday = patientCardInfo.Birthday;
@@ -112,10 +113,10 @@ public class PatientDbService : HfdDbService, IPatientService
 				await trans.CommitAsync();
 				return patient;
 			}
-			catch (Exception ex)
+			catch
 			{
 				await trans.RollbackAsync();
-				throw new Exception(ex.Message);
+				throw;
 			}
 		});
 	}
@@ -157,7 +158,7 @@ public class PatientDbService : HfdDbService, IPatientService
 	{
 		return await Execute(async model =>
 			await model.Patients.FirstOrDefaultAsync(x => x.Id == patientId) ??
-			throw new Exception(nameof(HfdError.HFD_Patient_Not_Found)));
+			throw new HfdException(nameof(HfdError.HFD_Patient_Not_Found)));
 	}
 
 	public async Task<IPatientModel> Delete(long patientId)
@@ -169,17 +170,17 @@ public class PatientDbService : HfdDbService, IPatientService
 			{
 				var patient = await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId);
 				if (patient == null)
-					throw new Exception(nameof(HfdError.HFD_Patient_Not_Exists));
+					throw new HfdException(nameof(HfdError.HFD_Patient_Not_Exists));
 				patient.Deleted = true;
 				patient.UpdatedAt = DateTime.UtcNow;
 				await model.SaveChangesAsync();
 				await trans.CommitAsync();
 				return patient;
 			}
-			catch (Exception ex)
+			catch
 			{
 				await trans.RollbackAsync();
-				throw new Exception(ex.Message);
+				throw;
 			}
 		});
 	}

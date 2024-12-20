@@ -1,10 +1,5 @@
 using System.Diagnostics;
 using Hfd.Base.Backend.Jwt;
-using Hfd.Base.Contract.Dto;
-using Hfd.Base.Contract.Services;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Quartz;
 
 namespace Hfd.Base.Backend.Quartz;
 

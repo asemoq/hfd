@@ -1,9 +1,8 @@
 using Hfd.Base.Contract.Dto;
 using Hfd.Base.Contract.Model;
 using Hfd.Base.Contract.Services;
-using Hfd.Contract.Services;
 
-namespace Hfd.BizLayer.Features;
+namespace Hfd.Base.BizLayer.Features;
 
 public static class UserGetAll
 {

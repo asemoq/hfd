@@ -1,5 +1,6 @@
 using Hfd.Base.Contract.Services;
 using Hfd.Contract.Dto;
+using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
 using Hfd.Contract.Services;
 
@@ -33,6 +34,17 @@ public static class SurveyGetById
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<ISurveyService>();
 			return _context.GetMapper().Map<ISurveyModel, SurveyModel>(await service.GetById(rq.SurveyId));
+		}
+
+
+		/// <inheritdoc />
+		public sealed class Validator : AbstractValidator<Request>
+		{
+			public Validator()
+			{
+				RuleFor(x => x.SurveyId).GreaterThan(0)
+					.WithMessage(nameof(HfdError.HFD_Survey_Id_Is_Not_Correct));
+			}
 		}
 	}
 }

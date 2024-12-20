@@ -1,13 +1,14 @@
+using System.Collections.Generic;
 using System.Security.Claims;
 using Hfd.Base.Contract.Exceptions;
 using Hfd.Base.Contract.Internals;
-using Hfd.Base.Contract.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Hfd.Base.Backend.Jwt;
 
-public interface IHfdContext
+/// <summary>
+/// 
+/// </summary>
+public interface IBackendContext
 {
 	CancellationToken RequestAborted { get; }
 
@@ -17,11 +18,11 @@ public interface IHfdContext
 }
 
 /// <inheritdoc />
-public class HfdContext : IHfdContext
+public class BackendContext : IBackendContext
 {
 	private readonly IBizContext _context;
 
-	public HfdContext(IBizContext context)
+	public BackendContext(IBizContext context)
 	{
 		_context = context;
 
@@ -42,7 +43,7 @@ public class HfdContext : IHfdContext
 			.GetOne(username);
 
 		if (user == null)
-			throw new Exception(nameof(HfdBaseError.User_Not_Found));
+			throw new UserNotFoundException();
 
 		if (!password.Verify(user?.Password)) return null;
 

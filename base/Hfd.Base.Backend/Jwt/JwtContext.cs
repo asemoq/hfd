@@ -1,6 +1,3 @@
-using Hfd.Base.Contract.Dto;
-using Hfd.Base.Contract.Services;
-
 namespace Hfd.Base.Backend.Jwt;
 
 internal sealed class JwtContext : IBizContext

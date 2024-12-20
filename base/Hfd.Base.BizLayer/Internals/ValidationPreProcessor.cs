@@ -1,6 +1,6 @@
 using MediatR.Pipeline;
 
-namespace Hfd.BizLayer.Internals;
+namespace Hfd.Base.BizLayer.Internals;
 
 /// <summary>
 ///     Validates request before execute.

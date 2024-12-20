@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\base\Hfd.Base.BizLayer\Hfd.Base.BizLayer.csproj" />
         <ProjectReference Include="..\Hfd.Contract\Hfd.Contract.csproj"/>
         <ProjectReference Include="..\Hfd.Provider.Telegram\Hfd.Provider.Telegram.csproj"/>
     </ItemGroup>

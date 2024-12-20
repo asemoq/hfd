@@ -51,7 +51,7 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 			var login = user.Username.ToLowerInvariant();
 			var existingUser = await model.Users.SingleOrDefaultAsync(u => u.Username == login);
 			if (existingUser != null)
-				throw new Exception(nameof(HfdBaseError.User_Already_Exists));
+				throw new HfdException(nameof(HfdBaseError.User_Already_Exists));
 
 			var entity = new UserEntity
 			{
@@ -74,8 +74,7 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 	public async Task<IUserFull> GetOne(long id)
 	{
 		return await Execute(async model
-					=> await model.Users.SingleOrDefaultAsync(u => u.Id == id))
-				?? throw new NotFoundException(nameof(HfdBaseError.User_Not_Found));
+			=> await model.Users.SingleOrDefaultAsync(u => u.Id == id));
 	}
 
 	/// <inheritdoc />
@@ -97,7 +96,7 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 			var login = user.Username.ToLowerInvariant();
 			var existingUser = await model.Users.SingleOrDefaultAsync(u => u.Username == login);
 			if (existingUser != null && existingUser != entity)
-				throw new Exception(nameof(HfdBaseError.User_Already_Exists));
+				throw new HfdException(nameof(HfdBaseError.User_Already_Exists));
 
 			entity.Username = login;
 			entity.Password = password.ToDefaultIfEmpty() ?? entity.Password; //null не изменяет пароль

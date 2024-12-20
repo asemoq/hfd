@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Hfd.Base.Contract.Exceptions;
 using Hfd.Base.Contract.Model;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
@@ -34,7 +35,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 					.Where(x => x.PatientId == surveyInfo.PatientId && x.Date.Date == surveyInfo.Date.Date)
 					.ToListAsync();
 				if (surveys.Count == 2)
-					throw new Exception(nameof(HfdError.HFD_Survey_Already_Exists));
+					throw new HfdException(nameof(HfdError.HFD_Survey_Already_Exists));
 
 				var survey = new SurveyEntity
 				{
@@ -53,10 +54,10 @@ public class SurveyDbService : HfdDbService, ISurveyService
 				await trans.CommitAsync();
 				return survey;
 			}
-			catch (Exception ex)
+			catch
 			{
 				await trans.RollbackAsync();
-				throw new Exception(ex.Message);
+				throw;
 			}
 		});
 	}
@@ -70,7 +71,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 			{
 				var survey = await model.Surveys.SingleOrDefaultAsync(x => x.Id == surveyId);
 				if (survey == null)
-					throw new Exception(nameof(HfdError.HFD_Survey_Not_Exists));
+					throw new HfdException(nameof(HfdError.HFD_Survey_Not_Exists));
 
 				survey.Dyspnea = surveyInfo.Dyspnea;
 				survey.AdValue = surveyInfo.AdValue;
@@ -86,10 +87,10 @@ public class SurveyDbService : HfdDbService, ISurveyService
 				await trans.CommitAsync();
 				return survey;
 			}
-			catch (Exception ex)
+			catch
 			{
 				await trans.RollbackAsync();
-				throw new Exception(ex.Message);
+				throw;
 			}
 		});
 	}
@@ -125,7 +126,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 	{
 		return await Execute(async model =>
 			await model.Surveys.FirstOrDefaultAsync(x => x.Id == surveyId) ??
-			throw new Exception(nameof(HfdError.HFD_Survey_Not_Found)));
+			throw new HfdException(nameof(HfdError.HFD_Survey_Not_Found)));
 	}
 
 	public async Task<ISurveyModel> Delete(long surveyId)
@@ -137,17 +138,17 @@ public class SurveyDbService : HfdDbService, ISurveyService
 			{
 				var survey = await model.Surveys.SingleOrDefaultAsync(x => x.Id == surveyId);
 				if (survey == null)
-					throw new Exception(nameof(HfdError.HFD_Survey_Not_Exists));
+					throw new HfdException(nameof(HfdError.HFD_Survey_Not_Exists));
 				survey.Deleted = true;
 				survey.UpdatedAt = DateTime.UtcNow;
 				await model.SaveChangesAsync();
 				await trans.CommitAsync();
 				return survey;
 			}
-			catch (Exception ex)
+			catch
 			{
 				await trans.RollbackAsync();
-				throw new Exception(ex.Message);
+				throw;
 			}
 		});
 	}

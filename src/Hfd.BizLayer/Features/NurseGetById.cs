@@ -1,5 +1,6 @@
 using Hfd.Base.Contract.Services;
 using Hfd.Contract.Dto;
+using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
 using Hfd.Contract.Services;
 
@@ -42,6 +43,11 @@ public static class NurseGetById
 		/// <inheritdoc />
 		public sealed class Validator : AbstractValidator<Request>
 		{
+			public Validator()
+			{
+				RuleFor(x => x.NurseId).GreaterThan(0)
+					.WithMessage(nameof(HfdError.HFD_Nurse_Id_Is_Not_Correct));
+			}
 		}
 	}
 }

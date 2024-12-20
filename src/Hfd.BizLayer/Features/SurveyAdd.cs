@@ -64,6 +64,11 @@ public static class SurveyAdd
 		/// <inheritdoc />
 		public sealed class Validator : AbstractValidator<Request>
 		{
+			public Validator()
+			{
+				RuleFor(x => x.PatientId).GreaterThan(0)
+					.WithMessage(nameof(HfdError.HFD_Survey_PatientId_Is_Not_Correct));
+			}
 		}
 	}
 }

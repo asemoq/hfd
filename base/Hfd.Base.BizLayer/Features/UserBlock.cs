@@ -1,20 +1,30 @@
 using FluentValidation.Results;
+using Hfd.Base.Contract.Dto;
 using Hfd.Base.Contract.Exceptions;
 using Hfd.Base.Contract.Helpers;
 using Hfd.Base.Contract.Model;
 using Hfd.Base.Contract.Services;
-using Hfd.Contract.Services;
 using Microsoft.Extensions.Logging;
 
-namespace Hfd.BizLayer.Features;
+namespace Hfd.Base.BizLayer.Features;
 
-public static class UserDelete
+public static class UserBlock
 {
 	/// <summary>
 	///     Request.
 	/// </summary>
-	public sealed class Request : IRequest, IRequest<Unit>
+	public sealed class Request : IRequest<UserFull>
 	{
+		/// <summary>
+		///     Оставить учетную запись заблокированной.
+		/// </summary>
+		public bool Block { get; set; }
+
+		/// <summary>
+		///     Причина блокировки.
+		/// </summary>
+		public string BlockedReason { get; set; }
+
 		/// <summary>
 		///     Id пользователя.
 		/// </summary>
@@ -25,16 +35,16 @@ public static class UserDelete
 		/// </summary>
 		internal IUserFull User { get; set; }
 
-		public static Request With(long id)
+		public Request With(long id)
 		{
-			return new Request() { Id = id };
+			return (this, Id = id).Item1;
 		}
 	}
 
 	/// <inheritdoc />
-	public sealed class Handler : IRequestHandler<Request, Unit>
+	public sealed class Handler : IRequestHandler<Request, UserFull>
 	{
-		public readonly IBizContext _context;
+		private readonly IBizContext _context;
 
 		public Handler(IBizContext context)
 		{
@@ -42,17 +52,13 @@ public static class UserDelete
 		}
 
 		/// <inheritdoc />
-		public async Task<Unit> Handle(Request rq, CancellationToken token)
+		public async Task<UserFull> Handle(Request rq, CancellationToken token)
 		{
-			await _context.Services
-				.GetRequiredService<IDbStorage>()
-				.Get<IUserLoginDbService>()
-				.Delete(rq.Id);
-
-			return Unit.Value;
+			var service = _context.Services.GetRequiredService<IDbStorage>().Get<IUserLoginDbService>();
+			var user = await service.Block(rq.Id, rq.Block, rq.BlockedReason);
+			return _context.GetMapper().Map<IUserFull, UserFull>(user);
 		}
 	}
-
 
 	/// <inheritdoc />
 	public sealed class Validator : AbstractValidator<Request>
@@ -66,7 +72,10 @@ public static class UserDelete
 			_log = log;
 
 			RuleFor(x => x.Id).Must((cm, id) => cm.User != null)
-				.WithMessage(nameof(HfdBaseError.User_Not_Found));
+				.WithMessage("Не найдена учетная запись.");
+
+			RuleFor(x => x.BlockedReason).NotEmpty().When(x => x.Block)
+				.WithMessage(nameof(HfdBaseError.User_BlockedReason_Cannot_Be_Empty));
 		}
 
 		protected override bool PreValidate(ValidationContext<Request> context, ValidationResult result)

@@ -1,9 +1,5 @@
 using System.Security.Claims;
-using AutoMapper;
-using Hfd.Base.Contract.Dto;
 using Hfd.Base.Contract.Exceptions;
-using Hfd.Base.Contract.Services;
-using Microsoft.Extensions.Logging;
 
 namespace Hfd.Base.Backend.Jwt;
 

@@ -1,6 +1,3 @@
-using Hfd.Base.Contract.Services;
-using Quartz;
-
 namespace Hfd.Base.Backend.Quartz;
 
 /// <inheritdoc />

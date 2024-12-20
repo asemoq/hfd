@@ -12,6 +12,7 @@ public enum HfdBaseError
 	User_Not_Found,
 	User_Blocked,
 	User_Already_Exists,
+	User_Id_Not_Correct,
 	User_Usertype_Not_Correct,
 	User_Language_Not_Correct,
 	User_Username_Cannot_Be_Empty,

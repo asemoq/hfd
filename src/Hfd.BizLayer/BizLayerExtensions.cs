@@ -1,4 +1,5 @@
 using System.Reflection;
+using Hfd.Base.BizLayer;
 
 namespace Hfd.BizLayer;
 
@@ -13,15 +14,7 @@ public static class BizLayerExtensions
 	public static IServiceCollection AddHfdBizLayerServices(this IServiceCollection services,
 		Assembly[] assemblies)
 	{
-		services
-			.AddHttpClient();
-
 		return services
-			.Scan(scan => scan
-				.FromAssemblies(assemblies)
-				.AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
-				.AsSelfWithInterfaces()
-				.WithTransientLifetime())
-			.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
+			.AddHfdBaseBizLayerServices(assemblies);
 	}
 }

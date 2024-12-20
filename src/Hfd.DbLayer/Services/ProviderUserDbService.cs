@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Hfd.Base.Contract.Exceptions;
 using Hfd.Base.Contract.Model;
 using Hfd.Base.Contract.Services;
 using Hfd.Contract.Enums;
@@ -59,7 +60,7 @@ public class ProviderUserDbService : HfdDbService, IProviderUserService
 			{
 				var user = await model.ProviderUsers.SingleOrDefaultAsync(x => x.Id == userId);
 				if (user == null)
-					throw new Exception(nameof(HfdError.HFD_ProviderUser_Not_Exists));
+					throw new HfdException(nameof(HfdError.HFD_ProviderUser_Not_Exists));
 
 				user.PatientId = patientId;
 				user.Whatsapp = whatsapp;
@@ -81,7 +82,7 @@ public class ProviderUserDbService : HfdDbService, IProviderUserService
 	{
 		return await Execute(async model =>
 			await model.ProviderUsers.FirstOrDefaultAsync(x => x.PatientId == patientId) ??
-			throw new Exception(nameof(HfdError.HFD_ProviderUser_Not_Found)));
+			throw new HfdException(nameof(HfdError.HFD_ProviderUser_Not_Found)));
 	}
 
 	public async Task<IProviderUserFull> SetTelegramSubscribedStatus(long userId, bool subscribed)
@@ -93,7 +94,7 @@ public class ProviderUserDbService : HfdDbService, IProviderUserService
 			{
 				var user = await model.ProviderUsers.SingleOrDefaultAsync(x => x.Id == userId);
 				if (user == null)
-					throw new Exception(nameof(HfdError.HFD_ProviderUser_Not_Exists));
+					throw new HfdException(nameof(HfdError.HFD_ProviderUser_Not_Exists));
 				user.Telegram = subscribed;
 				user.UpdatedAt = DateTime.UtcNow;
 				await model.SaveChangesAsync();
@@ -118,7 +119,7 @@ public class ProviderUserDbService : HfdDbService, IProviderUserService
 			{
 				var user = await model.ProviderUsers.SingleOrDefaultAsync(x => x.Id == userId);
 				if (user == null)
-					throw new Exception(nameof(HfdError.HFD_ProviderUser_Not_Exists));
+					throw new HfdException(nameof(HfdError.HFD_ProviderUser_Not_Exists));
 				user.Deleted = true;
 				user.UpdatedAt = DateTime.UtcNow;
 				await model.SaveChangesAsync();

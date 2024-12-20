@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hfd.Base.Contract.Exceptions;
 using Hfd.Base.Contract.Model;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
@@ -41,10 +42,10 @@ public class NurseDbService : HfdDbService, INurseService
 				await trans.CommitAsync();
 				return nurse;
 			}
-			catch (Exception ex)
+			catch
 			{
 				await trans.RollbackAsync();
-				throw new Exception(ex.Message);
+				throw;
 			}
 		});
 	}
@@ -58,7 +59,7 @@ public class NurseDbService : HfdDbService, INurseService
 			{
 				var nurse = await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId);
 				if (nurse == null)
-					throw new Exception(nameof(HfdError.HFD_Nurse_Not_Exists));
+					throw new HfdException(nameof(HfdError.HFD_Nurse_Not_Exists));
 
 				nurse.UserId = nurseInfo.UserId;
 				nurse.PhoneNumber = nurseInfo.PhoneNumber;
@@ -69,10 +70,10 @@ public class NurseDbService : HfdDbService, INurseService
 				await trans.CommitAsync();
 				return nurse;
 			}
-			catch (Exception ex)
+			catch
 			{
 				await trans.RollbackAsync();
-				throw new Exception(ex.Message);
+				throw;
 			}
 		});
 	}
@@ -103,7 +104,7 @@ public class NurseDbService : HfdDbService, INurseService
 	{
 		return await Execute(async model =>
 			await model.Nurses.FirstOrDefaultAsync(x => x.Id == nurseId) ??
-			throw new Exception(nameof(HfdError.HFD_Nurse_Not_Found)));
+			throw new HfdException(nameof(HfdError.HFD_Nurse_Not_Found)));
 	}
 
 	public async Task<INurseModel> Delete(long nurseId)
@@ -115,17 +116,17 @@ public class NurseDbService : HfdDbService, INurseService
 			{
 				var nurse = await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId);
 				if (nurse == null)
-					throw new Exception(nameof(HfdError.HFD_Nurse_Not_Exists));
+					throw new HfdException(nameof(HfdError.HFD_Nurse_Not_Exists));
 				nurse.Deleted = true;
 				nurse.UpdatedAt = DateTime.UtcNow;
 				await model.SaveChangesAsync();
 				await trans.CommitAsync();
 				return nurse;
 			}
-			catch (Exception ex)
+			catch
 			{
 				await trans.RollbackAsync();
-				throw new Exception(ex.Message);
+				throw;
 			}
 		});
 	}

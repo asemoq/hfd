@@ -1,24 +1,18 @@
 using Hfd.Base.Contract.Dto;
 using Hfd.Base.Contract.Exceptions;
-using Hfd.Base.Contract.Helpers;
 using Hfd.Base.Contract.Internals;
 using Hfd.Base.Contract.Model;
 using Hfd.Base.Contract.Services;
-using Hfd.Contract.Services;
 
-namespace Hfd.BizLayer.Features;
+namespace Hfd.Base.BizLayer.Features;
 
-public static class UserUpdate
+public static class UserAdd
 {
 	/// <summary>
 	///     Request.
 	/// </summary>
 	public sealed class Request : UserInfo, IRequest<UserFull>
 	{
-		/// <summary>
-		///     Идентификатор пользователя.
-		/// </summary>
-		public long Id { get; set; }
 	}
 
 	/// <inheritdoc />
@@ -32,10 +26,11 @@ public static class UserUpdate
 		}
 
 		/// <inheritdoc />
-		public async Task<UserFull> Handle(Request rq, CancellationToken token)
+		public async Task<UserFull> Handle(Request rq, CancellationToken cancellationToken)
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<IUserLoginDbService>();
-			var user = await service.Update(rq.Id, rq, rq.Password.ToDefaultIfEmpty().Hash());
+			var currentUser = _context.UserFull;
+			var user = await service.Create(rq.Usertype, rq, rq.Password.Hash());
 			return _context.GetMapper().Map<IUserFull, UserFull>(user);
 		}
 	}
@@ -45,10 +40,6 @@ public static class UserUpdate
 	{
 		public Validator()
 		{
-			RuleFor(x => x.Id).GreaterThan(0)
-				.WithMessage(nameof(HfdBaseError.User_Not_Found));
-			RuleFor(x => x.Username).NotEmpty()
-				.WithMessage(nameof(HfdBaseError.User_Username_Cannot_Be_Empty));
 			RuleFor(x => x.Usertype).IsInEnum()
 				.WithMessage(nameof(HfdBaseError.User_Usertype_Not_Correct));
 			RuleFor(x => x.Language).IsInEnum()

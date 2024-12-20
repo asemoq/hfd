@@ -1,12 +1,9 @@
 using System.Text;
 using Hfd.Base.Backend.Jwt;
 using Hfd.Base.Backend.Quartz;
-using Hfd.Base.Contract.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Quartz;
 using Quartz.AspNetCore;
 
 namespace Hfd.Base.Backend;

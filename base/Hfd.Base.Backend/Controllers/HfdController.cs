@@ -1,9 +1,14 @@
-﻿using System.Net.Mime;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
+using System.Security.Claims;
+using Hfd.Base.Backend.Jwt;
+using Hfd.Base.BizLayer.Features;
 using Hfd.Base.Contract.Exceptions;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 using ValidationException = FluentValidation.ValidationException;
 
 namespace Hfd.Base.Backend.Controllers;
@@ -11,19 +16,67 @@ namespace Hfd.Base.Backend.Controllers;
 /// <summary>
 ///     Управление сервисом.
 /// </summary>
-[ApiController]
-[Route("hfd")]
+[SwaggerResponse(StatusCodes.Status401Unauthorized, "User not authorized")]
+[ApiController, Route("hfd")]
+[Display(Order = 1, Name = "Управление сервисом")]
 public class HfdController : ControllerBase
 {
 	private readonly ILogger<HfdController> _logger;
+	private readonly IBackendContext _context;
 
 	/// <summary>
 	///     Constructor.
 	/// </summary>
+	/// <param name="context"></param>
 	/// <param name="logger"></param>
-	public HfdController(ILogger<HfdController> logger)
+	public HfdController(IBackendContext context, ILogger<HfdController> logger)
 	{
-		_logger = logger;
+		(_context, _logger) = (context, logger);
+	}
+
+	/// <summary>
+	/// Авторизация
+	/// </summary>
+	/// <param name="rq"></param>
+	/// <returns></returns>
+	/// <exception cref="UnauthorizedException"></exception>
+	[SwaggerResponse(StatusCodes.Status200OK, "Login information")]
+	[HttpPost("/login"), Display(Order = 6)]
+	[Consumes("application/json")]
+	[Produces("application/json")]
+	public async Task<LoginFull> Login([FromBody] LoginInfo rq)
+	{
+		var principal = await _context.GetPrincipal(rq.Username, rq.Password);
+		if (principal == null)
+			throw new UnauthorizedException();
+
+		var handler = _context.Services.GetRequiredService<IJwtHandler>();
+		var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
+
+		var rs = new LoginFull
+		{
+			Usertype = Enum.Parse<LoginRole>(principal.Claims.Single(c => c.Type == ClaimTypes.Role).Value),
+			Username = principal.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value,
+			Token = token
+		};
+
+		_logger.LogInformation($"Пользователю {principal.Identity?.Name} выдан token");
+		return rs;
+	}
+
+	/// <summary>
+	///     Изменить пароль текущего пользователя.
+	/// </summary>
+	/// <param name="rq">Данные учетной записи.</param>
+	/// <param name="token">Токен отмены.</param>
+	/// <returns>Асинхронный результат.</returns>
+	[SwaggerResponse(StatusCodes.Status204NoContent, "Password changed")]
+	[HttpPut("/password"), Authorize, Display(Order = 7)]
+	[Consumes("application/json")]
+	public async Task<IActionResult> ChangePassword([FromBody] UserPasswordChange.Request rq, CancellationToken token)
+	{
+		await _context.Services.GetRequiredService<IMediator>().Send(rq, token);
+		return NoContent();
 	}
 
 	/// <summary>
@@ -36,11 +89,11 @@ public class HfdController : ControllerBase
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 	public async Task<IActionResult> Error(CancellationToken token)
 	{
-		var error = OverrideErrorDetails();
+		var error = OverrideErrorDetails() ?? new ErrorDetails();
 		var statusCode = StatusCodes.Status418ImATeapot;
 		try
 		{
-			var exception = HttpContext.Features.Get<IExceptionHandlerPathFeature>().Error;
+			var exception = HttpContext.Features.Get<IExceptionHandlerPathFeature>()?.Error;
 			statusCode =
 				await HandleError(error, exception, token)
 				?? StatusCodes.Status400BadRequest;
@@ -56,12 +109,12 @@ public class HfdController : ControllerBase
 		return result;
 	}
 
-	protected virtual ErrorDetails OverrideErrorDetails()
+	protected virtual ErrorDetails? OverrideErrorDetails()
 	{
 		return null;
 	}
 
-	protected virtual Task<int?> HandleError(ErrorDetails details, Exception exception, CancellationToken token)
+	protected virtual Task<int?> HandleError(ErrorDetails details, Exception? exception, CancellationToken token)
 	{
 		details.Message = "Внутренняя ошибка сервера.";
 		int? statusCode;
@@ -90,7 +143,7 @@ public class HfdController : ControllerBase
 			default:
 			{
 				details.Details =
-					[exception.InnerException?.Message ?? exception.InnerException?.StackTrace ?? string.Empty];
+					[exception?.InnerException?.Message ?? exception?.InnerException?.StackTrace ?? string.Empty];
 				statusCode = StatusCodes.Status500InternalServerError;
 				break;
 			}

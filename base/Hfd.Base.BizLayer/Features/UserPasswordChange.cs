@@ -2,10 +2,9 @@ using Hfd.Base.Contract.Dto;
 using Hfd.Base.Contract.Exceptions;
 using Hfd.Base.Contract.Internals;
 using Hfd.Base.Contract.Services;
-using Hfd.Contract.Services;
 using Microsoft.Extensions.Logging;
 
-namespace Hfd.BizLayer.Features;
+namespace Hfd.Base.BizLayer.Features;
 
 public static class UserPasswordChange
 {
