@@ -1,46 +1,38 @@
 stages: [ build, test, deploy ]
 default:
-  before_script:
-    - docker info
+    before_script:
+        - docker info
 
 workflow:
-  auto_cancel:
-    on_job_failure: all
+    auto_cancel:
+        on_job_failure: all
 
 build:
-  stage: build
-  script:
-    - docker build -t hfd:latest .
-  tags:
-    - build & test
-  environment:
-    name: build
+    stage: build
+    script:
+        - docker build -t hfd:latest .
+    environment:
+        name: build
 
 first_test:
-  stage: test
-  script:
-    - sleep 1
-  tags:
-    - build & test
-  environment:
-    name: test
+    stage: test
+    script:
+        - sleep 1
+    environment:
+        name: test
 
 second_test:
-  stage: test
-  script:
-    - sleep 1
-  tags:
-    - build & test
-  environment:
-    name: test
+    stage: test
+    script:
+        - sleep 1
+    environment:
+        name: test
 
 deploy:
-  only:
-    - master
-  stage: deploy
-  script:
-    - docker rm -f hfd || true
-    - docker run -d -it -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e "ASPNETCORE_ENVIRONMENT=Development" -p 8080  --name hfd --network hfd --ip 172.18.0.4 --restart=always hfd:latest
-    - docker image prune -a -f
-  tags:
-    - deploy
+    only:
+        - master
+    stage: deploy
+    script:
+        - docker rm -f hfd || true
+        - docker run -d -it -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e "ASPNETCORE_ENVIRONMENT=Development" -p 8080  --name hfd --network hfd --ip 172.18.0.4 --restart=always hfd:latest
+        - docker image prune -a -f
