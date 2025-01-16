@@ -159,6 +159,9 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 				entity.BlockedReason = "Учетная запись удалена";
 			}
 
+			entity.Deleted = true;
+			entity.DeletedAt = DateTime.UtcNow;
+
 			await model.SaveChangesAsync();
 		});
 	}

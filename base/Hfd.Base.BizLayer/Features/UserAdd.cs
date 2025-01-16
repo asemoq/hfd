@@ -29,7 +29,6 @@ public static class UserAdd
 		public async Task<UserFull> Handle(Request rq, CancellationToken cancellationToken)
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<IUserLoginDbService>();
-			var currentUser = _context.UserFull;
 			var user = await service.Create(rq.Usertype, rq, rq.Password.Hash());
 			return _context.GetMapper().Map<IUserFull, UserFull>(user);
 		}

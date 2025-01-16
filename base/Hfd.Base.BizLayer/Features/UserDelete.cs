@@ -12,7 +12,7 @@ public static class UserDelete
 	/// <summary>
 	///     Request.
 	/// </summary>
-	public sealed class Request : IRequest, IRequest<Unit>
+	public sealed class Request : IRequest<Unit>
 	{
 		/// <summary>
 		///     Id пользователя.
