@@ -18,6 +18,7 @@ public enum HfdBaseError
 	User_Username_Cannot_Be_Empty,
 	User_Iin_Cannot_Be_Empty,
 	User_FullName_Cannot_Be_Empty,
+	User_Admin_Cannot_Be_Deleted,
 	User_Password_Cannot_Be_Empty,
 	User_Password_Lenght_Not_Correct,
 	User_BlockedReason_Cannot_Be_Empty,

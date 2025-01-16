@@ -167,6 +167,9 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 				= await model.Users.SingleOrDefaultAsync(u => u.Id == id)
 				?? throw new NotFoundException(nameof(HfdBaseError.User_Not_Found));
 
+			if (entity.Username.Equals("admin", StringComparison.InvariantCultureIgnoreCase))
+				throw new HfdException(nameof(HfdBaseError.User_Admin_Cannot_Be_Deleted));
+
 			model.Remove(entity);
 			await model.SaveChangesAsync();
 		});
