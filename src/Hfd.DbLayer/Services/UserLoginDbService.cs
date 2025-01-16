@@ -30,11 +30,9 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 	{
 		return await Execute(async model =>
 		{
-			Expression<Func<UserEntity, bool>> query = x => true;
+			Expression<Func<UserEntity, bool>> query = x => x.Deleted == false;
 
 			if (filter.Blocked != null) query = query.AndExpression(x => x.Blocked == filter.Blocked);
-
-			if (filter.Deleted != null) query = query.AndExpression(x => x.Blocked == filter.Blocked);
 
 			if (filter.Usertype != null) query = query.AndExpression(x => x.Usertype == filter.Usertype);
 

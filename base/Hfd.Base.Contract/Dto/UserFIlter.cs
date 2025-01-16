@@ -19,9 +19,4 @@ public class UserFilter : SkipTakeRq
 	///     Признак, что учетная запись заблокирована.
 	/// </summary>
 	public bool? Blocked { get; set; }
-
-	/// <summary>
-	///     Признак, что учетная запись удалена.
-	/// </summary>
-	public bool? Deleted { get; set; }
 }
