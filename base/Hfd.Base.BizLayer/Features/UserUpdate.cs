@@ -34,7 +34,7 @@ public static class UserUpdate
 		public async Task<UserFull> Handle(Request rq, CancellationToken token)
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<IUserLoginDbService>();
-			var user = await service.Update(rq.Id, rq, rq.Password.ToDefaultIfEmpty().Hash());
+			var user = await service.Update(rq.Id, rq);
 			return _context.GetMapper().Map<IUserFull, UserFull>(user);
 		}
 	}
@@ -52,8 +52,6 @@ public static class UserUpdate
 				.WithMessage(nameof(HfdBaseError.User_Usertype_Not_Correct));
 			RuleFor(x => x.Language).IsInEnum()
 				.WithMessage(nameof(HfdBaseError.User_Language_Not_Correct));
-			RuleFor(x => x.Password).NotEmpty()
-				.WithMessage(nameof(HfdBaseError.User_Password_Cannot_Be_Empty));
 			RuleFor(x => x.Username).NotEmpty()
 				.WithMessage(nameof(HfdBaseError.User_Username_Cannot_Be_Empty));
 			RuleFor(x => x.Iin).NotEmpty()

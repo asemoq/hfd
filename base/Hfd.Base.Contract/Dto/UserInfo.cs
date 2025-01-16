@@ -30,7 +30,7 @@ public class UserInfo
 	/// <summary>
 	///     Пароль.
 	/// </summary>
-	public string Password { get; set; }
+	public string? Password { get; set; }
 
 	/// <summary>
 	///     Тип создаваемого пользователя

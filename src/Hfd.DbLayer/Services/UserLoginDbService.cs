@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Hfd.Base.Contract.Dto;
 using Hfd.Base.Contract.Exceptions;
 using Hfd.Base.Contract.Helpers;
+using Hfd.Base.Contract.Internals;
 using Hfd.Base.Contract.Model;
 using Hfd.Base.Contract.Services;
 using Hfd.Base.DbLayer;
@@ -98,7 +99,7 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 	}
 
 	/// <inheritdoc />
-	public async Task<IUserFull> Update(long id, UserInfo user, string password)
+	public async Task<IUserFull> Update(long id, UserInfo user)
 	{
 		return await Execute(async model =>
 		{
@@ -115,8 +116,7 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 			entity.FullName = user.FullName;
 			entity.Language = user.Language;
 			entity.Usertype = user.Usertype;
-			entity.Password = password.ToDefaultIfEmpty();
-
+			if (!string.IsNullOrEmpty(user.Password)) entity.Password = user.Password.Hash();
 			await model.SaveChangesAsync();
 			return entity;
 		});

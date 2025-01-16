@@ -44,9 +44,8 @@ public interface IUserLoginDbService : IDbService
 	/// </summary>
 	/// <param name="id">Идентификатор пользователя.</param>
 	/// <param name="user">Данные пользователя.</param>
-	/// <param name="password">Образ пароля для хранения в базе.</param>
 	/// <returns>Обновлённый пользователь.</returns>
-	Task<IUserFull> Update(long id, UserInfo user, string password);
+	Task<IUserFull> Update(long id, UserInfo user);
 
 	/// <summary>
 	///     Изменить пользователя.
