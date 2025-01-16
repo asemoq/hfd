@@ -17,7 +17,7 @@ public class UserFull
 	/// <summary>
 	///     ФИО.
 	/// </summary>
-	public string FullName { get; }
+	public string FullName { get; set; }
 
 	/// <summary>
 	///     Тип учетной записи.
@@ -48,4 +48,9 @@ public class UserFull
 	///     Дата удаления.
 	/// </summary>
 	public DateTime? DeletedAt { get; set; }
+
+	/// <summary>
+	///     Признак, что учетная запись удалена.
+	/// </summary>
+	public bool Deleted { get; set; }
 }

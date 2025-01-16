@@ -29,7 +29,7 @@ public enum LoginRole
 	Psychologist = 4,
 
 	/// <summary>
-	///     Медсестра
+	///     Социальный работник
 	/// </summary>
 	[Display(Name = "Социальный работник", Description = "Социальный работник", Order = 5)]
 	SocialWorker = 5

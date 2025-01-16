@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Hfd.Base.Contract.Dto;
 using Hfd.Base.Contract.Model;
 using Hfd.Base.Contract.Services;
@@ -7,7 +8,7 @@ namespace Hfd.Base.BizLayer.Features;
 public static class UserGetAll
 {
 	/// <inheritdoc cref="SkipTakeRq" />
-	public sealed class Request : SkipTakeRq, IRequest<PageList<UserFull>>
+	public sealed class Request : UserFilter, IRequest<PageList<UserFull>>
 	{
 	}
 

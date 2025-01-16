@@ -28,10 +28,4 @@ public static class DbLayerExtensions
 		serviceProvider.GetService<ILogger<HfdDataModel>>()?
 			.LogDebug("Disposed data model.");
 	}
-
-	public static Expression<Func<T, bool>> AndExpression<T>(this Expression<Func<T, bool>> query,
-		Expression<Func<T, bool>> exp)
-	{
-		return query != null ? query.And(exp) : exp;
-	}
 }

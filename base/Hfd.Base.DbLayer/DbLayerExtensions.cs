@@ -11,7 +11,7 @@ namespace Hfd.Base.DbLayer;
 
 public static class DbLayerExtensions
 {
-	public static Expression<Func<T, bool>> AndExpression<T>(this Expression<Func<T, bool>> query,
+	public static Expression<Func<T, bool>> AndExpression<T>(this Expression<Func<T, bool>>? query,
 		Expression<Func<T, bool>> exp)
 	{
 		return query != null ? query.And(exp) : exp;

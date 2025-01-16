@@ -1,11 +1,14 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
-        <Version>1.0.0</Version>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        <FileVersion>1.0.0.0</FileVersion>
-        <Authors>Asem Nurzhanova</Authors>
-        <Copyright>© Asem Nurzhanova, 2024</Copyright>
-        <Product>Hfd</Product>
-        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    </PropertyGroup>
+	<PropertyGroup>
+		<Version>1.0.0</Version>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+		<Authors>Asem Nurzhanova</Authors>
+		<Copyright>© Asem Nurzhanova, 2024</Copyright>
+		<Product>Hfd</Product>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageProjectUrl>https://gitlab.com/asemoq/hfd.git</PackageProjectUrl>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://gitlab.com/asemoq/hfd.git</RepositoryUrl>
+	</PropertyGroup>
 </Project>

@@ -1,19 +1,23 @@
-﻿namespace Hfd.Base.Contract.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Hfd.Base.Contract.Enums;
 
 public enum Language
 {
 	/// <summary>
 	///     Русский
 	/// </summary>
-	Ru = 10,
+	[Display(Name = "Русский", Order = 1)] Ru = 1,
 
 	/// <summary>
 	///     Казахский
 	/// </summary>
-	Kz = 20,
+	[Display(Name = "Казахский", Order = 2)]
+	Kz = 2,
 
 	/// <summary>
 	///     Английский
 	/// </summary>
-	En = 30
+	[Display(Name = "Английский", Order = 3)]
+	En = 3
 }

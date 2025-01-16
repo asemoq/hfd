@@ -11,6 +11,6 @@ public class UserNotFoundException : HfdException
 
 	public override int GetHttpStatus()
 	{
-		return StatusCodes.Status400BadRequest;
+		return StatusCodes.Status404NotFound;
 	}
 }

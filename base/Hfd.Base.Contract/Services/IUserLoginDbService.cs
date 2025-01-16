@@ -13,7 +13,7 @@ public interface IUserLoginDbService : IDbService
 	/// </summary>
 	/// <param name="filter">Параметры запроса.</param>
 	/// <returns>Список пользователей.</returns>
-	Task<IPageList<IUserFull>> GetAll(SkipTakeRq filter);
+	Task<IPageList<IUserFull>> GetAll(UserFilter filter);
 
 	/// <summary>
 	///     Добавить нового пользователя.

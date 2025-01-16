@@ -109,14 +109,25 @@ public class HfdController : ControllerBase
 		return result;
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
 	protected virtual ErrorDetails? OverrideErrorDetails()
 	{
 		return null;
 	}
 
-	protected virtual Task<int?> HandleError(ErrorDetails details, Exception? exception, CancellationToken token)
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="details"></param>
+	/// <param name="exception"></param>
+	/// <param name="token"></param>
+	/// <returns></returns>
+	protected virtual Task<int?> HandleError(ErrorDetails details, Exception exception, CancellationToken token)
 	{
-		details.Message = "Внутренняя ошибка сервера.";
+		details.Message = "Internal Server Error.";
 		int? statusCode;
 
 		switch (exception)
@@ -124,6 +135,7 @@ public class HfdController : ControllerBase
 			case HfdException hfdException:
 			{
 				details.Message = hfdException.Message;
+				details.Details = hfdException.Details.ToArray();
 				statusCode = hfdException.GetHttpStatus();
 				break;
 			}
@@ -135,7 +147,7 @@ public class HfdController : ControllerBase
 			}
 			case ValidationException validationException:
 			{
-				details.Message = "Ошибка в параметрах";
+				details.Message = "Validation error";
 				details.Details = validationException.Errors.Select(s => s.ToString()).ToArray();
 				statusCode = StatusCodes.Status400BadRequest;
 				break;
@@ -145,6 +157,17 @@ public class HfdController : ControllerBase
 				details.Details =
 					[exception?.InnerException?.Message ?? exception?.InnerException?.StackTrace ?? string.Empty];
 				statusCode = StatusCodes.Status500InternalServerError;
+				break;
+			}
+		}
+
+		switch (exception?.InnerException)
+		{
+			case HfdException hfdException:
+			{
+				details.Message = hfdException.Message;
+				details.Details = hfdException.Details.ToArray();
+				statusCode = hfdException.GetHttpStatus();
 				break;
 			}
 		}

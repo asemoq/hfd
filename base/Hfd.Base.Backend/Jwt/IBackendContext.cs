@@ -48,13 +48,14 @@ public class BackendContext : IBackendContext
 		if (!password.Verify(user?.Password)) return null;
 
 		if (user.Blocked)
-			throw new Exception(nameof(HfdBaseError.User_Blocked));
+			throw new HfdException(nameof(HfdBaseError.User_Blocked));
 
 
 		var claims = new List<Claim>
 		{
 			new(ClaimTypes.Role, $"{user.Usertype}"),
-			new(ClaimTypes.NameIdentifier, user.Username)
+			new(ClaimTypes.NameIdentifier, user.Username),
+			new(ClaimTypes.UserData, user.Iin)
 		};
 
 		var identities = new List<ClaimsIdentity> { new(claims) };

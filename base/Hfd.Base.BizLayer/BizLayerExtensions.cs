@@ -1,4 +1,6 @@
 using System.Reflection;
+using MediatR.Pipeline;
+using Hfd.Base.BizLayer.Internals;
 
 namespace Hfd.Base.BizLayer;
 
@@ -21,6 +23,10 @@ public static class BizLayerExtensions
 				.AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
 				.AsSelfWithInterfaces()
 				.WithTransientLifetime())
-			.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
+			.AddMediatR(cfg =>
+			{
+				cfg.RegisterServicesFromAssemblies(assemblies);
+				cfg.AddOpenRequestPreProcessor(typeof(ValidationPreProcessor<>));
+			});
 	}
 }

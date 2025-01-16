@@ -4,7 +4,7 @@ namespace Hfd.Base.Contract.Exceptions;
 
 public class NotFoundException : HfdException
 {
-	public NotFoundException(string errorText) : base(errorText)
+	public NotFoundException(params string[] details) : base(details)
 	{
 	}
 

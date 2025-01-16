@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Hfd.Base.Contract.Dto;
 using Hfd.Base.Contract.Exceptions;
 using Hfd.Base.Contract.Helpers;
 using Hfd.Base.Contract.Model;
 using Hfd.Base.Contract.Services;
+using Hfd.Base.DbLayer;
 using Hfd.DbLayer.Internals;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,11 +25,21 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 	{
 	}
 
-	public async Task<IPageList<IUserFull>> GetAll(SkipTakeRq filter)
+	public async Task<IPageList<IUserFull>> GetAll(UserFilter filter)
 	{
 		return await Execute(async model =>
 		{
-			var total = await model.Users.CountAsync();
+			Expression<Func<UserEntity, bool>> query = x => true;
+
+			if (filter.Blocked != null) query = query.AndExpression(x => x.Blocked == filter.Blocked);
+
+			if (filter.Deleted != null) query = query.AndExpression(x => x.Blocked == filter.Blocked);
+
+			if (filter.Usertype != null) query = query.AndExpression(x => x.Usertype == filter.Usertype);
+
+			if (filter.Language != null) query = query.AndExpression(x => x.Language == filter.Language);
+
+			var total = await model.Users.Where(query).CountAsync();
 			var skip = Math.Min(total, filter.Skip);
 			var take = Math.Min(total - filter.Skip, filter.Take == 0 ? total : filter.Take);
 
@@ -36,7 +48,7 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 				Total = total,
 				First = skip,
 				Items = take > 0
-					? await model.Users.Skip(skip).Take(take).AsNoTrackingWithIdentityResolution()
+					? await model.Users.Where(query).Skip(skip).Take(take).AsNoTrackingWithIdentityResolution()
 						.ToListAsync<IUserFull>()
 					: new List<IUserFull>()
 			};
@@ -99,7 +111,11 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 				throw new HfdException(nameof(HfdBaseError.User_Already_Exists));
 
 			entity.Username = login;
-			entity.Password = password.ToDefaultIfEmpty() ?? entity.Password; //null не изменяет пароль
+			entity.Iin = user.Iin;
+			entity.FullName = user.FullName;
+			entity.Language = user.Language;
+			entity.Usertype = user.Usertype;
+			entity.Password = password.ToDefaultIfEmpty();
 
 			await model.SaveChangesAsync();
 			return entity;
