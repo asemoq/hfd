@@ -167,15 +167,7 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 				= await model.Users.SingleOrDefaultAsync(u => u.Id == id)
 				?? throw new NotFoundException(nameof(HfdBaseError.User_Not_Found));
 
-			if (!entity.Blocked)
-			{
-				entity.Blocked = true;
-				entity.BlockedReason = "Учетная запись удалена";
-			}
-
-			entity.Deleted = true;
-			entity.DeletedAt = DateTime.UtcNow;
-
+			model.Remove(entity);
 			await model.SaveChangesAsync();
 		});
 	}
