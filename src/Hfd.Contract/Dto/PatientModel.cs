@@ -11,4 +11,5 @@ public class PatientModel : BaseModel
 	public int PlotNumber { get; set; }
 	public bool Dead { get; set; }
 	public PatientCardModel PatientCard { get; set; }
+	public UserFull User { get; set; }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Hfd.Base.Contract.Model;
 using Hfd.Contract.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -31,6 +32,10 @@ public class NurseEntity : HfdEntityBase, INurseFull
 	/// <inheritdoc />
 	public long UserId { get; set; }
 
+	/// <inheritdoc />
+	[NotMapped]
+	public IUserFull User => UserEntity;
+
 	#region [ Configuration ]
 
 	/// <inheritdoc />
@@ -45,6 +50,10 @@ public class NurseEntity : HfdEntityBase, INurseFull
 			entity
 				.Property(x => x.Id)
 				.ValueGeneratedOnAdd();
+
+			entity
+				.Navigation(x => x.UserEntity)
+				.AutoInclude();
 		}
 	}
 

@@ -81,6 +81,10 @@ public class PatientEntity : HfdEntityBase, IPatientFull
 			entity
 				.Navigation(x => x.PatientCardEntity)
 				.AutoInclude();
+
+			entity
+				.Navigation(x => x.UserEntity)
+				.AutoInclude();
 		}
 	}
 

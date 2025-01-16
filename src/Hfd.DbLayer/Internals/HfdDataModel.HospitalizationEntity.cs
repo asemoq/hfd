@@ -21,17 +21,6 @@ public partial class HfdDataModel
 [Table("hospitalization")]
 public class HospitalizationEntity : HfdEntityBase, IHospitalizationFull
 {
-	#region Navigation
-
-	/// <summary>
-	///     Patient.
-	/// </summary>
-	[ForeignKey(nameof(PatientId))]
-	[InverseProperty(nameof(Internals.PatientEntity.HospitalizationEntities))]
-	public PatientEntity PatientEntity { get; set; }
-
-	#endregion
-
 	/// <inheritdoc />
 	public string Address { get; set; }
 
@@ -60,6 +49,17 @@ public class HospitalizationEntity : HfdEntityBase, IHospitalizationFull
 				.ValueGeneratedOnAdd();
 		}
 	}
+
+	#endregion
+
+	#region Navigation
+
+	/// <summary>
+	///     Patient.
+	/// </summary>
+	[ForeignKey(nameof(PatientId))]
+	[InverseProperty(nameof(Internals.PatientEntity.HospitalizationEntities))]
+	public PatientEntity PatientEntity { get; set; }
 
 	#endregion
 }

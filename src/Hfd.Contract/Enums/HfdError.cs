@@ -12,6 +12,7 @@ public enum HfdError
 	HFD_Nurse_UserId_Is_Not_Correct,
 
 	HFD_Nurse_Not_Exists,
+	HFD_Nurse_User_Not_Found,
 	HFD_Nurse_Not_Found,
 
 	#endregion
@@ -23,6 +24,7 @@ public enum HfdError
 
 	HFD_Patient_Not_Exists,
 	HFD_Patient_Not_Found,
+	HFD_Patient_User_Not_Found,
 
 	#endregion
 

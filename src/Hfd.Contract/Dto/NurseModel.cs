@@ -1,16 +1,13 @@
 ﻿using Hfd.Base.Contract.Dto;
+using Hfd.Base.Contract.Model;
 using Hfd.Contract.Model;
 
 namespace Hfd.Contract.Dto;
 
-public class NurseModel : BaseModel, INurseModel
+public class NurseModel : BaseModel
 {
-	/// <inheritdoc />
 	public string PhoneNumber { get; set; }
-
-	/// <inheritdoc />
 	public long? PlotNumber { get; set; }
-
-	/// <inheritdoc />
 	public long UserId { get; set; }
+	public UserFull User { get; set; }
 }

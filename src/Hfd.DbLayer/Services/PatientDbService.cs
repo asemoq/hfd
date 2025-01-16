@@ -30,9 +30,12 @@ public class PatientDbService : HfdDbService, IPatientService
 			await using var trans = await model.Database.BeginTransactionAsync();
 			try
 			{
+				var user = await model.Users.SingleOrDefaultAsync(x => x.Id == patientInfo.UserId);
+				if (user == null)
+					throw new HfdException(nameof(HfdError.HFD_Patient_User_Not_Found));
 				var patient = new PatientEntity
 				{
-					UserId = patientInfo.UserId,
+					UserId = user.Id,
 					Scale = patientInfo.Scale,
 					Imt = patientInfo.Imt,
 					Klas = patientInfo.Klas,
@@ -83,6 +86,10 @@ public class PatientDbService : HfdDbService, IPatientService
 				var patient = await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId);
 				if (patient == null)
 					throw new HfdException(nameof(HfdError.HFD_Patient_Not_Exists));
+
+				var user = await model.Users.SingleOrDefaultAsync(x => x.Id == patientInfo.UserId);
+				if (user == null)
+					throw new HfdException(nameof(HfdError.HFD_Patient_User_Not_Found));
 
 				patient.UserId = patientInfo.UserId;
 				patient.Scale = patientInfo.Scale;

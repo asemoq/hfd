@@ -8,11 +8,6 @@ namespace Hfd.Contract.Model;
 public interface IPatientFull : IPatientModel
 {
 	/// <summary>
-	///     Связанный пользователь.
-	/// </summary>
-	IUserFull User { get; }
-
-	/// <summary>
 	///     Прикрепленная медсестра.
 	/// </summary>
 	INurseFull Nurse { get; }
@@ -34,6 +29,11 @@ public interface IPatientModel : IBaseInfo, IPatientInfo
 	///     Карточка пациента.
 	/// </summary>
 	IPatientCardModel PatientCard { get; }
+
+	/// <summary>
+	///     Связанный пользователь.
+	/// </summary>
+	IUserFull User { get; }
 }
 
 public interface IPatientInfo

@@ -22,17 +22,6 @@ public partial class HfdDataModel
 [Table("survey")]
 public class SurveyEntity : HfdEntityBase, ISurveyFull
 {
-	#region Navigation
-
-	/// <summary>
-	///     Patient.
-	/// </summary>
-	[ForeignKey(nameof(PatientId))]
-	[InverseProperty(nameof(Internals.PatientEntity.SurveyEntities))]
-	public PatientEntity PatientEntity { get; set; }
-
-	#endregion
-
 	/// <inheritdoc />
 	public DyspneaType Dyspnea { get; set; }
 
@@ -97,6 +86,17 @@ public class SurveyEntity : HfdEntityBase, ISurveyFull
 				.ValueGeneratedOnAdd();
 		}
 	}
+
+	#endregion
+
+	#region Navigation
+
+	/// <summary>
+	///     Patient.
+	/// </summary>
+	[ForeignKey(nameof(PatientId))]
+	[InverseProperty(nameof(Internals.PatientEntity.SurveyEntities))]
+	public PatientEntity PatientEntity { get; set; }
 
 	#endregion
 }

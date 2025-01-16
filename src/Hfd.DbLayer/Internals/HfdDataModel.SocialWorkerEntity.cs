@@ -21,15 +21,6 @@ public partial class HfdDataModel
 [Table("social_worker")]
 public class SocialWorkerEntity : HfdEntityBase, ISocialWorkerFull
 {
-	#region Navigation
-
-	/// <summary>
-	///     User.
-	/// </summary>
-	public UserEntity UserEntity { get; set; }
-
-	#endregion
-
 	/// <inheritdoc />
 	public string PhoneNumber { get; set; }
 
@@ -56,8 +47,21 @@ public class SocialWorkerEntity : HfdEntityBase, ISocialWorkerFull
 			entity
 				.Property(x => x.Id)
 				.ValueGeneratedOnAdd();
+
+			entity
+				.Navigation(x => x.UserEntity)
+				.AutoInclude();
 		}
 	}
+
+	#endregion
+
+	#region Navigation
+
+	/// <summary>
+	///     User.
+	/// </summary>
+	public UserEntity UserEntity { get; set; }
 
 	#endregion
 }

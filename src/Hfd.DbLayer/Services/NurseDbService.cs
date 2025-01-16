@@ -30,9 +30,12 @@ public class NurseDbService : HfdDbService, INurseService
 			await using var trans = await model.Database.BeginTransactionAsync();
 			try
 			{
+				var user = await model.Users.SingleOrDefaultAsync(x => x.Id == nurseInfo.UserId);
+				if (user == null)
+					throw new HfdException(nameof(HfdError.HFD_Nurse_User_Not_Found));
 				var nurse = new NurseEntity
 				{
-					UserId = nurseInfo.UserId,
+					UserId = user.Id,
 					PhoneNumber = nurseInfo.PhoneNumber,
 					PlotNumber = nurseInfo.PlotNumber,
 					CreatedAt = DateTime.UtcNow
@@ -61,7 +64,11 @@ public class NurseDbService : HfdDbService, INurseService
 				if (nurse == null)
 					throw new HfdException(nameof(HfdError.HFD_Nurse_Not_Exists));
 
-				nurse.UserId = nurseInfo.UserId;
+				var user = await model.Users.SingleOrDefaultAsync(x => x.Id == nurseInfo.UserId);
+				if (user == null)
+					throw new HfdException(nameof(HfdError.HFD_Nurse_User_Not_Found));
+
+				nurse.UserId = user.Id;
 				nurse.PhoneNumber = nurseInfo.PhoneNumber;
 				nurse.PlotNumber = nurseInfo.PlotNumber;
 				nurse.UpdatedAt = DateTime.UtcNow;
