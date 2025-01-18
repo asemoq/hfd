@@ -84,7 +84,7 @@ public class HfdController : ControllerBase
 	/// </summary>
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 	[ProducesResponseType(typeof(UserFull), StatusCodes.Status200OK)]
-	[HttpGet("/userSelf"), Authorize]
+	[HttpGet("/self"), Authorize]
 	[Produces("application/json")]
 	[Display(Order = 5)]
 	public Task<UserFull> GetUiUserSelf(CancellationToken token = default)
