@@ -50,7 +50,7 @@ public class HfdController : ControllerBase
 		if (principal == null)
 			throw new UnauthorizedException();
 
-		var handler = _context.Services.GetRequiredService<IJwtHandler>();
+		var handler = _context.BizContext.Services.GetRequiredService<IJwtHandler>();
 		var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
 
 		var rs = new LoginFull
@@ -75,7 +75,7 @@ public class HfdController : ControllerBase
 	[Consumes("application/json")]
 	public async Task<IActionResult> ChangePassword([FromBody] UserPasswordChange.Request rq, CancellationToken token)
 	{
-		await _context.Services.GetRequiredService<IMediator>().Send(rq, token);
+		await _context.BizContext.GetMediator().Send(rq, token);
 		return NoContent();
 	}
 

@@ -11,7 +11,7 @@ public static class UserPasswordChange
 	/// <summary>
 	///     Request.
 	/// </summary>
-	public sealed class Request : ChangePasswordInfo, IRequest, IRequest<Unit>
+	public sealed class Request : ChangePasswordInfo, IRequest<Unit>
 	{
 	}
 

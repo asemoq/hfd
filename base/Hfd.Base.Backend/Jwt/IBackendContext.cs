@@ -10,19 +10,32 @@ namespace Hfd.Base.Backend.Jwt;
 /// </summary>
 public interface IBackendContext
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	CancellationToken RequestAborted { get; }
 
-	IServiceProvider Services { get; }
 	internal IBizContext BizContext { get; }
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="login"></param>
+	/// <param name="password"></param>
+	/// <returns></returns>
 	Task<ClaimsPrincipal> GetPrincipal(string login, string password);
 }
 
 /// <inheritdoc />
 public class BackendContext : IBackendContext
 {
+	/// <inheritdoc />
 	public IBizContext BizContext { get; }
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="context"></param>
 	public BackendContext(IBizContext context)
 	{
 		BizContext = context;
@@ -32,13 +45,13 @@ public class BackendContext : IBackendContext
 			RequestAborted = httpContext.RequestAborted;
 	}
 
+	/// <inheritdoc />
 	public CancellationToken RequestAborted { get; } = CancellationToken.None;
 
-	public IServiceProvider Services => BizContext.Services;
-
+	/// <inheritdoc />
 	public async Task<ClaimsPrincipal> GetPrincipal(string username, string password)
 	{
-		var user = await Services
+		var user = await BizContext.Services
 			.GetRequiredService<IDbStorage>()
 			.Get<IUserLoginDbService>()
 			.GetOne(username);
