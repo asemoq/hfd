@@ -13,6 +13,7 @@ public interface IBackendContext
 	CancellationToken RequestAborted { get; }
 
 	IServiceProvider Services { get; }
+	internal IBizContext BizContext { get; }
 
 	Task<ClaimsPrincipal> GetPrincipal(string login, string password);
 }
@@ -20,11 +21,11 @@ public interface IBackendContext
 /// <inheritdoc />
 public class BackendContext : IBackendContext
 {
-	private readonly IBizContext _context;
+	public IBizContext BizContext { get; }
 
 	public BackendContext(IBizContext context)
 	{
-		_context = context;
+		BizContext = context;
 
 		var httpContext = context.Services.GetService<IHttpContextAccessor>().HttpContext;
 		if (httpContext != null)
@@ -33,7 +34,7 @@ public class BackendContext : IBackendContext
 
 	public CancellationToken RequestAborted { get; } = CancellationToken.None;
 
-	public IServiceProvider Services => _context.Services;
+	public IServiceProvider Services => BizContext.Services;
 
 	public async Task<ClaimsPrincipal> GetPrincipal(string username, string password)
 	{
@@ -55,7 +56,7 @@ public class BackendContext : IBackendContext
 		{
 			new(ClaimTypes.Role, $"{user.Usertype}"),
 			new(ClaimTypes.NameIdentifier, user.Username),
-			new(ClaimTypes.UserData, user.Iin)
+			new(ClaimTypes.UserData, user.UniqueId)
 		};
 
 		var identities = new List<ClaimsIdentity> { new(claims) };

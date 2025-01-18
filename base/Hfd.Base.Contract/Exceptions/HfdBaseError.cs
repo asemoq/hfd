@@ -16,7 +16,7 @@ public enum HfdBaseError
 	User_Usertype_Not_Correct,
 	User_Language_Not_Correct,
 	User_Username_Cannot_Be_Empty,
-	User_Iin_Cannot_Be_Empty,
+	User_UniqueId_Cannot_Be_Empty,
 	User_FullName_Cannot_Be_Empty,
 	User_Admin_Cannot_Be_Deleted,
 	User_Password_Cannot_Be_Empty,

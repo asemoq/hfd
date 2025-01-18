@@ -498,28 +498,22 @@ namespace Hfd.DbLayer.Migrations
                     b.Property<bool>("Blocked")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("BlockedReason")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("FullName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Iin")
                         .HasColumnType("text");
 
                     b.Property<int>("Language")
                         .HasColumnType("integer");
 
                     b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UniqueId")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")

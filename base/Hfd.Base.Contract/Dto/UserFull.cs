@@ -12,7 +12,7 @@ public class UserFull
 	/// <summary>
 	///     ИИН.
 	/// </summary>
-	public string Iin { get; set; }
+	public string UniqueId { get; set; }
 
 	/// <summary>
 	///     ФИО.

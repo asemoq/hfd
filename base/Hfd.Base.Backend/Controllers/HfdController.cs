@@ -80,6 +80,17 @@ public class HfdController : ControllerBase
 	}
 
 	/// <summary>
+	/// Получить учетную запись текущего пользователя.
+	/// </summary>
+	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+	[ProducesResponseType(typeof(UserFull), StatusCodes.Status200OK)]
+	[HttpGet("/userSelf"), Authorize]
+	[Produces("application/json")]
+	[Display(Order = 5)]
+	public Task<UserFull> GetUiUserSelf(CancellationToken token = default)
+		=> Task.FromResult(_context.BizContext.UserFull);
+
+	/// <summary>
 	///     Обработчик ошибок - генерирует стандартизованное описание ошибки.
 	/// </summary>
 	/// <param name="token">Cancellation token.</param>

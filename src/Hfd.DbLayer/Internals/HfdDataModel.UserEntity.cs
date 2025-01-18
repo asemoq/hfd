@@ -24,7 +24,7 @@ public partial class HfdDataModel
 public class UserEntity : HfdEntityBase, IUserFull
 {
 	/// <inheritdoc />
-	public string Iin { get; set; }
+	public string UniqueId { get; set; }
 
 	/// <inheritdoc />
 	public LoginRole Usertype { get; set; }
@@ -40,12 +40,6 @@ public class UserEntity : HfdEntityBase, IUserFull
 
 	/// <inheritdoc />
 	public bool Blocked { get; set; }
-
-	/// <inheritdoc />
-	public string BlockedReason { get; set; }
-
-	/// <inheritdoc />
-	public DateTime? DeletedAt { get; set; }
 
 	/// <inheritdoc />
 	public Language Language { get; set; }

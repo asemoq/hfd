@@ -54,8 +54,8 @@ public static class UserUpdate
 				.WithMessage(nameof(HfdBaseError.User_Language_Not_Correct));
 			RuleFor(x => x.Username).NotEmpty()
 				.WithMessage(nameof(HfdBaseError.User_Username_Cannot_Be_Empty));
-			RuleFor(x => x.Iin).NotEmpty()
-				.WithMessage(nameof(HfdBaseError.User_Iin_Cannot_Be_Empty));
+			RuleFor(x => x.UniqueId).NotEmpty()
+				.WithMessage(nameof(HfdBaseError.User_UniqueId_Cannot_Be_Empty));
 			RuleFor(x => x.FullName).NotEmpty()
 				.WithMessage(nameof(HfdBaseError.User_FullName_Cannot_Be_Empty));
 		}

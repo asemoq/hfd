@@ -19,10 +19,10 @@ internal sealed class BackendSecure : IBackendSecure
 		try
 		{
 			var username = principal.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value;
-			var iin = principal.Claims.SingleOrDefault(c => c.Type == ClaimTypes.UserData);
+			var uniqueId = principal.Claims.SingleOrDefault(c => c.Type == ClaimTypes.UserData);
 
 			var user = await _dataStorage.Get<IUserLoginDbService>().GetOne(username);
-			if (user.Iin == iin?.Value)
+			if (user.UniqueId == uniqueId?.Value)
 				return _mapper.Map<UserFull>(user);
 		}
 		catch (Exception ex)

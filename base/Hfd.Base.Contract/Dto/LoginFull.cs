@@ -1,7 +1,7 @@
 namespace Hfd.Base.Contract.Dto;
 
 /// <summary>
-///     Login responce.
+///     Login response.
 /// </summary>
 public class LoginFull
 {

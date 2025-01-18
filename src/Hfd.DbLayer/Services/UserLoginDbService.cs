@@ -68,7 +68,7 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 			{
 				Usertype = type,
 				Username = user.Username,
-				Iin = user.Iin,
+				UniqueId = user.UniqueId,
 				FullName = user.FullName,
 				Password = password,
 				Language = user.Language,
@@ -110,7 +110,7 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 				throw new HfdException(nameof(HfdBaseError.User_Already_Exists));
 
 			entity.Username = login;
-			entity.Iin = user.Iin;
+			entity.UniqueId = user.UniqueId;
 			entity.FullName = user.FullName;
 			entity.Language = user.Language;
 			entity.Usertype = user.Usertype;
@@ -150,7 +150,6 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 
 			if (entity.Blocked == blocked) return entity;
 			entity.Blocked = blocked;
-			entity.BlockedReason = (blocked ? reason.ToDefaultIfEmpty() : default) ?? string.Empty;
 
 			await model.SaveChangesAsync();
 

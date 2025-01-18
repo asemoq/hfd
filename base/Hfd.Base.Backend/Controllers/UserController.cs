@@ -34,10 +34,8 @@ public class UserController : ControllerBase
 	[HttpGet(""), Authorize, Display(Order = 1)]
 	[Produces("application/json")]
 	public async Task<PageList<UserFull>> GetUsers([FromQuery(Name = "")] UserGetAll.Request rq,
-		CancellationToken token)
-	{
-		return await _mediator.Send(rq, token);
-	}
+		CancellationToken token) => await _mediator.Send(rq, token);
+
 
 	/// <summary>
 	///     Создать учетную запись.
@@ -49,10 +47,9 @@ public class UserController : ControllerBase
 	[HttpPost(""), Display(Order = 2)]
 	[Consumes("application/json")]
 	[Produces("application/json")]
-	public async Task<UserFull> AddUser([FromBody] UserAdd.Request rq, CancellationToken token)
-	{
-		return _mapper.Map<UserFull>(await _mediator.Send(rq, token));
-	}
+	public async Task<UserFull> AddUser([FromBody] UserAdd.Request rq, CancellationToken token) =>
+		_mapper.Map<UserFull>(await _mediator.Send(rq, token));
+
 
 	/// <summary>
 	///     Получить учетную запись.
@@ -64,10 +61,9 @@ public class UserController : ControllerBase
 	[SwaggerResponse(StatusCodes.Status200OK, "User")]
 	[HttpGet("{id}"), Authorize, Display(Order = 3)]
 	[Produces("application/json")]
-	public async Task<UserFull> GetUser([FromRoute] long id, CancellationToken token)
-	{
-		return await _mediator.Send(UserGet.Request.With(id), token);
-	}
+	public async Task<UserFull> GetUser([FromRoute] long id, CancellationToken token) =>
+		await _mediator.Send(UserGet.Request.With(id), token);
+
 
 	/// <summary>
 	///     Изменить учетную запись.
@@ -80,10 +76,7 @@ public class UserController : ControllerBase
 	[Consumes("application/json")]
 	[Produces("application/json")]
 	public async Task<UserFull> UpdateUser([FromBody] UserUpdate.Request rq,
-		CancellationToken token)
-	{
-		return _mapper.Map<UserFull>(await _mediator.Send(rq, token));
-	}
+		CancellationToken token) => _mapper.Map<UserFull>(await _mediator.Send(rq, token));
 
 	/// <summary>
 	///     Удалить учетную запись.
@@ -110,7 +103,5 @@ public class UserController : ControllerBase
 	[Consumes("application/json")]
 	[Produces("application/json")]
 	public async Task<UserFull> BlockUser([FromRoute] long id, [FromBody] UserBlock.Request rq, CancellationToken token)
-	{
-		return _mapper.Map<UserFull>(await _mediator.Send(rq.With(id), token));
-	}
+		=> _mapper.Map<UserFull>(await _mediator.Send(rq.With(id), token));
 }

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Hfd.Base.Contract.Model;
 using Hfd.BizLayer.Features;
+using Hfd.Contract.Dto;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Hfd.Backend.Controllers;
@@ -19,10 +21,8 @@ public class PatientController : ControllerBase
 	///     Constructor.
 	/// </summary>
 	/// <param name="mediator">Command processor.</param>
-	public PatientController(IMediator mediator)
-	{
-		_mediator = mediator;
-	}
+	public PatientController(IMediator mediator) => _mediator = mediator;
+
 
 	/// <summary>
 	///     Получить список всех пациентов.
@@ -30,10 +30,9 @@ public class PatientController : ControllerBase
 	/// <returns>Список пациентов.</returns>
 	[HttpGet]
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-	public async Task<ObjectResult> GetAll([FromQuery] PatientGetAll.Request request, CancellationToken token)
-	{
-		return Ok(await _mediator.Send(request, token));
-	}
+	public async Task<PageList<PatientModel>> GetAll([FromQuery] PatientGetAll.Request request, CancellationToken token)
+		=> await _mediator.Send(request, token);
+
 
 	/// <summary>
 	///     Получить пациента по идентификатору.
@@ -41,10 +40,9 @@ public class PatientController : ControllerBase
 	/// <returns>Пациент.</returns>
 	[HttpGet("{id:long}")]
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-	public async Task<ObjectResult> GetById([FromRoute] long id, CancellationToken token)
-	{
-		return Ok(await _mediator.Send(new PatientGetById.Request { PatientId = id }, token));
-	}
+	public async Task<PatientModel> GetById([FromRoute] long id, CancellationToken token)
+		=> await _mediator.Send(new PatientGetById.Request { PatientId = id }, token);
+
 
 	/// <summary>
 	///     Добавить пациента.
@@ -54,10 +52,9 @@ public class PatientController : ControllerBase
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 	[HttpPost]
 	[Produces("application/json")]
-	public async Task<ObjectResult> Add(PatientAdd.Request request, CancellationToken token)
-	{
-		return Ok(await _mediator.Send(request, token));
-	}
+	public async Task<PatientModel> Add(PatientAdd.Request request, CancellationToken token)
+		=> await _mediator.Send(request, token);
+
 
 	/// <summary>
 	///     Редактировать пациента.
@@ -67,10 +64,9 @@ public class PatientController : ControllerBase
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 	[HttpPut]
 	[Produces("application/json")]
-	public async Task<ObjectResult> Edit(PatientEdit.Request request, CancellationToken token)
-	{
-		return Ok(await _mediator.Send(request, token));
-	}
+	public async Task<PatientModel> Edit(PatientEdit.Request request, CancellationToken token)
+		=> await _mediator.Send(request, token);
+
 
 	/// <summary>
 	///     Удалить пациента.
@@ -78,8 +74,6 @@ public class PatientController : ControllerBase
 	/// <returns>Результат.</returns>
 	[HttpDelete("{id:long}")]
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-	public async Task<ObjectResult> Delete([FromRoute] long id, CancellationToken token)
-	{
-		return Ok(await _mediator.Send(new PatientDelete.Request { PatientId = id }, token));
-	}
+	public async Task<PatientModel> Delete([FromRoute] long id, CancellationToken token)
+		=> await _mediator.Send(new PatientDelete.Request { PatientId = id }, token);
 }

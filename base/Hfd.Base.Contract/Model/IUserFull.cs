@@ -16,7 +16,7 @@ public interface IUserFull
 	/// <summary>
 	///     ИИН.
 	/// </summary>
-	public string Iin { get; }
+	public string UniqueId { get; }
 
 	/// <summary>
 	///     Тип пользователя (роль учетной записи)
@@ -42,16 +42,6 @@ public interface IUserFull
 	///     Признак, что учетная запись заблокирована.
 	/// </summary>
 	bool Blocked { get; }
-
-	/// <summary>
-	///     Причина блокировки.
-	/// </summary>
-	string BlockedReason { get; }
-
-	/// <summary>
-	///     Дата удаления.
-	/// </summary>
-	DateTime? DeletedAt { get; }
 
 	/// <summary>
 	///     Выбранный язык по умолчанию.

@@ -47,8 +47,8 @@ public static class UserAdd
 				.WithMessage(nameof(HfdBaseError.User_Password_Cannot_Be_Empty));
 			RuleFor(x => x.Username).NotEmpty()
 				.WithMessage(nameof(HfdBaseError.User_Username_Cannot_Be_Empty));
-			RuleFor(x => x.Iin).NotEmpty()
-				.WithMessage(nameof(HfdBaseError.User_Iin_Cannot_Be_Empty));
+			RuleFor(x => x.UniqueId).NotEmpty()
+				.WithMessage(nameof(HfdBaseError.User_UniqueId_Cannot_Be_Empty));
 			RuleFor(x => x.FullName).NotEmpty()
 				.WithMessage(nameof(HfdBaseError.User_FullName_Cannot_Be_Empty));
 		}
