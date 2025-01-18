@@ -140,7 +140,7 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 	}
 
 	/// <inheritdoc />
-	public async Task<IUserFull> Block(long id, bool blocked, string reason)
+	public async Task<IUserFull> Block(long id, bool blocked)
 	{
 		return await Execute(async model =>
 		{

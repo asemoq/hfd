@@ -21,11 +21,6 @@ public static class UserBlock
 		public bool Block { get; set; }
 
 		/// <summary>
-		///     Причина блокировки.
-		/// </summary>
-		public string BlockedReason { get; set; }
-
-		/// <summary>
 		///     Id пользователя.
 		/// </summary>
 		internal long Id { get; set; }
@@ -55,7 +50,7 @@ public static class UserBlock
 		public async Task<UserFull> Handle(Request rq, CancellationToken token)
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<IUserLoginDbService>();
-			var user = await service.Block(rq.Id, rq.Block, rq.BlockedReason);
+			var user = await service.Block(rq.Id, rq.Block);
 			return _context.GetMapper().Map<IUserFull, UserFull>(user);
 		}
 	}
@@ -73,9 +68,6 @@ public static class UserBlock
 
 			RuleFor(x => x.Id).Must((cm, id) => cm.User != null)
 				.WithMessage("Не найдена учетная запись.");
-
-			RuleFor(x => x.BlockedReason).NotEmpty().When(x => x.Block)
-				.WithMessage(nameof(HfdBaseError.User_BlockedReason_Cannot_Be_Empty));
 		}
 
 		protected override bool PreValidate(ValidationContext<Request> context, ValidationResult result)

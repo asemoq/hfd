@@ -40,16 +40,6 @@ public class UserFull
 	public bool Blocked { get; set; }
 
 	/// <summary>
-	///     Причина блокировки.
-	/// </summary>
-	public string BlockedReason { get; set; }
-
-	/// <summary>
-	///     Дата удаления.
-	/// </summary>
-	public DateTime? DeletedAt { get; set; }
-
-	/// <summary>
 	///     Признак, что учетная запись удалена.
 	/// </summary>
 	public bool Deleted { get; set; }

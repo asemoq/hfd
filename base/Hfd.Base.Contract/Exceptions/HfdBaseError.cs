@@ -21,7 +21,6 @@ public enum HfdBaseError
 	User_Admin_Cannot_Be_Deleted,
 	User_Password_Cannot_Be_Empty,
 	User_Password_Lenght_Not_Correct,
-	User_BlockedReason_Cannot_Be_Empty,
 
 	#endregion
 }

@@ -60,8 +60,7 @@ public interface IUserLoginDbService : IDbService
 	/// </summary>
 	/// <param name="id">Идентификатор пользователя.</param>
 	/// <param name="blocked">Заблокировать.</param>
-	/// <param name="blockedReason">Причина блокировки.</param>
-	Task<IUserFull> Block(long id, bool blocked, string blockedReason = default);
+	Task<IUserFull> Block(long id, bool blocked);
 
 	/// <summary>
 	///     Найти пользователя по идентификатору.
