@@ -30,9 +30,14 @@ public class PatientDbService : HfdDbService, IPatientService
 			await using var trans = await model.Database.BeginTransactionAsync();
 			try
 			{
-				var user = await model.Users.SingleOrDefaultAsync(x => x.Id == patientInfo.UserId);
+				var user = await model.Users.Include(userEntity => userEntity.PatientEntity)
+					.SingleOrDefaultAsync(x => x.Id == patientInfo.UserId);
 				if (user == null)
 					throw new HfdException(nameof(HfdError.HFD_Patient_User_Not_Found));
+
+				if (user.PatientEntity != null)
+					throw new HfdException(nameof(HfdError.HFD_Patient_User_Exist));
+
 				var patient = new PatientEntity
 				{
 					UserId = user.Id,
@@ -87,9 +92,16 @@ public class PatientDbService : HfdDbService, IPatientService
 				if (patient == null)
 					throw new HfdException(nameof(HfdError.HFD_Patient_Not_Exists));
 
-				var user = await model.Users.SingleOrDefaultAsync(x => x.Id == patientInfo.UserId);
-				if (user == null)
-					throw new HfdException(nameof(HfdError.HFD_Patient_User_Not_Found));
+				if (patient.UserId != patientInfo.UserId)
+				{
+					var user = await model.Users.Include(userEntity => userEntity.PatientEntity)
+						.SingleOrDefaultAsync(x => x.Id == patientInfo.UserId);
+					if (user == null)
+						throw new HfdException(nameof(HfdError.HFD_Patient_User_Not_Found));
+
+					if (user.PatientEntity != null)
+						throw new HfdException(nameof(HfdError.HFD_Patient_User_Exist));
+				}
 
 				patient.UserId = patientInfo.UserId;
 				patient.Scale = patientInfo.Scale;

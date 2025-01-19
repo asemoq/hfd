@@ -30,9 +30,14 @@ public class NurseDbService : HfdDbService, INurseService
 			await using var trans = await model.Database.BeginTransactionAsync();
 			try
 			{
-				var user = await model.Users.SingleOrDefaultAsync(x => x.Id == nurseInfo.UserId);
+				var user = await model.Users.Include(userEntity => userEntity.NurseEntity)
+					.SingleOrDefaultAsync(x => x.Id == nurseInfo.UserId);
 				if (user == null)
 					throw new HfdException(nameof(HfdError.HFD_Nurse_User_Not_Found));
+
+				if (user.NurseEntity != null)
+					throw new HfdException(nameof(HfdError.HFD_Nurse_User_Exist));
+
 				var nurse = new NurseEntity
 				{
 					UserId = user.Id,
@@ -64,11 +69,19 @@ public class NurseDbService : HfdDbService, INurseService
 				if (nurse == null)
 					throw new HfdException(nameof(HfdError.HFD_Nurse_Not_Exists));
 
-				var user = await model.Users.SingleOrDefaultAsync(x => x.Id == nurseInfo.UserId);
-				if (user == null)
-					throw new HfdException(nameof(HfdError.HFD_Nurse_User_Not_Found));
+				if (nurse.UserId != nurseInfo.UserId)
+				{
+					var user = await model.Users.Include(userEntity => userEntity.NurseEntity)
+						.SingleOrDefaultAsync(x => x.Id == nurseInfo.UserId);
+					if (user == null)
+						throw new HfdException(nameof(HfdError.HFD_Nurse_User_Not_Found));
 
-				nurse.UserId = user.Id;
+					if (user.NurseEntity != null)
+						throw new HfdException(nameof(HfdError.HFD_Nurse_User_Exist));
+				}
+
+
+				nurse.UserId = nurseInfo.UserId;
 				nurse.PhoneNumber = nurseInfo.PhoneNumber;
 				nurse.PlotNumber = nurseInfo.PlotNumber;
 				nurse.UpdatedAt = DateTime.UtcNow;
