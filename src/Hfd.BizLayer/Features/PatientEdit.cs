@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Hfd.Base.Contract.Services;
 using Hfd.Contract.Dto;
 using Hfd.Contract.Enums;
@@ -37,6 +38,7 @@ public static class PatientEdit
 		public int PlotNumber { get; set; }
 
 		/// <inheritdoc />
+		[DefaultValue(false)]
 		public bool Dead { get; set; }
 
 		/// <inheritdoc />
