@@ -28,6 +28,8 @@ public class SurveyEntity : HfdEntityBase, ISurveyFull
 	/// <inheritdoc />
 	public double AdValue { get; set; }
 
+	public IPatientModel PatientModel => PatientEntity;
+
 	/// <inheritdoc />
 	[NotMapped]
 	public AdType Ad => AdValue switch

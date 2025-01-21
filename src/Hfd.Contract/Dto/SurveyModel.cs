@@ -4,8 +4,10 @@ using Hfd.Contract.Model;
 
 namespace Hfd.Contract.Dto;
 
-public class SurveyModel : BaseModel, ISurveyModel
+public class SurveyModel : BaseModel
 {
+	public string PatientName { get; set; }
+
 	/// <inheritdoc />
 	public DyspneaType Dyspnea { get; set; }
 

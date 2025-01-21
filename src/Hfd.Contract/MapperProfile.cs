@@ -13,6 +13,8 @@ public class MapperProfile : Profile
 	{
 		CreateMap<INurseModel, NurseModel>();
 		CreateMap<IPatientModel, PatientModel>();
-		CreateMap<ISurveyModel, SurveyModel>();
+		CreateMap<ISurveyModel, SurveyModel>().ForMember(dest => dest.PatientName,
+			opt => opt.MapFrom(src =>
+				src.PatientModel.User.FullName));
 	}
 }

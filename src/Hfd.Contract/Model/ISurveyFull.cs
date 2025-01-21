@@ -13,6 +13,11 @@ public interface ISurveyFull : ISurveyModel
 public interface ISurveyModel : IBaseInfo, ISurveyInfo
 {
 	/// <summary>
+	///     Пациент.
+	/// </summary>
+	IPatientModel PatientModel { get; }
+
+	/// <summary>
 	///     Артериальное давление.
 	/// </summary>
 	AdType Ad { get; }
