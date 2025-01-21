@@ -13,11 +13,6 @@ public interface IPatientFull : IPatientModel
 	INurseFull Nurse { get; }
 
 	/// <summary>
-	///     Ссылка на карточку пациента.
-	/// </summary>
-	long PatientCardId { get; }
-
-	/// <summary>
 	///     Ссылка на медсестру.
 	/// </summary>
 	long? NurseId { get; }

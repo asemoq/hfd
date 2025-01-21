@@ -111,7 +111,7 @@ public class PatientDbService : HfdDbService, IPatientService
 				patient.Dead = patientInfo.Dead;
 				patient.UpdatedAt = DateTime.UtcNow;
 
-				var patientCard = await model.PatientCards.SingleOrDefaultAsync(x => x.Id == patient.PatientCardId);
+				var patientCard = await model.PatientCards.SingleOrDefaultAsync(x => x.PatientId == patient.Id);
 				if (patientCard == null)
 					throw new HfdException(nameof(HfdError.HFD_PatientCard_Not_Exists));
 

@@ -27,9 +27,6 @@ public class PatientEntity : HfdEntityBase, IPatientFull
 	public long UserId { get; set; }
 
 	/// <inheritdoc />
-	public long PatientCardId { get; set; }
-
-	/// <inheritdoc />
 	public long? NurseId { get; set; }
 
 	/// <inheritdoc />
