@@ -100,7 +100,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 	{
 		return await Execute(async model =>
 		{
-			Expression<Func<SurveyEntity, bool>> query = x => x.Deleted == false;
+			Expression<Func<SurveyEntity, bool>> query = x => true;
 
 			if (patientId != null)
 				query = query.AndExpression(x => x.PatientId == patientId);
@@ -140,8 +140,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 				var survey = await model.Surveys.SingleOrDefaultAsync(x => x.Id == surveyId);
 				if (survey == null)
 					throw new HfdException(nameof(HfdError.HFD_Survey_Not_Exists));
-				survey.Deleted = true;
-				survey.UpdatedAt = DateTime.UtcNow;
+				model.Remove(survey);
 				await model.SaveChangesAsync();
 				await trans.CommitAsync();
 				return survey;

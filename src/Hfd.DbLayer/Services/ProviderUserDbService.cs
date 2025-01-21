@@ -120,8 +120,7 @@ public class ProviderUserDbService : HfdDbService, IProviderUserService
 				var user = await model.ProviderUsers.SingleOrDefaultAsync(x => x.Id == userId);
 				if (user == null)
 					throw new HfdException(nameof(HfdError.HFD_ProviderUser_Not_Exists));
-				user.Deleted = true;
-				user.UpdatedAt = DateTime.UtcNow;
+				model.Remove(user);
 				await model.SaveChangesAsync();
 				await trans.CommitAsync();
 				return 1;

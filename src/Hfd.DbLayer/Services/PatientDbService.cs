@@ -38,6 +38,7 @@ public class PatientDbService : HfdDbService, IPatientService
 				if (user.PatientEntity != null)
 					throw new HfdException(nameof(HfdError.HFD_Patient_User_Exist));
 
+
 				var patient = new PatientEntity
 				{
 					UserId = user.Id,
@@ -129,7 +130,7 @@ public class PatientDbService : HfdDbService, IPatientService
 	{
 		return await Execute(async model =>
 		{
-			var total = await model.Patients.Where(x => x.Deleted == false).CountAsync();
+			var total = await model.Patients.CountAsync();
 			var skip = Math.Min(total, request.Skip);
 			var take = Math.Min(total - request.Skip, request.Take == 0 ? total : request.Take);
 			return new PageList<IPatientModel>
@@ -138,7 +139,7 @@ public class PatientDbService : HfdDbService, IPatientService
 				First = skip,
 				Items = take > 0
 					? await model.Patients
-						.AsNoTracking().Where(x => x.Deleted == false)
+						.AsNoTracking()
 						.Skip(skip)
 						.Take(take)
 						.ToListAsync<IPatientModel>()
@@ -153,7 +154,7 @@ public class PatientDbService : HfdDbService, IPatientService
 		{
 			return await model.Patients
 				.Include(x => x.UserEntity)
-				.Where(x => x.Deleted == false && x.Dead == false && x.UserEntity.Blocked == false)
+				.Where(x => x.Dead == false && x.UserEntity.Blocked == false)
 				.ToListAsync<IPatientFull>();
 		});
 	}
@@ -175,8 +176,7 @@ public class PatientDbService : HfdDbService, IPatientService
 				var patient = await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId);
 				if (patient == null)
 					throw new HfdException(nameof(HfdError.HFD_Patient_Not_Exists));
-				patient.Deleted = true;
-				patient.UpdatedAt = DateTime.UtcNow;
+				model.Remove(patient);
 				await model.SaveChangesAsync();
 				await trans.CommitAsync();
 				return patient;

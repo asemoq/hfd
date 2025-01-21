@@ -102,7 +102,7 @@ public class NurseDbService : HfdDbService, INurseService
 	{
 		return await Execute(async model =>
 		{
-			var total = await model.Nurses.Where(x => x.Deleted == false).CountAsync();
+			var total = await model.Nurses.CountAsync();
 			var skip = Math.Min(total, request.Skip);
 			var take = Math.Min(total - request.Skip, request.Take == 0 ? total : request.Take);
 			return new PageList<INurseModel>
@@ -111,7 +111,7 @@ public class NurseDbService : HfdDbService, INurseService
 				First = skip,
 				Items = take > 0
 					? await model.Nurses
-						.AsNoTracking().Where(x => x.Deleted == false)
+						.AsNoTracking()
 						.Skip(skip)
 						.Take(take)
 						.ToListAsync<INurseModel>()
@@ -137,8 +137,7 @@ public class NurseDbService : HfdDbService, INurseService
 				var nurse = await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId);
 				if (nurse == null)
 					throw new HfdException(nameof(HfdError.HFD_Nurse_Not_Exists));
-				nurse.Deleted = true;
-				nurse.UpdatedAt = DateTime.UtcNow;
+				model.Remove(nurse);
 				await model.SaveChangesAsync();
 				await trans.CommitAsync();
 				return nurse;

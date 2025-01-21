@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Hfd.Base.Contract.Dto;
 using Hfd.Base.Contract.Exceptions;
-using Hfd.Base.Contract.Helpers;
 using Hfd.Base.Contract.Internals;
 using Hfd.Base.Contract.Model;
 using Hfd.Base.Contract.Services;
@@ -30,7 +29,7 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 	{
 		return await Execute(async model =>
 		{
-			Expression<Func<UserEntity, bool>> query = x => x.Deleted == false;
+			Expression<Func<UserEntity, bool>> query = x => true;
 
 			if (filter.Blocked != null) query = query.AndExpression(x => x.Blocked == filter.Blocked);
 

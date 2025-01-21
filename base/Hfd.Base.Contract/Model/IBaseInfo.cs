@@ -19,9 +19,4 @@ public interface IBaseInfo
 	///     Update record date, time.
 	/// </summary>
 	DateTime? UpdatedAt { get; }
-
-	/// <summary>
-	///     Deleted flag.
-	/// </summary>
-	public bool Deleted { get; }
 }

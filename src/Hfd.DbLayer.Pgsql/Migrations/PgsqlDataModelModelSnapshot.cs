@@ -58,9 +58,6 @@ namespace Hfd.DbLayer.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("FileId")
                         .HasColumnType("text");
 
@@ -101,9 +98,6 @@ namespace Hfd.DbLayer.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("DocId")
                         .HasColumnType("text");
 
@@ -130,9 +124,6 @@ namespace Hfd.DbLayer.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
@@ -172,9 +163,6 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("Dead")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("Deleted")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Diagnosis")
@@ -246,9 +234,6 @@ namespace Hfd.DbLayer.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
-
                     b.Property<long>("PatientId")
                         .HasColumnType("bigint");
 
@@ -273,9 +258,6 @@ namespace Hfd.DbLayer.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("FullName")
                         .HasColumnType("text");
@@ -310,9 +292,6 @@ namespace Hfd.DbLayer.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("FullName")
                         .HasColumnType("text");
@@ -354,9 +333,6 @@ namespace Hfd.DbLayer.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("Dyspnea")
                         .HasColumnType("integer");
 
@@ -396,9 +372,6 @@ namespace Hfd.DbLayer.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("FileId")
                         .HasColumnType("text");
 
@@ -433,9 +406,6 @@ namespace Hfd.DbLayer.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
-
                     b.Property<long>("Distance")
                         .HasColumnType("bigint");
 
@@ -468,9 +438,6 @@ namespace Hfd.DbLayer.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("FullName")
                         .HasColumnType("text");

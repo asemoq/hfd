@@ -21,9 +21,4 @@ public class HfdEntityBase : IBaseInfo
 	///     Update record date, time.
 	/// </summary>
 	public DateTime? UpdatedAt { get; set; }
-
-	/// <summary>
-	///     Deleted flag.
-	/// </summary>
-	public bool Deleted { get; set; }
 }
