@@ -112,7 +112,8 @@ public class SurveyDbService : HfdDbService, ISurveyService
 				First = skip,
 				Items = take > 0
 					? await model.Surveys
-						.Include(x => x.PatientEntity).ThenInclude(p => p.User)
+						.Include(x => x.PatientEntity)
+						.ThenInclude(p => p.UserEntity)
 						.AsNoTracking().Where(query)
 						.Skip(skip)
 						.Take(take)
