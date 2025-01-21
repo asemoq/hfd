@@ -26,6 +26,11 @@ public interface ISurveyModel : IBaseInfo, ISurveyInfo
 	///     Вес
 	/// </summary>
 	WeightType Weight { get; }
+
+	/// <summary>
+	///     Дата опроса
+	/// </summary>
+	DateTime Date { get; }
 }
 
 public interface ISurveyInfo
@@ -64,12 +69,6 @@ public interface ISurveyInfo
 	///     Ссылка на пациента
 	/// </summary>
 	long PatientId { get; }
-
-	/// <summary>
-	///     Дата опроса
-	/// </summary>
-	DateTime Date { get; }
-
 
 	// /// <summary>
 	// /// Фото позиции в кровати

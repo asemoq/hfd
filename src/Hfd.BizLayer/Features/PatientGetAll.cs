@@ -16,6 +16,7 @@ public static class PatientGetAll
 	/// </summary>
 	public sealed class Request : SkipTakeRq, IRequest<PageList<PatientModel>>
 	{
+		public long? NurseId { get; set; }
 	}
 
 	/// <inheritdoc />
@@ -35,7 +36,7 @@ public static class PatientGetAll
 		public async Task<PageList<PatientModel>> Handle(Request rq, CancellationToken token)
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<IPatientService>();
-			return _context.GetMapper().Map<IPatientModel, PatientModel>(await service.GetAll(rq));
+			return _context.GetMapper().Map<IPatientModel, PatientModel>(await service.GetAll(rq, rq.NurseId));
 		}
 
 		/// <inheritdoc />

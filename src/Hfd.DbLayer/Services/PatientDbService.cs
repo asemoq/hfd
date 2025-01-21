@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Hfd.Base.Contract.Exceptions;
 using Hfd.Base.Contract.Model;
+using Hfd.Base.DbLayer;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
 using Hfd.Contract.Services;
@@ -126,11 +128,14 @@ public class PatientDbService : HfdDbService, IPatientService
 		});
 	}
 
-	public async Task<IPageList<IPatientModel>> GetAll(ISkipTakeRq request)
+	public async Task<IPageList<IPatientModel>> GetAll(ISkipTakeRq request, long? nurseId)
 	{
 		return await Execute(async model =>
 		{
-			var total = await model.Patients.CountAsync();
+			Expression<Func<PatientEntity, bool>> query = x => true;
+			if (nurseId != null) query = query.AndExpression(x => x.NurseId == nurseId);
+
+			var total = await model.Patients.Where(query).CountAsync();
 			var skip = Math.Min(total, request.Skip);
 			var take = Math.Min(total - request.Skip, request.Take == 0 ? total : request.Take);
 			return new PageList<IPatientModel>
@@ -140,6 +145,7 @@ public class PatientDbService : HfdDbService, IPatientService
 				Items = take > 0
 					? await model.Patients
 						.AsNoTracking()
+						.Where(query)
 						.Skip(skip)
 						.Take(take)
 						.ToListAsync<IPatientModel>()

@@ -33,7 +33,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 			try
 			{
 				var surveys = await model.Surveys
-					.Where(x => x.PatientId == surveyInfo.PatientId && x.Date.Date == surveyInfo.Date.Date)
+					.Where(x => x.PatientId == surveyInfo.PatientId && x.Date.Date == DateTime.UtcNow.Date)
 					.ToListAsync();
 				if (surveys.Count == 2)
 					throw new HfdException(nameof(HfdError.HFD_Survey_Already_Exists));
@@ -47,7 +47,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 					HeartRateValue = surveyInfo.HeartRateValue,
 					PositionInBed = surveyInfo.PositionInBed,
 					PatientId = surveyInfo.PatientId,
-					Date = surveyInfo.Date,
+					Date = DateTime.UtcNow,
 					CreatedAt = DateTime.UtcNow
 				};
 				await model.Surveys.AddAsync(survey);
@@ -81,9 +81,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 				survey.HeartRateValue = surveyInfo.HeartRateValue;
 				survey.PositionInBed = surveyInfo.PositionInBed;
 				survey.PatientId = surveyInfo.PatientId;
-				survey.Date = surveyInfo.Date;
 				survey.UpdatedAt = DateTime.UtcNow;
-
 				await model.SaveChangesAsync();
 				await trans.CommitAsync();
 				return survey;

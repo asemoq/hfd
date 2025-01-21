@@ -24,7 +24,7 @@ public interface IPatientService : IDbService
 	/// <summary>
 	///     Получить список пациентов из БД.
 	/// </summary>
-	Task<IPageList<IPatientModel>> GetAll(ISkipTakeRq request);
+	Task<IPageList<IPatientModel>> GetAll(ISkipTakeRq request, long? nurseId);
 
 	/// <summary>
 	///     Получить список пациентов для опроса из БД.

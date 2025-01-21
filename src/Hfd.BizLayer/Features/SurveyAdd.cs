@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Hfd.Base.Contract.Services;
 using Hfd.Contract.Dto;
 using Hfd.Contract.Enums;
@@ -36,9 +37,6 @@ public static class SurveyAdd
 
 		/// <inheritdoc />
 		public long PatientId { get; set; }
-
-		/// <inheritdoc />
-		public DateTime Date => DateTime.Now;
 	}
 
 	/// <inheritdoc />
