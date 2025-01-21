@@ -16,19 +16,15 @@ public interface IPatientFull : IPatientModel
 	///     Ссылка на медсестру.
 	/// </summary>
 	long? NurseId { get; }
-}
-
-public interface IPatientModel : IBaseInfo, IPatientInfo
-{
-	/// <summary>
-	///     Карточка пациента.
-	/// </summary>
-	IPatientCardModel PatientCard { get; }
 
 	/// <summary>
 	///     Связанный пользователь.
 	/// </summary>
 	IUserFull User { get; }
+}
+
+public interface IPatientModel : IBaseInfo, IPatientInfo
+{
 }
 
 public interface IPatientInfo
@@ -50,4 +46,59 @@ public interface IPatientInfo
 	int PlotNumber { get; }
 
 	bool Dead { get; }
+
+	/// <summary>
+	///     Контактный номер.
+	/// </summary>
+	string PhoneNumber { get; }
+
+	/// <summary>
+	///     Пол.
+	/// </summary>
+	string Gender { get; }
+
+	/// <summary>
+	///     Дата рождения.
+	/// </summary>
+	string Birthday { get; }
+
+	/// <summary>
+	///     Регион.
+	/// </summary>
+	string Region { get; }
+
+	/// <summary>
+	///     Адрес.
+	/// </summary>
+	string Address { get; }
+
+	/// <summary>
+	///     Диагноз.
+	/// </summary>
+	string Diagnosis { get; }
+
+	/// <summary>
+	///     Болезни.
+	/// </summary>
+	string Diseases { get; }
+
+	/// <summary>
+	///     Рост.
+	/// </summary>
+	string Height { get; }
+
+	/// <summary>
+	///     Вес.
+	/// </summary>
+	string Weight { get; }
+
+	/// <summary>
+	///     ФИО родственника.
+	/// </summary>
+	string FamilyFullName { get; }
+
+	/// <summary>
+	///     Контактный номер родственника.
+	/// </summary>
+	string FamilyPhoneNumber { get; }
 }

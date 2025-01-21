@@ -45,7 +45,37 @@ public class PatientEntity : HfdEntityBase, IPatientFull
 	public bool Dead { get; set; }
 
 	/// <inheritdoc />
-	public IPatientCardModel PatientCard => PatientCardEntity;
+	public string PhoneNumber { get; set; }
+
+	/// <inheritdoc />
+	public string Gender { get; set; }
+
+	/// <inheritdoc />
+	public string Birthday { get; set; }
+
+	/// <inheritdoc />
+	public string Region { get; set; }
+
+	/// <inheritdoc />
+	public string Address { get; set; }
+
+	/// <inheritdoc />
+	public string Diagnosis { get; set; }
+
+	/// <inheritdoc />
+	public string Diseases { get; set; }
+
+	/// <inheritdoc />
+	public string Height { get; set; }
+
+	/// <inheritdoc />
+	public string Weight { get; set; }
+
+	/// <inheritdoc />
+	public string FamilyFullName { get; set; }
+
+	/// <inheritdoc />
+	public string FamilyPhoneNumber { get; set; }
 
 	/// <inheritdoc />
 	public IUserFull User => UserEntity;
@@ -70,16 +100,6 @@ public class PatientEntity : HfdEntityBase, IPatientFull
 				.ValueGeneratedOnAdd();
 
 			entity
-				.HasOne(e => e.PatientCardEntity)
-				.WithOne()
-				.HasForeignKey<PatientCardEntity>(p => p.PatientId)
-				.IsRequired();
-
-			entity
-				.Navigation(x => x.PatientCardEntity)
-				.AutoInclude();
-
-			entity
 				.Navigation(x => x.UserEntity)
 				.AutoInclude();
 		}
@@ -89,11 +109,6 @@ public class PatientEntity : HfdEntityBase, IPatientFull
 
 
 	#region Navigation
-
-	/// <summary>
-	///     Patient card.
-	/// </summary>
-	public PatientCardEntity PatientCardEntity { get; set; }
 
 	/// <summary>
 	///     User.

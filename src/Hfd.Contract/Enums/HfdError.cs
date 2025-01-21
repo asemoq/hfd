@@ -30,13 +30,6 @@ public enum HfdError
 
 	#endregion
 
-	#region [ PatientCard ]
-
-	HFD_PatientCard_Not_Exists,
-	HFD_PatientCard_Not_Found,
-
-	#endregion
-
 	#region [ Survey ]
 
 	HFD_Survey_Id_Is_Not_Correct,

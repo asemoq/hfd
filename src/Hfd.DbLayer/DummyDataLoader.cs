@@ -66,27 +66,20 @@ public static class DummyDataLoaderExtensions
 					Klas = 0,
 					PlotNumber = 1,
 					Dead = false,
+					Gender = nameof(PatientEntity.Gender),
+					Birthday = nameof(PatientEntity.Birthday),
+					Region = nameof(PatientEntity.Region),
+					PhoneNumber = nameof(PatientEntity.PhoneNumber),
+					Address = nameof(PatientEntity.Address),
+					Diagnosis = nameof(PatientEntity.Diagnosis),
+					Diseases = nameof(PatientEntity.Diseases),
+					Height = nameof(PatientEntity.Height),
+					Weight = nameof(PatientEntity.Weight),
+					FamilyFullName = nameof(PatientEntity.FamilyFullName),
+					FamilyPhoneNumber = nameof(PatientEntity.FamilyPhoneNumber),
 					CreatedAt = DateTime.UtcNow
 				};
 				model.Patients.Add(patient);
-				model.SaveChanges();
-				var patientCard = new PatientCardEntity
-				{
-					PatientId = patient.Id,
-					Gender = nameof(PatientCardEntity.Gender),
-					Birthday = nameof(PatientCardEntity.Birthday),
-					Region = nameof(PatientCardEntity.Region),
-					PhoneNumber = nameof(PatientCardEntity.PhoneNumber),
-					Address = nameof(PatientCardEntity.Address),
-					Diagnosis = nameof(PatientCardEntity.Diagnosis),
-					Diseases = nameof(PatientCardEntity.Diseases),
-					Height = nameof(PatientCardEntity.Height),
-					Weight = nameof(PatientCardEntity.Weight),
-					FamilyFullName = nameof(PatientCardEntity.FamilyFullName),
-					FamilyPhoneNumber = nameof(PatientCardEntity.FamilyPhoneNumber),
-					CreatedAt = DateTime.UtcNow
-				};
-				model.PatientCards.Add(patientCard);
 				model.SaveChanges();
 				model.Database.CommitTransaction();
 			}

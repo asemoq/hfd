@@ -154,7 +154,7 @@ namespace Hfd.DbLayer.Migrations
                     b.ToTable("nurse");
                 });
 
-            modelBuilder.Entity("Hfd.DbLayer.Internals.PatientCardEntity", b =>
+            modelBuilder.Entity("Hfd.DbLayer.Internals.PatientEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -170,6 +170,9 @@ namespace Hfd.DbLayer.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("Dead")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("boolean");
@@ -192,47 +195,6 @@ namespace Hfd.DbLayer.Migrations
                     b.Property<string>("Height")
                         .HasColumnType("text");
 
-                    b.Property<long?>("PatientId")
-                        .IsRequired()
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Region")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Weight")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PatientId")
-                        .IsUnique();
-
-                    b.ToTable("patient_card");
-                });
-
-            modelBuilder.Entity("Hfd.DbLayer.Internals.PatientEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("Dead")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Imt")
                         .HasColumnType("text");
 
@@ -242,11 +204,14 @@ namespace Hfd.DbLayer.Migrations
                     b.Property<long?>("NurseId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("PatientCardId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
 
                     b.Property<int>("PlotNumber")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Region")
+                        .HasColumnType("text");
 
                     b.Property<string>("Scale")
                         .HasColumnType("text");
@@ -256,6 +221,9 @@ namespace Hfd.DbLayer.Migrations
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("Weight")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -636,15 +604,6 @@ namespace Hfd.DbLayer.Migrations
                     b.Navigation("UserEntity");
                 });
 
-            modelBuilder.Entity("Hfd.DbLayer.Internals.PatientCardEntity", b =>
-                {
-                    b.HasOne("Hfd.DbLayer.Internals.PatientEntity", null)
-                        .WithOne("PatientCardEntity")
-                        .HasForeignKey("Hfd.DbLayer.Internals.PatientCardEntity", "PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Hfd.DbLayer.Internals.PatientEntity", b =>
                 {
                     b.HasOne("Hfd.DbLayer.Internals.NurseEntity", "NurseEntity")
@@ -737,8 +696,6 @@ namespace Hfd.DbLayer.Migrations
             modelBuilder.Entity("Hfd.DbLayer.Internals.PatientEntity", b =>
                 {
                     b.Navigation("HospitalizationEntities");
-
-                    b.Navigation("PatientCardEntity");
 
                     b.Navigation("SurveyEntities");
 

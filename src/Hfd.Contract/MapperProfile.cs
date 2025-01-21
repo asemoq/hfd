@@ -13,7 +13,6 @@ public class MapperProfile : Profile
 	{
 		CreateMap<INurseModel, NurseModel>();
 		CreateMap<IPatientModel, PatientModel>();
-		CreateMap<IPatientCardModel, PatientCardModel>();
 		CreateMap<ISurveyModel, SurveyModel>();
 	}
 }

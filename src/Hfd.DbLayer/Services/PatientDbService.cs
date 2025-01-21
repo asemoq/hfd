@@ -23,7 +23,7 @@ public class PatientDbService : HfdDbService, IPatientService
 	{
 	}
 
-	public async Task<IPatientModel> Add(IPatientInfo patientInfo, IPatientCardInfo patientCardInfo)
+	public async Task<IPatientModel> Add(IPatientInfo patientInfo)
 	{
 		return await Execute(async model =>
 		{
@@ -46,29 +46,20 @@ public class PatientDbService : HfdDbService, IPatientService
 					Klas = patientInfo.Klas,
 					PlotNumber = patientInfo.PlotNumber,
 					Dead = patientInfo.Dead,
+					Gender = patientInfo.Gender,
+					Birthday = patientInfo.Birthday,
+					Region = patientInfo.Region,
+					PhoneNumber = patientInfo.PhoneNumber,
+					Address = patientInfo.Address,
+					Diagnosis = patientInfo.Diagnosis,
+					Diseases = patientInfo.Diseases,
+					Height = patientInfo.Height,
+					Weight = patientInfo.Weight,
+					FamilyFullName = patientInfo.FamilyFullName,
+					FamilyPhoneNumber = patientInfo.FamilyPhoneNumber,
 					CreatedAt = DateTime.UtcNow
 				};
 				await model.Patients.AddAsync(patient);
-				await model.SaveChangesAsync();
-
-				var patientCard = new PatientCardEntity
-				{
-					PatientId = patient.Id,
-					Gender = patientCardInfo.Gender,
-					Birthday = patientCardInfo.Birthday,
-					Region = patientCardInfo.Region,
-					PhoneNumber = patientCardInfo.PhoneNumber,
-					Address = patientCardInfo.Address,
-					Diagnosis = patientCardInfo.Diagnosis,
-					Diseases = patientCardInfo.Diseases,
-					Height = patientCardInfo.Height,
-					Weight = patientCardInfo.Weight,
-					FamilyFullName = patientCardInfo.FamilyFullName,
-					FamilyPhoneNumber = patientCardInfo.FamilyPhoneNumber,
-					CreatedAt = DateTime.UtcNow
-				};
-
-				await model.PatientCards.AddAsync(patientCard);
 				await model.SaveChangesAsync();
 				await trans.CommitAsync();
 				return patient;
@@ -81,7 +72,7 @@ public class PatientDbService : HfdDbService, IPatientService
 		});
 	}
 
-	public async Task<IPatientModel> Edit(long patientId, IPatientInfo patientInfo, IPatientCardInfo patientCardInfo)
+	public async Task<IPatientModel> Edit(long patientId, IPatientInfo patientInfo)
 	{
 		return await Execute(async model =>
 		{
@@ -109,24 +100,18 @@ public class PatientDbService : HfdDbService, IPatientService
 				patient.Klas = patientInfo.Klas;
 				patient.PlotNumber = patientInfo.PlotNumber;
 				patient.Dead = patientInfo.Dead;
+				patient.Gender = patientInfo.Gender;
+				patient.Birthday = patientInfo.Birthday;
+				patient.Region = patientInfo.Region;
+				patient.PhoneNumber = patientInfo.PhoneNumber;
+				patient.Address = patientInfo.Address;
+				patient.Diagnosis = patientInfo.Diagnosis;
+				patient.Diseases = patientInfo.Diseases;
+				patient.Height = patientInfo.Height;
+				patient.Weight = patientInfo.Weight;
+				patient.FamilyFullName = patientInfo.FamilyFullName;
+				patient.FamilyPhoneNumber = patientInfo.FamilyPhoneNumber;
 				patient.UpdatedAt = DateTime.UtcNow;
-
-				var patientCard = await model.PatientCards.SingleOrDefaultAsync(x => x.PatientId == patient.Id);
-				if (patientCard == null)
-					throw new HfdException(nameof(HfdError.HFD_PatientCard_Not_Exists));
-
-				patientCard.Gender = patientCardInfo.Gender;
-				patientCard.Birthday = patientCardInfo.Birthday;
-				patientCard.Region = patientCardInfo.Region;
-				patientCard.PhoneNumber = patientCardInfo.PhoneNumber;
-				patientCard.Address = patientCardInfo.Address;
-				patientCard.Diagnosis = patientCardInfo.Diagnosis;
-				patientCard.Diseases = patientCardInfo.Diseases;
-				patientCard.Height = patientCardInfo.Height;
-				patientCard.Weight = patientCardInfo.Weight;
-				patientCard.FamilyFullName = patientCardInfo.FamilyFullName;
-				patientCard.FamilyPhoneNumber = patientCardInfo.FamilyPhoneNumber;
-				patientCard.UpdatedAt = DateTime.UtcNow;
 
 				await model.SaveChangesAsync();
 				await trans.CommitAsync();
