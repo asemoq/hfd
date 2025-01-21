@@ -14,41 +14,8 @@ public static class PatientAdd
 	/// <summary>
 	///     Request.
 	/// </summary>
-	public sealed class Request : IPatientCardInfo, IPatientInfo, IRequest<PatientModel>
+	public sealed class Request : IPatientInfo, IRequest<PatientModel>
 	{
-		/// <inheritdoc />
-		public string PhoneNumber { get; set; }
-
-		/// <inheritdoc />
-		public string Gender { get; set; }
-
-		/// <inheritdoc />
-		public string Birthday { get; set; }
-
-		/// <inheritdoc />
-		public string Region { get; set; }
-
-		/// <inheritdoc />
-		public string Address { get; set; }
-
-		/// <inheritdoc />
-		public string Diagnosis { get; set; }
-
-		/// <inheritdoc />
-		public string Diseases { get; set; }
-
-		/// <inheritdoc />
-		public string Height { get; set; }
-
-		/// <inheritdoc />
-		public string Weight { get; set; }
-
-		/// <inheritdoc />
-		public string FamilyFullName { get; set; }
-
-		/// <inheritdoc />
-		public string FamilyPhoneNumber { get; set; }
-
 		/// <inheritdoc />
 		public long UserId { get; set; }
 
@@ -66,6 +33,11 @@ public static class PatientAdd
 
 		/// <inheritdoc />
 		public bool Dead { get; set; }
+
+		/// <summary>
+		///     Карточка пациента.
+		/// </summary>
+		public PatientCardInfo PatientCard { get; set; }
 	}
 
 	/// <inheritdoc />
@@ -85,7 +57,7 @@ public static class PatientAdd
 		public async Task<PatientModel> Handle(Request rq, CancellationToken token)
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<IPatientService>();
-			return _context.GetMapper().Map<IPatientModel, PatientModel>(await service.Add(rq, rq));
+			return _context.GetMapper().Map<IPatientModel, PatientModel>(await service.Add(rq, rq.PatientCard));
 		}
 
 		/// <inheritdoc />
