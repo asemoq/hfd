@@ -3,7 +3,7 @@ using Hfd.Contract.Model;
 
 namespace Hfd.Contract.Dto;
 
-public class PatientModel : BaseModel, IPatientModel
+public class PatientModel : BaseModel, IPatientInfo
 {
 	/// <inheritdoc />
 	public long UserId { get; set; }
