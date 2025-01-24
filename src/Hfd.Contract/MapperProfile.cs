@@ -11,7 +11,7 @@ public class MapperProfile : Profile
 {
 	public MapperProfile()
 	{
-		CreateMap<IPatientFull, NurseModel>();
+		CreateMap<INurseFull, NurseModel>();
 		CreateMap<IPatientFull, PatientModel>();
 		CreateMap<ISurveyFull, SurveyModel>().ForMember(dest => dest.PatientName,
 			opt => opt.MapFrom(src =>
