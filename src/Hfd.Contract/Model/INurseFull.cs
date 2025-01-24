@@ -7,14 +7,14 @@ namespace Hfd.Contract.Model;
 /// </summary>
 public interface INurseFull : INurseModel
 {
-}
-
-public interface INurseModel : IBaseInfo, INurseInfo
-{
 	/// <summary>
 	///     Пользователь.
 	/// </summary>
 	IUserFull User { get; }
+}
+
+public interface INurseModel : IBaseInfo, INurseInfo
+{
 }
 
 public interface INurseInfo

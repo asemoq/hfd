@@ -25,7 +25,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 	{
 	}
 
-	public async Task<ISurveyModel> Add(ISurveyInfo surveyInfo)
+	public async Task<ISurveyFull> Add(ISurveyInfo surveyInfo)
 	{
 		return await Execute(async model =>
 		{
@@ -63,7 +63,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 		});
 	}
 
-	public async Task<ISurveyModel> Edit(long surveyId, ISurveyInfo surveyInfo)
+	public async Task<ISurveyFull> Edit(long surveyId, ISurveyInfo surveyInfo)
 	{
 		return await Execute(async model =>
 		{
@@ -94,7 +94,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 		});
 	}
 
-	public async Task<IPageList<ISurveyModel>> GetAll(ISkipTakeRq request, long? patientId)
+	public async Task<IPageList<ISurveyFull>> GetAll(ISkipTakeRq request, long? patientId)
 	{
 		return await Execute(async model =>
 		{
@@ -106,7 +106,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 			var total = await model.Surveys.Where(query).CountAsync();
 			var skip = Math.Min(total, request.Skip);
 			var take = Math.Min(total - request.Skip, request.Take == 0 ? total : request.Take);
-			return new PageList<ISurveyModel>
+			return new PageList<ISurveyFull>
 			{
 				Total = total,
 				First = skip,
@@ -117,20 +117,20 @@ public class SurveyDbService : HfdDbService, ISurveyService
 						.AsNoTracking().Where(query)
 						.Skip(skip)
 						.Take(take)
-						.ToListAsync<ISurveyModel>()
-					: new List<ISurveyModel>()
+						.ToListAsync<ISurveyFull>()
+					: new List<ISurveyFull>()
 			};
 		});
 	}
 
-	public async Task<ISurveyModel> GetById(long surveyId)
+	public async Task<ISurveyFull> GetById(long surveyId)
 	{
 		return await Execute(async model =>
 			await model.Surveys.FirstOrDefaultAsync(x => x.Id == surveyId) ??
 			throw new HfdException(nameof(HfdError.HFD_Survey_Not_Found)));
 	}
 
-	public async Task<ISurveyModel> Delete(long surveyId)
+	public async Task<ISurveyFull> Delete(long surveyId)
 	{
 		return await Execute(async model =>
 		{

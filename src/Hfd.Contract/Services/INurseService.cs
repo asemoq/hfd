@@ -12,25 +12,25 @@ public interface INurseService : IDbService
 	/// <summary>
 	///     Сохранить медсестру в БД.
 	/// </summary>
-	Task<INurseModel> Add(INurseInfo nurseInfo);
+	Task<INurseFull> Add(INurseInfo nurseInfo);
 
 	/// <summary>
 	///     Изменить медсестру в БД.
 	/// </summary>
-	Task<INurseModel> Edit(long nurseId, INurseInfo nurseInfo);
+	Task<INurseFull> Edit(long nurseId, INurseInfo nurseInfo);
 
 	/// <summary>
 	///     Получить список медсестер из БД.
 	/// </summary>
-	Task<IPageList<INurseModel>> GetAll(ISkipTakeRq request);
+	Task<IPageList<INurseFull>> GetAll(ISkipTakeRq request);
 
 	/// <summary>
 	///     Получить медсестру из БД по идентификатору.
 	/// </summary>
-	Task<INurseModel> GetById(long nurseId);
+	Task<INurseFull> GetById(long nurseId);
 
 	/// <summary>
 	///     Удалить медсестру.
 	/// </summary>
-	Task<INurseModel> Delete(long nurseId);
+	Task<INurseFull> Delete(long nurseId);
 }

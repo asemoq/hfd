@@ -4,7 +4,7 @@ using Hfd.Contract.Model;
 
 namespace Hfd.Contract.Dto;
 
-public class SurveyModel : BaseModel
+public class SurveyModel : BaseModel, ISurveyModel
 {
 	public string PatientName { get; set; }
 
@@ -40,4 +40,7 @@ public class SurveyModel : BaseModel
 
 	/// <inheritdoc />
 	public DateTime Date { get; set; }
+
+	public int Score { get; set; }
+	public ZoneType ScoreZone { get; set; }
 }

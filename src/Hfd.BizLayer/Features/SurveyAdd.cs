@@ -56,7 +56,7 @@ public static class SurveyAdd
 		public async Task<SurveyModel> Handle(Request rq, CancellationToken token)
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<ISurveyService>();
-			return _context.GetMapper().Map<ISurveyModel, SurveyModel>(await service.Add(rq));
+			return _context.GetMapper().Map<ISurveyFull, SurveyModel>(await service.Add(rq));
 		}
 
 		/// <inheritdoc />

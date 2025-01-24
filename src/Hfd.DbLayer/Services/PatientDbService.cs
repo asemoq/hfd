@@ -25,7 +25,7 @@ public class PatientDbService : HfdDbService, IPatientService
 	{
 	}
 
-	public async Task<IPatientModel> Add(IPatientInfo patientInfo)
+	public async Task<IPatientFull> Add(IPatientInfo patientInfo)
 	{
 		return await Execute(async model =>
 		{
@@ -75,7 +75,7 @@ public class PatientDbService : HfdDbService, IPatientService
 		});
 	}
 
-	public async Task<IPatientModel> Edit(long patientId, IPatientInfo patientInfo)
+	public async Task<IPatientFull> Edit(long patientId, IPatientInfo patientInfo)
 	{
 		return await Execute(async model =>
 		{
@@ -128,7 +128,7 @@ public class PatientDbService : HfdDbService, IPatientService
 		});
 	}
 
-	public async Task<IPageList<IPatientModel>> GetAll(ISkipTakeRq request, long? nurseId)
+	public async Task<IPageList<IPatientFull>> GetAll(ISkipTakeRq request, long? nurseId)
 	{
 		return await Execute(async model =>
 		{
@@ -138,7 +138,7 @@ public class PatientDbService : HfdDbService, IPatientService
 			var total = await model.Patients.Where(query).CountAsync();
 			var skip = Math.Min(total, request.Skip);
 			var take = Math.Min(total - request.Skip, request.Take == 0 ? total : request.Take);
-			return new PageList<IPatientModel>
+			return new PageList<IPatientFull>
 			{
 				Total = total,
 				First = skip,
@@ -148,8 +148,8 @@ public class PatientDbService : HfdDbService, IPatientService
 						.Where(query)
 						.Skip(skip)
 						.Take(take)
-						.ToListAsync<IPatientModel>()
-					: new List<IPatientModel>()
+						.ToListAsync<IPatientFull>()
+					: new List<IPatientFull>()
 			};
 		});
 	}
@@ -165,14 +165,14 @@ public class PatientDbService : HfdDbService, IPatientService
 		});
 	}
 
-	public async Task<IPatientModel> GetById(long patientId)
+	public async Task<IPatientFull> GetById(long patientId)
 	{
 		return await Execute(async model =>
 			await model.Patients.FirstOrDefaultAsync(x => x.Id == patientId) ??
 			throw new HfdException(nameof(HfdError.HFD_Patient_Not_Found)));
 	}
 
-	public async Task<IPatientModel> Delete(long patientId)
+	public async Task<IPatientFull> Delete(long patientId)
 	{
 		return await Execute(async model =>
 		{

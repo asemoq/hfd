@@ -14,17 +14,17 @@ public interface IPatientService : IDbService
 	/// <summary>
 	///     Сохранить пациента в БД.
 	/// </summary>
-	Task<IPatientModel> Add(IPatientInfo patientInfo);
+	Task<IPatientFull> Add(IPatientInfo patientInfo);
 
 	/// <summary>
 	///     Изменить пациента в БД.
 	/// </summary>
-	Task<IPatientModel> Edit(long patientId, IPatientInfo patientInfo);
+	Task<IPatientFull> Edit(long patientId, IPatientInfo patientInfo);
 
 	/// <summary>
 	///     Получить список пациентов из БД.
 	/// </summary>
-	Task<IPageList<IPatientModel>> GetAll(ISkipTakeRq request, long? nurseId);
+	Task<IPageList<IPatientFull>> GetAll(ISkipTakeRq request, long? nurseId);
 
 	/// <summary>
 	///     Получить список пациентов для опроса из БД.
@@ -34,10 +34,10 @@ public interface IPatientService : IDbService
 	/// <summary>
 	///     Получить пациента из БД по идентификатору.
 	/// </summary>
-	Task<IPatientModel> GetById(long patientId);
+	Task<IPatientFull> GetById(long patientId);
 
 	/// <summary>
 	///     Удалить пациента.
 	/// </summary>
-	Task<IPatientModel> Delete(long patientId);
+	Task<IPatientFull> Delete(long patientId);
 }

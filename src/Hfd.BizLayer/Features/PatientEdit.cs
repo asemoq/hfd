@@ -92,7 +92,7 @@ public static class PatientEdit
 		public async Task<PatientModel> Handle(Request rq, CancellationToken token)
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<IPatientService>();
-			return _context.GetMapper().Map<IPatientModel, PatientModel>(await service.Edit(rq.Id, rq));
+			return _context.GetMapper().Map<IPatientFull, PatientModel>(await service.Edit(rq.Id, rq));
 		}
 
 		/// <inheritdoc />

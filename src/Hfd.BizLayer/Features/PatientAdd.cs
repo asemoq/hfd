@@ -87,7 +87,7 @@ public static class PatientAdd
 		public async Task<PatientModel> Handle(Request rq, CancellationToken token)
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<IPatientService>();
-			return _context.GetMapper().Map<IPatientModel, PatientModel>(await service.Add(rq));
+			return _context.GetMapper().Map<IPatientFull, PatientModel>(await service.Add(rq));
 		}
 
 		/// <inheritdoc />

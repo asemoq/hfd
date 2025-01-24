@@ -37,7 +37,7 @@ public static class NurseDelete
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<INurseService>();
 			return _context.GetMapper()
-				.Map<INurseModel, NurseModel>(await service.Delete(rq.NurseId));
+				.Map<INurseFull, NurseModel>(await service.Delete(rq.NurseId));
 		}
 
 		/// <inheritdoc />

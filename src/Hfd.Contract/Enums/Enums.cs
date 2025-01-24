@@ -136,3 +136,21 @@ public enum PositionInBedType
 	/// </summary>
 	Sitting = 3
 }
+
+public enum ZoneType
+{
+	/// <summary>
+	///     Зеленая зона
+	/// </summary>
+	Green = 0,
+
+	/// <summary>
+	///     Желтая зона
+	/// </summary>
+	Yellow = 1,
+
+	/// <summary>
+	///     Красная зона
+	/// </summary>
+	Red = 2,
+}

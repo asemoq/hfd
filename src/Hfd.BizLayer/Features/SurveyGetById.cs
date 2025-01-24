@@ -33,7 +33,7 @@ public static class SurveyGetById
 		public async Task<SurveyModel> Handle(Request rq, CancellationToken token)
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<ISurveyService>();
-			return _context.GetMapper().Map<ISurveyModel, SurveyModel>(await service.GetById(rq.SurveyId));
+			return _context.GetMapper().Map<ISurveyFull, SurveyModel>(await service.GetById(rq.SurveyId));
 		}
 
 

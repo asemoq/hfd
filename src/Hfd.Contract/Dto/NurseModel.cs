@@ -4,7 +4,7 @@ using Hfd.Contract.Model;
 
 namespace Hfd.Contract.Dto;
 
-public class NurseModel : BaseModel
+public class NurseModel : BaseModel, INurseModel
 {
 	public string PhoneNumber { get; set; }
 	public long? PlotNumber { get; set; }

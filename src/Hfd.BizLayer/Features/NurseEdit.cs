@@ -51,7 +51,7 @@ public static class NurseEdit
 		public async Task<NurseModel> Handle(Request rq, CancellationToken token)
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<INurseService>();
-			return _context.GetMapper().Map<INurseModel, NurseModel>(await service.Edit(rq.Id, rq));
+			return _context.GetMapper().Map<INurseFull, NurseModel>(await service.Edit(rq.Id, rq));
 		}
 
 		/// <inheritdoc />

@@ -37,7 +37,7 @@ public static class PatientDelete
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<IPatientService>();
 			return _context.GetMapper()
-				.Map<IPatientModel, PatientModel>(await service.Delete(rq.PatientId));
+				.Map<IPatientFull, PatientModel>(await service.Delete(rq.PatientId));
 		}
 
 		/// <inheritdoc />

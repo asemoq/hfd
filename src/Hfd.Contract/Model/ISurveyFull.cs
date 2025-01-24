@@ -8,15 +8,14 @@ namespace Hfd.Contract.Model;
 /// </summary>
 public interface ISurveyFull : ISurveyModel
 {
+	/// <summary>
+	///     Пациент.
+	/// </summary>
+	IPatientFull PatientModel { get; }
 }
 
 public interface ISurveyModel : IBaseInfo, ISurveyInfo
 {
-	/// <summary>
-	///     Пациент.
-	/// </summary>
-	IPatientModel PatientModel { get; }
-
 	/// <summary>
 	///     Артериальное давление.
 	/// </summary>
@@ -36,6 +35,10 @@ public interface ISurveyModel : IBaseInfo, ISurveyInfo
 	///     Дата опроса
 	/// </summary>
 	DateTime Date { get; }
+
+	int Score { get; }
+
+	ZoneType ScoreZone { get; }
 }
 
 public interface ISurveyInfo

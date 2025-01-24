@@ -31,7 +31,7 @@ public static class SurveyGetAll
 		public async Task<PageList<SurveyModel>> Handle(Request rq, CancellationToken token)
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<ISurveyService>();
-			return _context.GetMapper().Map<ISurveyModel, SurveyModel>(await service.GetAll(rq, rq.PatientId));
+			return _context.GetMapper().Map<ISurveyFull, SurveyModel>(await service.GetAll(rq, rq.PatientId));
 		}
 	}
 

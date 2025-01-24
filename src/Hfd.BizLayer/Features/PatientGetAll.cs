@@ -36,7 +36,7 @@ public static class PatientGetAll
 		public async Task<PageList<PatientModel>> Handle(Request rq, CancellationToken token)
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<IPatientService>();
-			return _context.GetMapper().Map<IPatientModel, PatientModel>(await service.GetAll(rq, rq.NurseId));
+			return _context.GetMapper().Map<IPatientFull, PatientModel>(await service.GetAll(rq, rq.NurseId));
 		}
 
 		/// <inheritdoc />

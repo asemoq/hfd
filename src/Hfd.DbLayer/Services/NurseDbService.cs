@@ -23,7 +23,7 @@ public class NurseDbService : HfdDbService, INurseService
 	{
 	}
 
-	public async Task<INurseModel> Add(INurseInfo nurseInfo)
+	public async Task<INurseFull> Add(INurseInfo nurseInfo)
 	{
 		return await Execute(async model =>
 		{
@@ -58,7 +58,7 @@ public class NurseDbService : HfdDbService, INurseService
 		});
 	}
 
-	public async Task<INurseModel> Edit(long nurseId, INurseInfo nurseInfo)
+	public async Task<INurseFull> Edit(long nurseId, INurseInfo nurseInfo)
 	{
 		return await Execute(async model =>
 		{
@@ -98,14 +98,14 @@ public class NurseDbService : HfdDbService, INurseService
 		});
 	}
 
-	public async Task<IPageList<INurseModel>> GetAll(ISkipTakeRq request)
+	public async Task<IPageList<INurseFull>> GetAll(ISkipTakeRq request)
 	{
 		return await Execute(async model =>
 		{
 			var total = await model.Nurses.CountAsync();
 			var skip = Math.Min(total, request.Skip);
 			var take = Math.Min(total - request.Skip, request.Take == 0 ? total : request.Take);
-			return new PageList<INurseModel>
+			return new PageList<INurseFull>
 			{
 				Total = total,
 				First = skip,
@@ -114,20 +114,20 @@ public class NurseDbService : HfdDbService, INurseService
 						.AsNoTracking()
 						.Skip(skip)
 						.Take(take)
-						.ToListAsync<INurseModel>()
-					: new List<INurseModel>()
+						.ToListAsync<INurseFull>()
+					: new List<INurseFull>()
 			};
 		});
 	}
 
-	public async Task<INurseModel> GetById(long nurseId)
+	public async Task<INurseFull> GetById(long nurseId)
 	{
 		return await Execute(async model =>
 			await model.Nurses.FirstOrDefaultAsync(x => x.Id == nurseId) ??
 			throw new HfdException(nameof(HfdError.HFD_Nurse_Not_Found)));
 	}
 
-	public async Task<INurseModel> Delete(long nurseId)
+	public async Task<INurseFull> Delete(long nurseId)
 	{
 		return await Execute(async model =>
 		{

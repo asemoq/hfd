@@ -37,7 +37,7 @@ public static class PatientGetById
 		{
 			var service = _context.Services.GetRequiredService<IDbStorage>().Get<IPatientService>();
 			return _context.GetMapper()
-				.Map<IPatientModel, PatientModel>(await service.GetById(rq.PatientId));
+				.Map<IPatientFull, PatientModel>(await service.GetById(rq.PatientId));
 		}
 
 		/// <inheritdoc />

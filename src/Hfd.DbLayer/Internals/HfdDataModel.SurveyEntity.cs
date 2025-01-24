@@ -28,7 +28,7 @@ public class SurveyEntity : HfdEntityBase, ISurveyFull
 	/// <inheritdoc />
 	public double AdValue { get; set; }
 
-	public IPatientModel PatientModel => PatientEntity;
+	public IPatientFull PatientModel => PatientEntity;
 
 	/// <inheritdoc />
 	[NotMapped]
@@ -71,6 +71,20 @@ public class SurveyEntity : HfdEntityBase, ISurveyFull
 
 	/// <inheritdoc />
 	public DateTime Date { get; set; }
+
+	/// <inheritdoc />
+	[NotMapped]
+	public int Score => (int)Dyspnea + (int)Ad + (int)Weight + (int)Edema + (int)HeartRate + (int)PositionInBed;
+
+	/// <inheritdoc />
+	[NotMapped]
+	public ZoneType ScoreZone => Score switch
+	{
+		>= 0 and <= 2 => ZoneType.Green,
+		>= 3 and <= 6 => ZoneType.Yellow,
+		>= 7 and <= 16 => ZoneType.Red,
+		_ => throw new ArgumentOutOfRangeException()
+	};
 
 	#region [ Configuration ]
 
