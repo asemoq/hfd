@@ -33,6 +33,15 @@ public class SurveyController : ControllerBase
 	public async Task<PageList<SurveyModel>> GetAll([FromQuery] SurveyGetAll.Request request, CancellationToken token)
 		=> await _mediator.Send(request, token);
 
+	/// <summary>
+	///     Получить график.
+	/// </summary>
+	/// <returns>График.</returns>
+	[HttpGet("summary")]
+	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+	public async Task<SummaryModel> GetSummary([FromQuery] SurveyGetBySummary.Request request, CancellationToken token)
+		=> await _mediator.Send(request, token);
+
 
 	/// <summary>
 	///     Получить опрос по идентификатору.

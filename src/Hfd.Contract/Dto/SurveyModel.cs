@@ -39,7 +39,7 @@ public class SurveyModel : BaseModel, ISurveyModel
 	public long PatientId { get; set; }
 
 	/// <inheritdoc />
-	public DateTime Date { get; set; }
+	public DateTime DateTime { get; set; }
 
 	public int Score { get; set; }
 	public ZoneType ScoreZone { get; set; }

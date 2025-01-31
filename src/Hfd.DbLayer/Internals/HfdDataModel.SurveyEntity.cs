@@ -30,6 +30,8 @@ public class SurveyEntity : HfdEntityBase, ISurveyFull
 
 	public IPatientFull PatientModel => PatientEntity;
 
+	public DayTime DayTime => DateTime.Hour < 12 ? DayTime.Morning : DayTime.Afternoon;
+
 	/// <inheritdoc />
 	[NotMapped]
 	public AdType Ad => AdValue switch
@@ -70,7 +72,7 @@ public class SurveyEntity : HfdEntityBase, ISurveyFull
 	public long PatientId { get; set; }
 
 	/// <inheritdoc />
-	public DateTime Date { get; set; }
+	public DateTime DateTime { get; set; }
 
 	/// <inheritdoc />
 	[NotMapped]

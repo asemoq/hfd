@@ -154,3 +154,16 @@ public enum ZoneType
 	/// </summary>
 	Red = 2,
 }
+
+public enum DayTime
+{
+	/// <summary>
+	///     Утро
+	/// </summary>
+	Morning = 10,
+
+	/// <summary>
+	///     Вечер
+	/// </summary>
+	Afternoon = 20,
+}

@@ -12,6 +12,8 @@ public interface ISurveyFull : ISurveyModel
 	///     Пациент.
 	/// </summary>
 	IPatientFull PatientModel { get; }
+
+	DayTime DayTime { get; }
 }
 
 public interface ISurveyModel : IBaseInfo, ISurveyInfo
@@ -34,7 +36,7 @@ public interface ISurveyModel : IBaseInfo, ISurveyInfo
 	/// <summary>
 	///     Дата опроса
 	/// </summary>
-	DateTime Date { get; }
+	DateTime DateTime { get; }
 
 	int Score { get; }
 

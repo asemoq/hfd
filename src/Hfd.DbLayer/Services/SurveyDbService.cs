@@ -33,7 +33,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 			try
 			{
 				var surveys = await model.Surveys
-					.Where(x => x.PatientId == surveyInfo.PatientId && x.Date.Date == DateTime.UtcNow.Date)
+					.Where(x => x.PatientId == surveyInfo.PatientId && x.DateTime.Date == DateTime.UtcNow.Date)
 					.ToListAsync();
 				if (surveys.Count == 2)
 					throw new HfdException(nameof(HfdError.HFD_Survey_Already_Exists));
@@ -47,7 +47,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 					HeartRateValue = surveyInfo.HeartRateValue,
 					PositionInBed = surveyInfo.PositionInBed,
 					PatientId = surveyInfo.PatientId,
-					Date = DateTime.UtcNow,
+					DateTime = DateTime.UtcNow,
 					CreatedAt = DateTime.UtcNow
 				};
 				await model.Surveys.AddAsync(survey);
@@ -121,6 +121,14 @@ public class SurveyDbService : HfdDbService, ISurveyService
 					: new List<ISurveyFull>()
 			};
 		});
+	}
+
+	public async Task<IEnumerable<ISurveyFull>> GetForPeriod(long patientId, int month, int year)
+	{
+		return await Execute(async model =>
+			await model.Surveys
+				.Where(x => x.PatientId == patientId && x.DateTime.Month == month && x.DateTime.Year == year)
+				.ToListAsync());
 	}
 
 	public async Task<ISurveyFull> GetById(long surveyId)

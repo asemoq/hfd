@@ -11,6 +11,9 @@ public static class SurveyGetAll
 	/// <inheritdoc cref="SkipTakeRq" />
 	public sealed class Request : SkipTakeRq, IRequest<PageList<SurveyModel>>
 	{
+		/// <summary>
+		///     Id пациента.
+		/// </summary>
 		public long? PatientId { get; set; }
 	}
 

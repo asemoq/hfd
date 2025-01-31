@@ -14,7 +14,7 @@ public static class SurveyGetById
 	public sealed class Request : IRequest<SurveyModel>
 	{
 		/// <summary>
-		///     Id пользователя.
+		///     Id опроса.
 		/// </summary>
 		public long SurveyId { get; set; }
 	}
