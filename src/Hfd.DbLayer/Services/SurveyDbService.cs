@@ -50,6 +50,13 @@ public class SurveyDbService : HfdDbService, ISurveyService
 					DateTime = DateTime.UtcNow,
 					CreatedAt = DateTime.UtcNow
 				};
+
+				if (surveys.Count == 1)
+				{
+					if (surveys.Single().DayTime == survey.DayTime)
+						throw new HfdException(nameof(HfdError.HFD_Survey_Already_Exists));
+				}
+
 				await model.Surveys.AddAsync(survey);
 				await model.SaveChangesAsync();
 				await trans.CommitAsync();
