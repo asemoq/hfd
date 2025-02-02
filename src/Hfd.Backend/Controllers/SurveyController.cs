@@ -75,4 +75,13 @@ public class SurveyController : ControllerBase
 	[Produces("application/json")]
 	public async Task<SurveyModel> Edit(SurveyEdit.Request request, CancellationToken token)
 		=> await _mediator.Send(request, token);
+
+	/// <summary>
+	///     Удалить опрос.
+	/// </summary>
+	/// <returns>Результат.</returns>
+	[HttpDelete("{id:long}")]
+	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+	public async Task<SurveyModel> Delete([FromRoute] long id, CancellationToken token)
+		=> await _mediator.Send(new SurveyDelete.Request { SurveyId = id }, token);
 }
