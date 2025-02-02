@@ -1,5 +1,3 @@
-using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Hfd.Base.Contract.Helpers;
@@ -58,6 +56,28 @@ public static class SurveyGetBySummary
 				summary.Rows.Add(row);
 			}
 
+			var startDate = new DateOnly(rq.Date.Year, rq.Date.Month, 1);
+			var currentDate = startDate;
+
+			while (currentDate.Month == startDate.Month && currentDate.Year == startDate.Year)
+			{
+				foreach (DayTime dayTime in Enum.GetValues(typeof(DayTime)))
+				{
+					var columnName =
+						$"{dayTime.ToString().ToLower()}_{currentDate.Day}_{currentDate.Month}_{currentDate.Year}";
+					var column = new ColumnModel()
+					{
+						Name = columnName,
+						Header = dayTime.ToString(),
+						GroupHeader = $"{currentDate.Day} {currentDate.DayOfWeek.ToString()}"
+					};
+					summary.Columns.Add(column);
+				}
+
+				currentDate = currentDate.AddDays(1);
+			}
+
+
 			var grouped = surveys.GroupBy(x => x.DateTime);
 			foreach (var group in grouped)
 			{
@@ -65,13 +85,6 @@ public static class SurveyGetBySummary
 				{
 					var columnName =
 						$"{item.DayTime.ToString().ToLower()}_{item.DateTime.Day}_{item.DateTime.Month}_{item.DateTime.Year}";
-					var column = new ColumnModel()
-					{
-						Name = columnName,
-						Header = item.DayTime.ToString(),
-						GroupHeader = $"{item.DateTime.Day} {item.DateTime.DayOfWeek.ToString()}"
-					};
-					summary.Columns.Add(column);
 					foreach (var property in properties)
 					{
 						var row = summary.Rows.SingleOrDefault(x => x.Name == property.Name.ToLowerFirstChar());
