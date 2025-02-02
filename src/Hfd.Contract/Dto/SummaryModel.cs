@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
+using Hfd.Base.Contract.Helpers;
 
 namespace Hfd.Contract.Dto;
 
@@ -25,7 +26,11 @@ public class DynamicRow : DynamicObject, IDictionary<string, object>
 	{
 		var instance = new DynamicRow();
 		if (name != null)
-			instance.Name = name;
+		{
+			instance.Name = name.ToLowerFirstChar();
+			instance["header"] = name;
+		}
+
 		return instance;
 	}
 

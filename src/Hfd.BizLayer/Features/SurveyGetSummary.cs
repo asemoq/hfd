@@ -53,8 +53,7 @@ public static class SurveyGetBySummary
 				properties.AddRange(type.GetProperties());
 			}
 
-			foreach (var row in properties.Select(property =>
-						DynamicRow.CreateInstance(property.Name.ToLowerFirstChar())))
+			foreach (var row in properties.Select(property => DynamicRow.CreateInstance(property.Name)))
 			{
 				summary.Rows.Add(row);
 			}
