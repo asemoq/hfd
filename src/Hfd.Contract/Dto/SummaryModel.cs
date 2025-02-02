@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
+using System.Text.RegularExpressions;
 using Hfd.Base.Contract.Helpers;
 
 namespace Hfd.Contract.Dto;
@@ -17,7 +18,7 @@ public class ColumnModel
 	public string GroupHeader { get; set; }
 }
 
-public class DynamicRow : DynamicObject, IDictionary<string, object>
+public partial class DynamicRow : DynamicObject, IDictionary<string, object>
 {
 	private readonly Dictionary<string, object> _dictionary = new Dictionary<string, object>();
 	private string _name;
@@ -25,12 +26,9 @@ public class DynamicRow : DynamicObject, IDictionary<string, object>
 	public static DynamicRow CreateInstance(string name)
 	{
 		var instance = new DynamicRow();
-		if (name != null)
-		{
-			instance.Name = name.ToLowerFirstChar();
-			instance["header"] = name;
-		}
-
+		if (name == null) return instance;
+		instance.Name = name.ToLowerFirstChar();
+		instance["header"] = Uppercase().Replace(name, " $0");
 		return instance;
 	}
 
@@ -109,4 +107,7 @@ public class DynamicRow : DynamicObject, IDictionary<string, object>
 			_dictionary["Name"] = value;
 		}
 	}
+
+	[GeneratedRegex("(?<=.)[A-Z]")]
+	private static partial Regex Uppercase();
 }
