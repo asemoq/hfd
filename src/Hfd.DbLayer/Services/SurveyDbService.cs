@@ -138,6 +138,13 @@ public class SurveyDbService : HfdDbService, ISurveyService
 				.ToListAsync());
 	}
 
+	public async Task<ISurveyFull> GetLastByPatientId(long patientId)
+	{
+		return await Execute(async model =>
+			await model.Surveys.OrderByDescending(x => x.DateTime).FirstOrDefaultAsync(x => x.PatientId == patientId) ??
+			throw new HfdException(nameof(HfdError.HFD_Survey_Not_Found)));
+	}
+
 	public async Task<ISurveyFull> GetById(long surveyId)
 	{
 		return await Execute(async model =>

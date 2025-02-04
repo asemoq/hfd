@@ -42,6 +42,15 @@ public class SurveyController : ControllerBase
 	public async Task<SummaryModel> GetSummary([FromQuery] SurveyGetBySummary.Request request, CancellationToken token)
 		=> await _mediator.Send(request, token);
 
+	/// <summary>
+	///     Получить последний пройденный опрос по идентификатору пациента.
+	/// </summary>
+	/// <returns>Опрос.</returns>
+	[HttpGet("last")]
+	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+	public async Task<SurveyModel> GetLastByPatientId([FromQuery] SurveyGetLastByPatientId.Request request,
+		CancellationToken token) => await _mediator.Send(request, token);
+
 
 	/// <summary>
 	///     Получить опрос по идентификатору.
