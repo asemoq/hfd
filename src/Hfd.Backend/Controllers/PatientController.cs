@@ -23,7 +23,6 @@ public class PatientController : ControllerBase
 	/// <param name="mediator">Command processor.</param>
 	public PatientController(IMediator mediator) => _mediator = mediator;
 
-
 	/// <summary>
 	///     Получить список всех пациентов.
 	/// </summary>
@@ -32,7 +31,6 @@ public class PatientController : ControllerBase
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 	public async Task<PageList<PatientModel>> GetAll([FromQuery] PatientGetAll.Request request, CancellationToken token)
 		=> await _mediator.Send(request, token);
-
 
 	/// <summary>
 	///     Получить пациента по идентификатору.
@@ -43,6 +41,14 @@ public class PatientController : ControllerBase
 	public async Task<PatientModel> GetById([FromRoute] long id, CancellationToken token)
 		=> await _mediator.Send(new PatientGetById.Request { PatientId = id }, token);
 
+	/// <summary>
+	///     Получить пациента по идентификатору пользователя.
+	/// </summary>
+	/// <returns>Пациент.</returns>
+	[HttpGet("user/{userId:long}")]
+	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+	public async Task<PatientModel> GetByUserId([FromRoute] long userId, CancellationToken token)
+		=> await _mediator.Send(new PatientGetByUserId.Request { UserId = userId }, token);
 
 	/// <summary>
 	///     Добавить пациента.
@@ -55,7 +61,6 @@ public class PatientController : ControllerBase
 	public async Task<PatientModel> Add(PatientAdd.Request request, CancellationToken token)
 		=> await _mediator.Send(request, token);
 
-
 	/// <summary>
 	///     Редактировать пациента.
 	/// </summary>
@@ -66,7 +71,6 @@ public class PatientController : ControllerBase
 	[Produces("application/json")]
 	public async Task<PatientModel> Edit(PatientEdit.Request request, CancellationToken token)
 		=> await _mediator.Send(request, token);
-
 
 	/// <summary>
 	///     Удалить пациента.

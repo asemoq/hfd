@@ -148,7 +148,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
 	public async Task<ISurveyFull> GetById(long surveyId)
 	{
 		return await Execute(async model =>
-			await model.Surveys.FirstOrDefaultAsync(x => x.Id == surveyId) ??
+			await model.Surveys.SingleOrDefaultAsync(x => x.Id == surveyId) ??
 			throw new HfdException(nameof(HfdError.HFD_Survey_Not_Found)));
 	}
 

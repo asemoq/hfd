@@ -81,7 +81,7 @@ public class ProviderUserDbService : HfdDbService, IProviderUserService
 	public async Task<IProviderUserFull> GetByPatientId(long patientId)
 	{
 		return await Execute(async model =>
-			await model.ProviderUsers.FirstOrDefaultAsync(x => x.PatientId == patientId) ??
+			await model.ProviderUsers.SingleOrDefaultAsync(x => x.PatientId == patientId) ??
 			throw new HfdException(nameof(HfdError.HFD_ProviderUser_Not_Found)));
 	}
 

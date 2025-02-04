@@ -23,7 +23,6 @@ public class NurseController : ControllerBase
 	/// <param name="mediator">Command processor.</param>
 	public NurseController(IMediator mediator) => _mediator = mediator;
 
-
 	/// <summary>
 	///     Получить список всех медсестер.
 	/// </summary>
@@ -32,7 +31,6 @@ public class NurseController : ControllerBase
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 	public async Task<PageList<NurseModel>> GetAll([FromQuery] NurseGetAll.Request request, CancellationToken token)
 		=> await _mediator.Send(request, token);
-
 
 	/// <summary>
 	///     Получить медсестру по идентификатору.
@@ -45,6 +43,15 @@ public class NurseController : ControllerBase
 
 
 	/// <summary>
+	///     Получить медсестру по идентификатору пользователя.
+	/// </summary>
+	/// <returns>Медсестра.</returns>
+	[HttpGet("user/{userId:long}")]
+	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+	public async Task<NurseModel> GetByUserId([FromRoute] long userId, CancellationToken token)
+		=> await _mediator.Send(new NurseGetByUserId.Request { UserId = userId }, token);
+
+	/// <summary>
 	///     Добавить медсестру.
 	/// </summary>
 	/// <returns>Медсестра.</returns>
@@ -54,7 +61,6 @@ public class NurseController : ControllerBase
 	[Produces("application/json")]
 	public async Task<NurseModel> Add(NurseAdd.Request request, CancellationToken token)
 		=> await _mediator.Send(request, token);
-
 
 	/// <summary>
 	///     Редактировать медсестру.
@@ -66,7 +72,6 @@ public class NurseController : ControllerBase
 	[Produces("application/json")]
 	public async Task<NurseModel> Edit(NurseEdit.Request request, CancellationToken token)
 		=> await _mediator.Send(request, token);
-
 
 	/// <summary>
 	///     Удалить медсестру.

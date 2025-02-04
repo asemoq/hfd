@@ -23,7 +23,6 @@ public class SurveyController : ControllerBase
 	/// <param name="mediator">Command processor.</param>
 	public SurveyController(IMediator mediator) => _mediator = mediator;
 
-
 	/// <summary>
 	///     Получить список всех опросов.
 	/// </summary>
@@ -51,7 +50,6 @@ public class SurveyController : ControllerBase
 	public async Task<SurveyModel> GetLastByPatientId([FromQuery] SurveyGetLastByPatientId.Request request,
 		CancellationToken token) => await _mediator.Send(request, token);
 
-
 	/// <summary>
 	///     Получить опрос по идентификатору.
 	/// </summary>
@@ -60,7 +58,6 @@ public class SurveyController : ControllerBase
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 	public async Task<SurveyModel> GetById([FromRoute] long id, CancellationToken token)
 		=> await _mediator.Send(new SurveyGetById.Request { SurveyId = id }, token);
-
 
 	/// <summary>
 	///     Заполнить опрос.
@@ -72,7 +69,6 @@ public class SurveyController : ControllerBase
 	[Produces("application/json")]
 	public async Task<SurveyModel> Add(SurveyAdd.Request request, CancellationToken token)
 		=> await _mediator.Send(request, token);
-
 
 	/// <summary>
 	///     Редактировать опрос.

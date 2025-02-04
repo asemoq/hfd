@@ -168,7 +168,14 @@ public class PatientDbService : HfdDbService, IPatientService
 	public async Task<IPatientFull> GetById(long patientId)
 	{
 		return await Execute(async model =>
-			await model.Patients.FirstOrDefaultAsync(x => x.Id == patientId) ??
+			await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId) ??
+			throw new HfdException(nameof(HfdError.HFD_Patient_Not_Found)));
+	}
+
+	public async Task<IPatientFull> GetByUserId(long userId)
+	{
+		return await Execute(async model =>
+			await model.Patients.SingleOrDefaultAsync(x => x.UserId == userId) ??
 			throw new HfdException(nameof(HfdError.HFD_Patient_Not_Found)));
 	}
 

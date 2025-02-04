@@ -123,7 +123,14 @@ public class NurseDbService : HfdDbService, INurseService
 	public async Task<INurseFull> GetById(long nurseId)
 	{
 		return await Execute(async model =>
-			await model.Nurses.FirstOrDefaultAsync(x => x.Id == nurseId) ??
+			await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId) ??
+			throw new HfdException(nameof(HfdError.HFD_Nurse_Not_Found)));
+	}
+
+	public async Task<INurseFull> GetByUserId(long userId)
+	{
+		return await Execute(async model =>
+			await model.Nurses.SingleOrDefaultAsync(x => x.UserId == userId) ??
 			throw new HfdException(nameof(HfdError.HFD_Nurse_Not_Found)));
 	}
 
