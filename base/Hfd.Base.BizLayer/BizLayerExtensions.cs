@@ -1,5 +1,4 @@
 using System.Reflection;
-using MediatR.Pipeline;
 using Hfd.Base.BizLayer.Internals;
 
 namespace Hfd.Base.BizLayer;

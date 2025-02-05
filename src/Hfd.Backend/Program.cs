@@ -15,7 +15,7 @@ public class Program
 	{
 		Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 		Console.OutputEncoding = Encoding.UTF8;
-		Console.Title = @"[ Hfd ] - Notification management system";
+		Console.Title = @"[ Hfd ] - Heart failure diary";
 
 		Log.Logger = new LoggerConfiguration()
 			.MinimumLevel.Debug()
