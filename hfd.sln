@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".root", ".root", "{DD883B50
 		version.targets = version.targets
 		Dockerfile = Dockerfile
 		.gitlab-ci.yml = .gitlab-ci.yml
+		.dockerignore = .dockerignore
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hfd.DbLayer.Pgsql", "src\Hfd.DbLayer.Pgsql\Hfd.DbLayer.Pgsql.csproj", "{50C0CA5B-E059-4A07-9DA2-1D94B7D871C3}"
