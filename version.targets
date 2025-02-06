@@ -7,8 +7,8 @@
 		<Copyright>© Asem Nurzhanova, 2025</Copyright>
 		<Product>Hfd</Product>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<PackageProjectUrl>https://gitlab.com/asemoq/hfd.git</PackageProjectUrl>
+		<PackageProjectUrl>https://gitlab.com/hfd.su/hfd.git</PackageProjectUrl>
 		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://gitlab.com/asemoq/hfd.git</RepositoryUrl>
+		<RepositoryUrl>https://gitlab.com/hfd.su/hfd.git</RepositoryUrl>
 	</PropertyGroup>
 </Project>
