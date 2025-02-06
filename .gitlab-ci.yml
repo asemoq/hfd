@@ -1,4 +1,4 @@
-stages: [ build, test, deploy ]
+stages: [ build, deploy ]
 default:
     before_script:
         - docker info
@@ -13,20 +13,6 @@ build:
         - docker build -t hfd:latest .
     environment:
         name: build
-
-first_test:
-    stage: test
-    script:
-        - sleep 1
-    environment:
-        name: test
-
-second_test:
-    stage: test
-    script:
-        - sleep 1
-    environment:
-        name: test
 
 deploy:
     only:
