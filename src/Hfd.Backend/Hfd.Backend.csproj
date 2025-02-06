@@ -13,8 +13,8 @@
     <ItemGroup>
         <ProjectReference Include="..\..\base\Hfd.Base.Backend\Hfd.Base.Backend.csproj"/>
         <ProjectReference Include="..\Hfd.BizLayer\Hfd.BizLayer.csproj"/>
-        <ProjectReference Include="..\Hfd.Contract\Hfd.Contract.csproj"/>
-        <ProjectReference Include="..\Hfd.DbLayer.Pgsql\Hfd.DbLayer.Pgsql.csproj"/>
+	    <ProjectReference Include="..\Hfd.Contract\Hfd.Contract.csproj"/>
+	    <ProjectReference Include="..\Hfd.DbLayer.Pgsql\Hfd.DbLayer.Pgsql.csproj"/>
         <ProjectReference Include="..\Hfd.DbLayer\Hfd.DbLayer.csproj"/>
     </ItemGroup>
 
