@@ -12,7 +12,7 @@ build:
     tags:
         - fvds
     script:
-        - docker build -no-cache -t hfd:latest .
+        - docker build --no-cache -t hfd:latest .
     environment:
         name: build
 
