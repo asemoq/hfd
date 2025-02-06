@@ -9,19 +9,13 @@ workflow:
 
 build:
     stage: build
-    tags:
-        - fvds
     script:
         - docker build --no-cache -t hfd:latest .
     environment:
         name: build
 
 deploy:
-    only:
-        - master
     stage: deploy
-    tags:
-        - fvds
     script:
         - docker rm -f hfd || true
         - docker run -d -it -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e "ASPNETCORE_ENVIRONMENT=Development" -p 8080  --name hfd --network hfd --ip 172.18.0.4 --restart=always hfd:latest
