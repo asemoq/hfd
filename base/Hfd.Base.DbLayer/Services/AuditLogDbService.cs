@@ -1,7 +1,7 @@
-using System.Data.Entity;
 using Hfd.Base.Contract.Model;
 using Hfd.Base.Contract.Services;
 using Hfd.Base.DbLayer.Internals;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Hfd.Base.DbLayer.Services;

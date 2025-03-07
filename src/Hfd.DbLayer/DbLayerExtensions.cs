@@ -1,11 +1,9 @@
 global using System;
 global using System.Reflection;
 global using Microsoft.Extensions.Logging;
-using System.Linq.Expressions;
 using Hfd.Base.DbLayer;
 using Hfd.Base.DbLayer.Services;
 using Hfd.DbLayer.Internals;
-using LinqKit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using static Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions;
