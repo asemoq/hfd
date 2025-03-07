@@ -145,6 +145,26 @@ public class SurveyDbService : HfdDbService, ISurveyService
 			throw new HfdException(nameof(HfdError.HFD_Survey_Not_Found)));
 	}
 
+	public async Task<bool> NecessityByPatientId(long patientId)
+	{
+		return await Execute(async model =>
+		{
+			var surveys = await model.Surveys
+				.Where(x => x.PatientId == patientId && x.DateTime.Date == DateTime.UtcNow.Date)
+				.ToListAsync();
+			var dayTime = DateTime.UtcNow.Hour < 12 ? DayTime.Morning : DayTime.Afternoon;
+			switch (surveys.Count)
+			{
+				case > 2:
+				case 2:
+				case 1 when surveys.Single().DayTime == dayTime:
+					return false;
+			}
+
+			return true;
+		});
+	}
+
 	public async Task<ISurveyFull> GetById(long surveyId)
 	{
 		return await Execute(async model =>

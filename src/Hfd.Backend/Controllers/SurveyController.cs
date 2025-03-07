@@ -51,6 +51,15 @@ public class SurveyController : ControllerBase
 		CancellationToken token) => await _mediator.Send(request, token);
 
 	/// <summary>
+	///     Получить признак необходимости пройти опрос по идентификатору пациента.
+	/// </summary>
+	/// <returns>Опрос.</returns>
+	[HttpGet("necessity")]
+	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+	public async Task<bool> NecessityByPatientId([FromQuery] SurveyNecessityByPatientId.Request request,
+		CancellationToken token) => await _mediator.Send(request, token);
+
+	/// <summary>
 	///     Получить опрос по идентификатору.
 	/// </summary>
 	/// <returns>Опрос.</returns>

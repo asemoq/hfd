@@ -36,6 +36,11 @@ public interface ISurveyService : IDbService
 	Task<ISurveyFull> GetLastByPatientId(long patientId);
 
 	/// <summary>
+	///     Получить признак необходимости пройти опрос по идентификатору пациента.
+	/// </summary>
+	Task<bool> NecessityByPatientId(long patientId);
+
+	/// <summary>
 	///     Получить опрос из БД по идентификатору.
 	/// </summary>
 	Task<ISurveyFull> GetById(long surveyId);
