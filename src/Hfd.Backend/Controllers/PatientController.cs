@@ -42,6 +42,16 @@ public class PatientController : ControllerBase
 		=> await _mediator.Send(new PatientGetById.Request { PatientId = id }, token);
 
 	/// <summary>
+	///     Получить контакты сотрудников привязанных к пациенту.
+	/// </summary>
+	/// <returns>Пациент.</returns>
+	[HttpGet("{id:long}/staff_contact")]
+	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+	public async Task<PatientGetStaffContactsById.StaffContact> GetStaffContactsById([FromRoute] long id,
+		CancellationToken token) =>
+		await _mediator.Send(new PatientGetStaffContactsById.Request { PatientId = id }, token);
+
+	/// <summary>
 	///     Получить пациента по идентификатору пользователя.
 	/// </summary>
 	/// <returns>Пациент.</returns>

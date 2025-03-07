@@ -34,7 +34,7 @@ public interface IPatientService : IDbService
 	/// <summary>
 	///     Получить пациента из БД по идентификатору.
 	/// </summary>
-	Task<IPatientFull> GetById(long patientId);
+	Task<IPatientFull> GetById(long patientId, bool includeDependencies = false);
 
 	/// <summary>
 	///     Получить пациента из БД по идентификатору пользователя.

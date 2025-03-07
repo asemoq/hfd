@@ -165,11 +165,23 @@ public class PatientDbService : HfdDbService, IPatientService
 		});
 	}
 
-	public async Task<IPatientFull> GetById(long patientId)
+	public async Task<IPatientFull> GetById(long patientId, bool includeDependencies)
 	{
 		return await Execute(async model =>
-			await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId) ??
-			throw new HfdException(nameof(HfdError.HFD_Patient_Not_Found)));
+		{
+			if (includeDependencies)
+			{
+				return await model.Patients
+							.Include(x => x.NurseEntity)
+							.SingleOrDefaultAsync(x => x.Id == patientId) ??
+						throw new HfdException(nameof(HfdError.HFD_Patient_Not_Found));
+			}
+			else
+			{
+				return await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId) ??
+						throw new HfdException(nameof(HfdError.HFD_Patient_Not_Found));
+			}
+		});
 	}
 
 	public async Task<IPatientFull> GetByUserId(long userId)
