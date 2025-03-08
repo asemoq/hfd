@@ -25,9 +25,7 @@ public abstract class AuditableDataModel : DbContext, IDataModel
 
 				auditCtx.AuditEntry.AddRange(audit.Entries);
 				auditTrx.Trx.StoppedAt = DateTime.UtcNow;
-			}
-
-			;
+			};
 		};
 
 		AuditManager.DefaultConfiguration.AuditEntryFactory = args

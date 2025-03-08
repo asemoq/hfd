@@ -50,7 +50,7 @@ public class PgsqlDataModel : HfdDataModel
 	public class DesignTimeFactory : IDesignTimeDbContextFactory<PgsqlDataModel>
 	{
 		private const string designTimeConnectionString =
-			"Host=localhost;Database=Hfd_develop;Username=postgres;Password=onWVjXS6";
+			"Host=localhost;Database=hfd;Username=postgres;Password=postgres";
 
 		public PgsqlDataModel CreateDbContext(string[] args)
 		{

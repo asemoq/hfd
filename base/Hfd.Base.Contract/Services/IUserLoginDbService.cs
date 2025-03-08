@@ -40,6 +40,13 @@ public interface IUserLoginDbService : IDbService
 	Task<IUserFull> GetOne(string username);
 
 	/// <summary>
+	///     Найти пользователя по номеру телефона.
+	/// </summary>
+	/// <param name="phoneNumber">Номер телефона.</param>
+	/// <returns>Данные пользователя.</returns>
+	Task<IUserFull> GetOneByPhoneNumber(string phoneNumber);
+
+	/// <summary>
 	///     Изменить пользователя.
 	/// </summary>
 	/// <param name="id">Идентификатор пользователя.</param>

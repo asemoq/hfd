@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Hfd.Base.Contract.Exceptions;
 using Hfd.Base.Contract.Internals;
+using Hfd.Base.Contract.Model;
 
 namespace Hfd.Base.Backend.Jwt;
 
@@ -24,6 +25,13 @@ public interface IBackendContext
 	/// <param name="password"></param>
 	/// <returns></returns>
 	Task<ClaimsPrincipal> GetPrincipal(string login, string password);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="user"></param>
+	/// <returns></returns>
+	Task<ClaimsPrincipal> GetPrincipal(IUserFull user);
 }
 
 /// <inheritdoc />
@@ -74,5 +82,26 @@ public class BackendContext : IBackendContext
 
 		var identities = new List<ClaimsIdentity> { new(claims) };
 		return new ClaimsPrincipal(identities);
+	}
+
+	/// <inheritdoc />
+	public Task<ClaimsPrincipal> GetPrincipal(IUserFull user)
+	{
+		if (user == null)
+			throw new UserNotFoundException();
+
+		if (user.Blocked)
+			throw new HfdException(nameof(HfdBaseError.User_Blocked));
+
+
+		var claims = new List<Claim>
+		{
+			new(ClaimTypes.Role, $"{user.Usertype}"),
+			new(ClaimTypes.NameIdentifier, user.Username),
+			new(ClaimTypes.UserData, user.UniqueId)
+		};
+
+		var identities = new List<ClaimsIdentity> { new(claims) };
+		return Task.FromResult(new ClaimsPrincipal(identities));
 	}
 }

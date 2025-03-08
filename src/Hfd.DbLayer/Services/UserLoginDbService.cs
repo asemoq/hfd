@@ -95,6 +95,14 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 			=> await model.Users.SingleOrDefaultAsync(u => u.Username == login));
 	}
 
+	public async Task<IUserFull> GetOneByPhoneNumber(string phoneNumber)
+	{
+		return await Execute(async model
+			=> await model.Users.SingleOrDefaultAsync(u =>
+				u.PatientEntity.PhoneNumber == phoneNumber || u.NurseEntity.PhoneNumber == phoneNumber ||
+				u.PsychologistEntity.PhoneNumber == phoneNumber || u.SocialWorkerEntity.PhoneNumber == phoneNumber));
+	}
+
 	/// <inheritdoc />
 	public async Task<IUserFull> Update(long id, UserInfo user)
 	{

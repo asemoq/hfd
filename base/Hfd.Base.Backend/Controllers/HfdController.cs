@@ -3,6 +3,7 @@ using System.Net.Mime;
 using System.Security.Claims;
 using Hfd.Base.Backend.Jwt;
 using Hfd.Base.BizLayer.Features;
+using Hfd.Base.BizLayer.Services;
 using Hfd.Base.Contract.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -49,6 +50,44 @@ public class HfdController : ControllerBase
 		var principal = await _context.GetPrincipal(rq.Username, rq.Password);
 		if (principal == null)
 			throw new UnauthorizedException();
+
+		var handler = _context.BizContext.Services.GetRequiredService<IJwtHandler>();
+		var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
+
+		var rs = new LoginFull
+		{
+			Usertype = Enum.Parse<LoginRole>(principal.Claims.Single(c => c.Type == ClaimTypes.Role).Value),
+			Username = principal.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value,
+			Token = token
+		};
+
+		_logger.LogInformation($"Пользователю {principal.Identity?.Name} выдан token");
+		return rs;
+	}
+
+	/// <summary>
+	/// Авторизация провайдера
+	/// </summary>
+	/// <param name="providerType"></param>
+	/// <param name="data"></param>
+	/// <returns></returns>
+	/// <exception cref="UnauthorizedException"></exception>
+	[SwaggerResponse(StatusCodes.Status200OK, "Login information")]
+	[HttpPost("/provider_login"), Display(Order = 6)]
+	[Consumes("application/json")]
+	[Produces("application/json")]
+	public async Task<LoginFull> Login([FromQuery] string providerType, [FromBody] object data)
+	{
+		var factory = _context.BizContext.Services.GetRequiredService<IClientFactory<IProviderClient>>();
+		var providerOptions = _context.BizContext.Services.GetRequiredService<IProviderOptions>();
+		if (providerType != "tg") return null;
+		using var client = factory.CreateUserClient(providerOptions.TgUri);
+		var phoneNumber = await client.Login(data);
+		var service = _context.BizContext.Services.GetRequiredService<IDbStorage>().Get<IUserLoginDbService>();
+		var user = await service.GetOneByPhoneNumber(phoneNumber.ToString());
+		if (user == null) throw new UnauthorizedException();
+		var principal = await _context.GetPrincipal(user);
+		if (principal == null) throw new UnauthorizedException();
 
 		var handler = _context.BizContext.Services.GetRequiredService<IJwtHandler>();
 		var token = handler.CreateToken(principal, TimeSpan.FromDays(1));

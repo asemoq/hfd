@@ -1,5 +1,6 @@
 using System.Reflection;
 using Hfd.Base.BizLayer;
+using Microsoft.Extensions.Configuration;
 
 namespace Hfd.BizLayer;
 
@@ -12,9 +13,9 @@ public static class BizLayerExtensions
 	/// <param name="assemblies">Сборки, в которых ищем сервисы.</param>
 	/// <returns>Сервисы приложения.</returns>
 	public static IServiceCollection AddHfdBizLayerServices(this IServiceCollection services,
-		Assembly[] assemblies)
+		IConfiguration configuration, Assembly[] assemblies)
 	{
 		return services
-			.AddHfdBaseBizLayerServices(assemblies);
+			.AddHfdBaseBizLayerServices(configuration, assemblies);
 	}
 }

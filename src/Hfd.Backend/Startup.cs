@@ -58,7 +58,7 @@ public class Startup
 		services
 			.AddHfdContractServices(Assemblies)
 			.AddHfdDbLayerServices(_configuration, Assemblies)
-			.AddHfdBizLayerServices(Assemblies)
+			.AddHfdBizLayerServices(_configuration, Assemblies)
 			.AddProviderServices(Assemblies)
 			.AddJwtAuthentication()
 			.AddScoped<IBackendContext, BackendContext>()
