@@ -1,9 +1,8 @@
 using Hfd.Base.Contract.Dto;
 using Hfd.Base.Contract.Exceptions;
-using Hfd.Base.Contract.Helpers;
-using Hfd.Base.Contract.Internals;
 using Hfd.Base.Contract.Model;
 using Hfd.Base.Contract.Services;
+using static Hfd.Base.Contract.Helpers.FieldFormatHelper;
 
 namespace Hfd.Base.BizLayer.Features;
 
@@ -54,8 +53,8 @@ public static class UserUpdate
 				.WithMessage(nameof(HfdBaseError.User_Language_Not_Correct));
 			RuleFor(x => x.Username).NotEmpty()
 				.WithMessage(nameof(HfdBaseError.User_Username_Cannot_Be_Empty));
-			RuleFor(x => x.UniqueId).NotEmpty()
-				.WithMessage(nameof(HfdBaseError.User_UniqueId_Cannot_Be_Empty));
+			RuleFor(x => x.UniqueId).Must(IsValidIin)
+				.WithMessage(nameof(HfdBaseError.User_UniqueId_Cannot_Is_Not_Valid));
 			RuleFor(x => x.FullName).NotEmpty()
 				.WithMessage(nameof(HfdBaseError.User_FullName_Cannot_Be_Empty));
 		}

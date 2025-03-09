@@ -10,6 +10,7 @@ public enum HfdError
 
 	HFD_Nurse_Id_Is_Not_Correct,
 	HFD_Nurse_UserId_Is_Not_Correct,
+	HFD_Nurse_PhoneNumber_Is_Not_Valid,
 
 	HFD_Nurse_Not_Exists,
 	HFD_Nurse_User_Not_Found,
@@ -22,6 +23,7 @@ public enum HfdError
 
 	HFD_Patient_Id_Is_Not_Correct,
 	HFD_Patient_UserId_Is_Not_Correct,
+	HFD_Patient_PhoneNumber_Is_Not_Valid,
 
 	HFD_Patient_Not_Exists,
 	HFD_Patient_Not_Found,

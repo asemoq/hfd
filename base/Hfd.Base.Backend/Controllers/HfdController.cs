@@ -84,7 +84,7 @@ public class HfdController : ControllerBase
 		using var client = factory.CreateUserClient(providerOptions.TgUri);
 		var phoneNumber = await client.Login(data);
 		var service = _context.BizContext.Services.GetRequiredService<IDbStorage>().Get<IUserLoginDbService>();
-		var user = await service.GetOneByPhoneNumber(phoneNumber.ToString());
+		var user = await service.GetOneByPhoneNumber(phoneNumber.ToString() ?? string.Empty);
 		if (user == null) throw new UnauthorizedException();
 		var principal = await _context.GetPrincipal(user);
 		if (principal == null) throw new UnauthorizedException();

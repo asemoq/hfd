@@ -3,6 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Hfd.Base.Contract.Exceptions;
+using Hfd.Base.Contract.Helpers;
 using Hfd.Base.Contract.Model;
 using Hfd.Base.DbLayer;
 using Hfd.Contract.Enums;
@@ -52,7 +53,6 @@ public class PatientDbService : HfdDbService, IPatientService
 					Gender = patientInfo.Gender,
 					Birthday = patientInfo.Birthday,
 					Region = patientInfo.Region,
-					PhoneNumber = patientInfo.PhoneNumber,
 					Address = patientInfo.Address,
 					Diagnosis = patientInfo.Diagnosis,
 					Diseases = patientInfo.Diseases,
@@ -60,6 +60,7 @@ public class PatientDbService : HfdDbService, IPatientService
 					Weight = patientInfo.Weight,
 					FamilyFullName = patientInfo.FamilyFullName,
 					FamilyPhoneNumber = patientInfo.FamilyPhoneNumber,
+					PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(patientInfo.PhoneNumber),
 					CreatedAt = DateTime.UtcNow
 				};
 				await model.Patients.AddAsync(patient);
@@ -106,7 +107,6 @@ public class PatientDbService : HfdDbService, IPatientService
 				patient.Gender = patientInfo.Gender;
 				patient.Birthday = patientInfo.Birthday;
 				patient.Region = patientInfo.Region;
-				patient.PhoneNumber = patientInfo.PhoneNumber;
 				patient.Address = patientInfo.Address;
 				patient.Diagnosis = patientInfo.Diagnosis;
 				patient.Diseases = patientInfo.Diseases;
@@ -114,6 +114,7 @@ public class PatientDbService : HfdDbService, IPatientService
 				patient.Weight = patientInfo.Weight;
 				patient.FamilyFullName = patientInfo.FamilyFullName;
 				patient.FamilyPhoneNumber = patientInfo.FamilyPhoneNumber;
+				patient.PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(patientInfo.PhoneNumber);
 				patient.UpdatedAt = DateTime.UtcNow;
 
 				await model.SaveChangesAsync();

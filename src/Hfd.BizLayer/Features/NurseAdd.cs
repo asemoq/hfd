@@ -3,6 +3,7 @@ using Hfd.Contract.Dto;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
 using Hfd.Contract.Services;
+using static Hfd.Base.Contract.Helpers.FieldFormatHelper;
 
 namespace Hfd.BizLayer.Features;
 
@@ -53,6 +54,8 @@ public static class NurseAdd
 			{
 				RuleFor(x => x.UserId).GreaterThan(0)
 					.WithMessage(nameof(HfdError.HFD_Nurse_UserId_Is_Not_Correct));
+				RuleFor(x => x.PhoneNumber).Must(IsValidPhoneNumber)
+					.WithMessage(nameof(HfdError.HFD_Nurse_PhoneNumber_Is_Not_Valid));
 			}
 		}
 	}

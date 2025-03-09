@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Hfd.Base.Contract.Exceptions;
+using Hfd.Base.Contract.Helpers;
 using Hfd.Base.Contract.Model;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
@@ -41,7 +42,7 @@ public class NurseDbService : HfdDbService, INurseService
 				var nurse = new NurseEntity
 				{
 					UserId = user.Id,
-					PhoneNumber = nurseInfo.PhoneNumber,
+					PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(nurseInfo.PhoneNumber),
 					PlotNumber = nurseInfo.PlotNumber,
 					CreatedAt = DateTime.UtcNow
 				};
@@ -82,7 +83,7 @@ public class NurseDbService : HfdDbService, INurseService
 
 
 				nurse.UserId = nurseInfo.UserId;
-				nurse.PhoneNumber = nurseInfo.PhoneNumber;
+				nurse.PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(nurseInfo.PhoneNumber);
 				nurse.PlotNumber = nurseInfo.PlotNumber;
 				nurse.UpdatedAt = DateTime.UtcNow;
 
