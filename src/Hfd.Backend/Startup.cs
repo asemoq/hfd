@@ -5,6 +5,8 @@ using Hfd.Base.Backend.Jwt;
 using Hfd.BizLayer;
 using Hfd.Contract;
 using Hfd.DbLayer;
+using Hfd.Provider.ApiClient.Services;
+using Hfd.Provider.BizLayer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Hosting;
@@ -63,6 +65,15 @@ public class Startup
 			.AddJwtAuthentication()
 			.AddScoped<IBackendContext, BackendContext>()
 			.AddQuartzJobs(_configuration);
+
+		services
+			.AddTransient(typeof(IClientFactory<>), typeof(ClientFactory<>));
+
+		services
+			.AddHttpClient(ClientFactory.UserClientName, (_, _) => { });
+
+		services
+			.AddHttpClient(ClientFactory.ServiceClientName, (_, _) => { });
 
 		services
 			.AddCors()
