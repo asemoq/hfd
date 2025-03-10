@@ -19,6 +19,8 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using BackendContext = Hfd.Backend.Internals.BackendContext;
+using IBackendContext = Hfd.Backend.Internals.IBackendContext;
 
 namespace Hfd.Backend;
 

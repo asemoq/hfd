@@ -7,7 +7,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="FluentValidation" Version="10.3.6"/>
-		<PackageReference Include="Hfd.Base.BizLayer" Version="0.0.2" />
+		<PackageReference Include="Hfd.Base.BizLayer" Version="0.0.3" />
 		<PackageReference Include="Quartz" Version="3.13.0"/>
 		<PackageReference Include="Scrutor" Version="5.0.1"/>
 	</ItemGroup>

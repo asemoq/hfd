@@ -1,18 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Net.Mime;
 using System.Security.Claims;
+using Hfd.Base.ApiClient.Model;
 using Hfd.Base.Backend.Jwt;
 using Hfd.Base.BizLayer.Features;
-using Hfd.Base.BizLayer.Services;
 using Hfd.Base.Contract.Exceptions;
-using MediatR;
+using Hfd.Base.Contract.Services;
+using Hfd.BizLayer;
+using Hfd.Provider.ApiClient.Services;
+using Hfd.Provider.BizLayer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
+using IBackendContext = Hfd.Backend.Internals.IBackendContext;
 using ValidationException = FluentValidation.ValidationException;
 
-namespace Hfd.Base.Backend.Controllers;
+namespace Hfd.Backend.Controllers;
 
 /// <summary>
 ///     Управление сервисом.
@@ -56,7 +63,7 @@ public class HfdController : ControllerBase
 
 		var rs = new LoginFull
 		{
-			Usertype = Enum.Parse<LoginRole>(principal.Claims.Single(c => c.Type == ClaimTypes.Role).Value),
+			Usertype = principal.Claims.Single(c => c.Type == ClaimTypes.Role).Value,
 			Username = principal.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value,
 			Token = token
 		};
@@ -94,7 +101,7 @@ public class HfdController : ControllerBase
 
 		var rs = new LoginFull
 		{
-			Usertype = Enum.Parse<LoginRole>(principal.Claims.Single(c => c.Type == ClaimTypes.Role).Value),
+			Usertype = principal.Claims.Single(c => c.Type == ClaimTypes.Role).Value,
 			Username = principal.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value,
 			Token = token
 		};
