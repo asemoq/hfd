@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Hfd.Base.ApiClient.Model;
 using Hfd.Base.Contract.Exceptions;
 using Hfd.Base.Contract.Model;
 using Hfd.Base.DbLayer;

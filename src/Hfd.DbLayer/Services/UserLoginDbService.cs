@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Hfd.Base.Contract.Dto;
+using Hfd.Base.ApiClient.Model;
+using Hfd.Base.Contract.Enums;
 using Hfd.Base.Contract.Exceptions;
 using Hfd.Base.Contract.Internals;
 using Hfd.Base.Contract.Model;
@@ -33,9 +34,11 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 
 			if (filter.Blocked != null) query = query.AndExpression(x => x.Blocked == filter.Blocked);
 
-			if (filter.Usertype != null) query = query.AndExpression(x => x.Usertype == filter.Usertype);
+			if (filter.Usertype != null)
+				query = query.AndExpression(x => x.Usertype == Enum.Parse<LoginRole>(filter.Usertype));
 
-			if (filter.Language != null) query = query.AndExpression(x => x.Language == filter.Language);
+			if (filter.Language != null)
+				query = query.AndExpression(x => x.Language == Enum.Parse<Language>(filter.Language));
 
 			var total = await model.Users.Where(query).CountAsync();
 			var skip = Math.Min(total, filter.Skip);
@@ -70,7 +73,7 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 				UniqueId = user.UniqueId,
 				FullName = user.FullName,
 				Password = password,
-				Language = user.Language,
+				Language = Enum.Parse<Language>(user.Language),
 				Blocked = false
 			};
 			await model.Users.AddAsync(entity);
@@ -119,8 +122,8 @@ public class UserLoginDbService : HfdDbService, IUserLoginDbService
 			entity.Username = login;
 			entity.UniqueId = user.UniqueId;
 			entity.FullName = user.FullName;
-			entity.Language = user.Language;
-			entity.Usertype = user.Usertype;
+			entity.Language = Enum.Parse<Language>(user.Language);
+			entity.Usertype = Enum.Parse<LoginRole>(user.Usertype);
 			if (!string.IsNullOrEmpty(user.Password)) entity.Password = user.Password.Hash();
 			await model.SaveChangesAsync();
 			return entity;

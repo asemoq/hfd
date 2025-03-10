@@ -20,6 +20,7 @@ public static class BizLayerExtensions
 	{
 		services.Configure<ProviderOptions>(configuration.GetSection("providerOptions"))
 			.AddTransient<IProviderOptions>(p => p.GetRequiredService<IOptions<ProviderOptions>>().Value);
+		
 		services
 			.AddHttpClient().AddTransient(typeof(IClientFactory<>), typeof(ClientFactory<>));
 
@@ -27,8 +28,7 @@ public static class BizLayerExtensions
 			.AddHttpClient(ClientFactory.UserClientName, (_, _) => { });
 
 		services
-			.AddHttpClient(ClientFactory.ServiceClientName, (_, _) => { })
-			;
+			.AddHttpClient(ClientFactory.ServiceClientName, (_, _) => { });
 
 		return services
 			.Scan(scan => scan

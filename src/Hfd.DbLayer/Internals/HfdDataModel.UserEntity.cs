@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Hfd.Base.Contract.Dto;
 using Hfd.Base.Contract.Enums;
 using Hfd.Base.Contract.Model;
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hfd.Base.ApiClient.Model;
 using Hfd.Base.Contract.Exceptions;
 using Hfd.Base.Contract.Helpers;
 using Hfd.Base.Contract.Model;

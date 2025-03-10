@@ -6,6 +6,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Bogus" Version="35.6.1"/>
+		<PackageReference Include="Hfd.Base.DbLayer" Version="0.0.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8"/>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2"/>
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1"/>
@@ -13,7 +14,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\base\Hfd.Base.DbLayer\Hfd.Base.DbLayer.csproj"/>
 		<ProjectReference Include="..\Hfd.Contract\Hfd.Contract.csproj"/>
 	</ItemGroup>
 

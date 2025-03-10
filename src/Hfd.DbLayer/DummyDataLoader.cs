@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Hfd.Base.Contract.Dto;
+using Hfd.Base.Contract.Enums;
 using Hfd.Base.Contract.Internals;
 using Hfd.Base.DbLayer.Services;
 using Hfd.DbLayer.Internals;

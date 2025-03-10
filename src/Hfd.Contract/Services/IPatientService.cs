@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using Hfd.Base.Contract.Model;
+using Hfd.Base.ApiClient.Model;
 using Hfd.Base.Contract.Services;
 using Hfd.Contract.Model;
-using ISkipTakeRq = Hfd.Base.Contract.Model.ISkipTakeRq;
 
 namespace Hfd.Contract.Services;
 

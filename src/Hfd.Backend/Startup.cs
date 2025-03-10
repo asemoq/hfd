@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Hfd.Base.Backend;
 using Hfd.Base.Backend.Jwt;
-using Hfd.Base.Contract.Services;
 using Hfd.BizLayer;
 using Hfd.Contract;
 using Hfd.DbLayer;
@@ -59,7 +58,6 @@ public class Startup
 			.AddHfdContractServices(Assemblies)
 			.AddHfdDbLayerServices(_configuration, Assemblies)
 			.AddHfdBizLayerServices(_configuration, Assemblies)
-			.AddProviderServices(Assemblies)
 			.AddJwtAuthentication()
 			.AddScoped<IBackendContext, BackendContext>()
 			.AddQuartzJobs(_configuration);

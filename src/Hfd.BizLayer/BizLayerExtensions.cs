@@ -1,6 +1,7 @@
 using System.Reflection;
 using Hfd.Base.BizLayer;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Hfd.BizLayer;
 
@@ -15,7 +16,9 @@ public static class BizLayerExtensions
 	public static IServiceCollection AddHfdBizLayerServices(this IServiceCollection services,
 		IConfiguration configuration, Assembly[] assemblies)
 	{
+		services.Configure<ProviderOptions>(configuration.GetSection("providerOptions"))
+			.AddTransient<IProviderOptions>(p => p.GetRequiredService<IOptions<ProviderOptions>>().Value);
 		return services
-			.AddHfdBaseBizLayerServices(configuration, assemblies);
+			.AddHfdBaseBizLayerServices(assemblies);
 	}
 }

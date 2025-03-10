@@ -1,4 +1,4 @@
-﻿using Hfd.Base.Contract.Dto;
+﻿using Hfd.Base.ApiClient.Model;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
 

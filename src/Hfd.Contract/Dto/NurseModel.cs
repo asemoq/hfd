@@ -1,5 +1,4 @@
-﻿using Hfd.Base.Contract.Dto;
-using Hfd.Base.Contract.Model;
+﻿using Hfd.Base.ApiClient.Model;
 using Hfd.Contract.Model;
 
 namespace Hfd.Contract.Dto;

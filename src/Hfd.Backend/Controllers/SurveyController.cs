@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Hfd.Base.Contract.Model;
+using Hfd.Base.ApiClient.Model;
 using Hfd.BizLayer.Features;
 using Hfd.Contract.Dto;
 using Microsoft.AspNetCore.Authorization;
