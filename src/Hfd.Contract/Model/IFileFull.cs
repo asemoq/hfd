@@ -1,4 +1,4 @@
-using Hfd.Base.Contract.Model;
+using Hfd.Common.Contract.Model;
 
 namespace Hfd.Contract.Model;
 

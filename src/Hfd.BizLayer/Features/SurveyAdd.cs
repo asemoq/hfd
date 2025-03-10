@@ -1,10 +1,3 @@
-using System.Text.Json.Serialization;
-using Hfd.Base.Contract.Services;
-using Hfd.Contract.Dto;
-using Hfd.Contract.Enums;
-using Hfd.Contract.Model;
-using Hfd.Contract.Services;
-
 namespace Hfd.BizLayer.Features;
 
 /// <summary>

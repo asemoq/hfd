@@ -1,6 +1,4 @@
-using Hfd.Base.Contract.Attributes;
-using Hfd.Base.Contract.Services;
-using Hfd.Contract.Services;
+using Hfd.Common.Contract.Attributes;
 using Microsoft.Extensions.Logging;
 
 namespace Hfd.BizLayer.Jobs;

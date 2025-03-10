@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Text.RegularExpressions;
-using Hfd.Base.Contract.Helpers;
+using Hfd.Common.Contract.Helpers;
 
 namespace Hfd.Contract.Dto;
 

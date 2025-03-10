@@ -1,9 +1,4 @@
-using Hfd.Base.Contract.Services;
-using Hfd.Contract.Dto;
-using Hfd.Contract.Enums;
-using Hfd.Contract.Model;
-using Hfd.Contract.Services;
-using static Hfd.Base.Contract.Helpers.FieldFormatHelper;
+using static Hfd.Common.Contract.Helpers.FieldFormatHelper;
 
 namespace Hfd.BizLayer.Features;
 

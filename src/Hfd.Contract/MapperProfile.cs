@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Hfd.Base.Contract.Helpers;
+using Hfd.Common.Contract.Helpers;
 using Hfd.Contract.Dto;
 using Hfd.Contract.Model;
 

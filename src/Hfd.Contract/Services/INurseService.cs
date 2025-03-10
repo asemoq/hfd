@@ -1,5 +1,5 @@
-using Hfd.Base.ApiClient.Model;
-using Hfd.Base.Contract.Services;
+using Hfd.Common.ApiClient.Model;
+using Hfd.Common.Contract.Services;
 using Hfd.Contract.Model;
 
 namespace Hfd.Contract.Services;

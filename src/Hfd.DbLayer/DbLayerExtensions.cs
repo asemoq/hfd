@@ -1,12 +1,12 @@
 global using System;
 global using System.Reflection;
 global using Microsoft.Extensions.Logging;
-using Hfd.Base.DbLayer;
-using Hfd.Base.DbLayer.Services;
+using Hfd.Common.DbLayer;
+using Hfd.Common.DbLayer.Services;
 using Hfd.DbLayer.Internals;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using static Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions;
 
 namespace Hfd.DbLayer;
 

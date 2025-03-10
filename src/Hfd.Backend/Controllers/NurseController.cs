@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Hfd.Base.ApiClient.Model;
 using Hfd.BizLayer.Features;
+using Hfd.Common.ApiClient.Model;
 using Hfd.Contract.Dto;
 using Microsoft.AspNetCore.Authorization;
 

@@ -1,8 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using Hfd.Base.Backend;
-using Hfd.Base.Backend.Jwt;
 using Hfd.BizLayer;
+using Hfd.Common.Backend;
 using Hfd.Contract;
 using Hfd.DbLayer;
 using Hfd.Provider.ApiClient.Services;
@@ -30,10 +29,10 @@ public class Startup
 {
 	public static readonly Assembly[] Assemblies =
 	{
-		typeof(Base.Backend.Backend).Assembly,
-		typeof(Base.BizLayer.BizLayer).Assembly,
-		typeof(Base.Contract.Contract).Assembly,
-		typeof(Base.DbLayer.DbLayer).Assembly,
+		typeof(Common.Backend.Backend).Assembly,
+		typeof(Common.BizLayer.BizLayer).Assembly,
+		typeof(Common.Contract.Contract).Assembly,
+		typeof(Common.DbLayer.DbLayer).Assembly,
 		typeof(Contract.Contract).Assembly,
 		typeof(BizLayer.BizLayer).Assembly,
 		typeof(DbLayer.DbLayer).Assembly,

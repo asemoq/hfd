@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Hfd.Base.Contract.Enums;
-using Hfd.Base.Contract.Model;
+using Hfd.Common.Contract.Enums;
+using Hfd.Common.Contract.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

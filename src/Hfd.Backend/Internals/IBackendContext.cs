@@ -1,8 +1,8 @@
 using System.Security.Claims;
-using Hfd.Base.Contract.Exceptions;
-using Hfd.Base.Contract.Internals;
-using Hfd.Base.Contract.Model;
-using Hfd.Base.Contract.Services;
+using Hfd.Common.Contract.Exceptions;
+using Hfd.Common.Contract.Internals;
+using Hfd.Common.Contract.Model;
+using Hfd.Common.Contract.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 

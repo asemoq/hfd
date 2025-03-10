@@ -1,5 +1,5 @@
-using Hfd.Base.Contract.Services;
-using Hfd.Base.DbLayer.Internals;
+using Hfd.Common.Contract.Services;
+using Hfd.Common.DbLayer.Internals;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hfd.DbLayer.Internals;

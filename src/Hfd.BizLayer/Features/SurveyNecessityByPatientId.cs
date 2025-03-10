@@ -1,7 +1,3 @@
-using Hfd.Base.Contract.Services;
-using Hfd.Contract.Enums;
-using Hfd.Contract.Services;
-
 namespace Hfd.BizLayer.Features;
 
 public static class SurveyNecessityByPatientId

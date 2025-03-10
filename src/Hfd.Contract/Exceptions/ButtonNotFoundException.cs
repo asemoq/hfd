@@ -1,4 +1,4 @@
-using Hfd.Base.Contract.Exceptions;
+using Hfd.Common.Contract.Exceptions;
 
 namespace Hfd.Contract.Exceptions;
 

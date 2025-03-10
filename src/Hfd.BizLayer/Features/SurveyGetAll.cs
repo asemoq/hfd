@@ -1,9 +1,5 @@
-using Hfd.Base.ApiClient.Model;
-using Hfd.Base.Contract.Model;
-using Hfd.Base.Contract.Services;
-using Hfd.Contract.Dto;
-using Hfd.Contract.Model;
-using Hfd.Contract.Services;
+using Hfd.Common.ApiClient.Model;
+using Hfd.Common.Contract.Model;
 
 namespace Hfd.BizLayer.Features;
 

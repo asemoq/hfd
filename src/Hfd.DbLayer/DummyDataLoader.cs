@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using Hfd.Base.Contract.Enums;
-using Hfd.Base.Contract.Internals;
-using Hfd.Base.DbLayer.Services;
+using Hfd.Common.Contract.Enums;
+using Hfd.Common.Contract.Internals;
+using Hfd.Common.DbLayer.Services;
 using Hfd.DbLayer.Internals;
 using Microsoft.Extensions.DependencyInjection;
 

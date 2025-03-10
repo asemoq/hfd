@@ -1,5 +1,5 @@
 using System.Reflection;
-using Hfd.Base.Contract;
+using Hfd.Common.Contract;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hfd.Contract;

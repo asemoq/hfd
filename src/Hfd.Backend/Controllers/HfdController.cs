@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Net.Mime;
 using System.Security.Claims;
-using Hfd.Base.ApiClient.Model;
-using Hfd.Base.Backend.Jwt;
-using Hfd.Base.BizLayer.Features;
-using Hfd.Base.Contract.Exceptions;
-using Hfd.Base.Contract.Services;
 using Hfd.BizLayer;
+using Hfd.Common.ApiClient.Model;
+using Hfd.Common.Backend.Jwt;
+using Hfd.Common.BizLayer.Features;
+using Hfd.Common.Contract.Exceptions;
+using Hfd.Common.Contract.Services;
 using Hfd.Provider.ApiClient.Services;
 using Hfd.Provider.BizLayer.Services;
 using Microsoft.AspNetCore.Authorization;
