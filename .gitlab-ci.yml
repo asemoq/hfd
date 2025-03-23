@@ -28,6 +28,8 @@ qodana:
   variables:
     QODANA_TOKEN: $QODANA_TOKEN
     QODANA_ENDPOINT: "https://qodana.cloud"
+  tag:
+    - test
   script:
     - qodana --cache-dir=$CI_PROJECT_DIR/.qodana/cache
 
