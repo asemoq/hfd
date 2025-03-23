@@ -1,7 +1,4 @@
 stages: [ build, test, deploy ]
-default:
-    before_script:
-        - docker info
 
 workflow:
     auto_cancel:
