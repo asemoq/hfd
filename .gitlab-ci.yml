@@ -4,21 +4,14 @@ workflow:
     auto_cancel:
         on_job_failure: all
 
-build:
-    stage: build
-    script:
-        - docker build --no-cache -t hfd:latest .
-    environment:
-        name: build
-
 qodana:
   image:
     name: jetbrains/qodana-cdnet:2024.3-eap
     entrypoint: [""]
   cache:
-    - key: qodana-2024.3-$CI_DEFAULT_BRANCH-$CI_COMMIT_REF_SLUG
+    - key: qodana-2024.3-master
       fallback_keys:
-        - qodana-2024.3-$CI_DEFAULT_BRANCH-
+        - qodana-2024.3-master-
         - qodana-2024.3-
       paths:
         - .qodana/cache
@@ -27,11 +20,18 @@ qodana:
     QODANA_ENDPOINT: "https://qodana.cloud"
   tags: [test]
   script:
-    - qodana --cache-dir=$CI_PROJECT_DIR/.qodana/cache
+    - qodana --cache-dir=/home/.qodana/cache
   artifacts:
     paths:
       - qodana/report/
     expose_as: 'Qodana report'
+
+build:
+    stage: build
+    script:
+        - docker build --no-cache -t hfd:latest .
+    environment:
+        name: build
 
 deploy:
     stage: deploy
