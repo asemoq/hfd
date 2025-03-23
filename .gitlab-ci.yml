@@ -16,7 +16,7 @@ build:
 
 qodana:
   image:
-    name: jetbrains/qodana-cdnet:2024.3
+    name: jetbrains/qodana-cdnet:2024.3-eap
     entrypoint: [""]
   cache:
     - key: qodana-2024.3-$CI_DEFAULT_BRANCH-$CI_COMMIT_REF_SLUG
