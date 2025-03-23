@@ -1,4 +1,4 @@
-stages: [ build, test, deploy ]
+stages: [ test, build, deploy ]
 
 workflow:
     auto_cancel:
