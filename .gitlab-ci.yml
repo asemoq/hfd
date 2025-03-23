@@ -5,26 +5,25 @@ workflow:
         on_job_failure: all
 
 qodana:
-  image:
-    name: jetbrains/qodana-cdnet:2024.3-eap
-    entrypoint: [""]
-  cache:
-    - key: qodana-2024.3-master
-      fallback_keys:
-        - qodana-2024.3-master-
-        - qodana-2024.3-
+   image:
+      name: jetbrains/qodana-cdnet:2024.3-eap
+      entrypoint: [""]
+   cache:
+      - key: qodana-2024.3-$CI_DEFAULT_BRANCH-$CI_COMMIT_REF_SLUG
+        fallback_keys:
+           - qodana-2024.3-$CI_DEFAULT_BRANCH-
+           - qodana-2024.3-
+        paths:
+           - .qodana/cache
+   variables:
+      QODANA_TOKEN: $qodana_token
+   tags: [test]
+   script:
+      - qodana --cache-dir=$CI_PROJECT_DIR/.qodana/cache
+   artifacts:
       paths:
-        - .qodana/cache
-  variables:
-    QODANA_TOKEN: $QODANA_TOKEN
-    QODANA_ENDPOINT: "https://qodana.cloud"
-  tags: [test]
-  script:
-    - qodana --cache-dir=/home/.qodana/cache
-  artifacts:
-    paths:
-      - qodana/report/
-    expose_as: 'Qodana report'
+         - qodana/report/
+      expose_as: 'Qodana report'
 
 build:
     stage: build
