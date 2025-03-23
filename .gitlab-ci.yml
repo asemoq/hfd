@@ -1,4 +1,4 @@
-stages: [ build, deploy ]
+stages: [ build, test, deploy ]
 default:
     before_script:
         - docker info
