@@ -1,0 +1,12 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Threading;
+global using System.Threading.Tasks;
+global using FluentValidation;
+global using MediatR;
+global using Microsoft.Extensions.DependencyInjection;
+global using Hfd.Common.Contract.Services;
+global using Hfd.Contract.Dto;
+global using Hfd.Contract.Enums;
+global using Hfd.Contract.Model;
+global using Hfd.Contract.Services;

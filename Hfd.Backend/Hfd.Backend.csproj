@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+	<Import Project="..\version.targets"/>
+	<ItemGroup>
+		<ProjectReference Include="..\Hfd.BizLayer\Hfd.BizLayer.csproj"/>
+		<ProjectReference Include="..\Hfd.Contract\Hfd.Contract.csproj"/>
+		<ProjectReference Include="..\Hfd.DbLayer\Hfd.DbLayer.csproj"/>
+		<ProjectReference Include="..\..\libs\common\Hfd.Common.Backend\Hfd.Common.Backend.csproj"/>
+		<ProjectReference Include="..\..\libs\provider\Hfd.Provider.BizLayer\Hfd.Provider.BizLayer.csproj"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MediatR" Version="12.4.1"/>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Serilog.AspNetCore" Version="8.0.3"/>
+		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.3"/>
+		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="8.1.4"/>
+	</ItemGroup>
+
+</Project>

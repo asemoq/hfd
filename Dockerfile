@@ -1,10 +1,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
+MAINTAINER Asem Nurzhanova "luke@pumalo.org"
 
+RUN git clone git@bitbucket.org:User/repo.git
 # Copy everything
 COPY . ./
 # Restore as distinct layers
-RUN dotnet restore
+RUN dotnet restore ./Hfd.Backend.csproj
 # Build and publish a release
 RUN dotnet publish -c Release --no-restore -o out
 

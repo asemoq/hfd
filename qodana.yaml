@@ -1,2 +1,3 @@
+version: 1.0
 dotnet:
-  solution: hfd.sln
+    solution: hfd.sln

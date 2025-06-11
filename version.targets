@@ -1,14 +1,30 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<PropertyGroup>
-		<Version>1.0.0</Version>
-		<AssemblyVersion>1.0.0.0</AssemblyVersion>
-		<FileVersion>1.0.0.0</FileVersion>
-		<Authors>Asem Nurzhanova</Authors>
-		<Copyright>© Asem Nurzhanova, 2025</Copyright>
-		<Product>Hfd</Product>
-		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<PackageProjectUrl>https://gitlab.com/hfd.su/hfd.git</PackageProjectUrl>
-		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://gitlab.com/hfd.su/hfd.git</RepositoryUrl>
-	</PropertyGroup>
+    <PropertyGroup>
+        <Version>1.0.0</Version>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
+        <Authors>Asem Nurzhanova</Authors>
+        <Copyright>© Asem Nurzhanova, 2025</Copyright>
+        <Product>Hfd</Product>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageProjectUrl>https://gitlab.com/hfd.su/hfd.git</PackageProjectUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://gitlab.com/hfd.su/hfd.git</RepositoryUrl>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+        <NoWarn>CA1062,CA1812,S3236,S1144,CA1034,S3246,S2365,CA1031,SA1124,SA1402</NoWarn>
+    </PropertyGroup>
+    <ItemGroup>
+        <AdditionalFiles Include="..\stylecop.json" Link="Properties\stylecop.json"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
 </Project>
