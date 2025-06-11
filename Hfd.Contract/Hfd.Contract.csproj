@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="..\version.targets"/>
+  <Import Project="..\version.targets"/>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0"/>
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0"/>
+  </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\..\libs\common\Hfd.Common.Contract\Hfd.Common.Contract.csproj"/>
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libs\common\Hfd.Common.Contract\Hfd.Common.Contract.csproj"/>
+  </ItemGroup>
 
 </Project>

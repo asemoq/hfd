@@ -1,31 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="..\version.targets"/>
+  <Import Project="..\version.targets"/>
 
-	<ItemGroup>
-		<PackageReference Include="FluentValidation" Version="10.3.6"/>
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.3.6"/>
+  </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\..\libs\common\Hfd.Common.BizLayer\Hfd.Common.BizLayer.csproj"/>
-		<ProjectReference Include="..\Hfd.Contract\Hfd.Contract.csproj"/>
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libs\common\Hfd.Common.BizLayer\Hfd.Common.BizLayer.csproj"/>
+    <ProjectReference Include="..\Hfd.Contract\Hfd.Contract.csproj"/>
+  </ItemGroup>
 
-	<ItemGroup>
-		<Compile Update="Features\Hfd*.cs">
-			<DependentUpon>Hfd.md</DependentUpon>
-		</Compile>
-		<Compile Update="Features\Patient*.cs">
-			<DependentUpon>Patient.md</DependentUpon>
-		</Compile>
-		<Compile Update="Features\User*.cs">
-			<DependentUpon>User.md</DependentUpon>
-		</Compile>
-		<Compile Update="Features\Survey*.cs">
-			<DependentUpon>Survey.md</DependentUpon>
-		</Compile>
-		<Compile Update="Features\Nurse*.cs">
-			<DependentUpon>Nurse.md</DependentUpon>
-		</Compile>
-	</ItemGroup>
+  <ItemGroup>
+    <Compile Update="Features\Hfd*.cs">
+      <DependentUpon>Hfd.md</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Patient*.cs">
+      <DependentUpon>Patient.md</DependentUpon>
+    </Compile>
+    <Compile Update="Features\User*.cs">
+      <DependentUpon>User.md</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Survey*.cs">
+      <DependentUpon>Survey.md</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Nurse*.cs">
+      <DependentUpon>Nurse.md</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
 </Project>

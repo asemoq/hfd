@@ -1,0 +1,6 @@
+[submodule "libs/common"]
+	path = libs/common
+	url = https://gitlab.com/hfd.su/libs/common.git
+[submodule "libs/provider"]
+	path = libs/provider
+	url = https://gitlab.com/hfd.su/libs/provider.git
