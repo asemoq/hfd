@@ -1,11 +1,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
-RUN git clone git@gitlab.com:hfd.su/libs/common.git
 # Copy everything
 COPY . ./
 # Restore as distinct layers
-RUN dotnet restore ./Hfd.Backend.csproj
+RUN dotnet restore ./Hfd.Backend/Hfd.Backend.csproj
 # Build and publish a release
 RUN dotnet publish -c Release --no-restore -o out
 
