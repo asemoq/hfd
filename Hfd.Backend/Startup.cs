@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Hfd.BizLayer;
 using Hfd.Common.Backend;
@@ -7,19 +6,14 @@ using Hfd.DbLayer;
 using Hfd.Provider.ApiClient.Services;
 using Hfd.Provider.BizLayer.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Serilog;
-using Swashbuckle.AspNetCore.SwaggerUI;
 using BackendContext = Hfd.Backend.Internals.BackendContext;
 using IBackendContext = Hfd.Backend.Internals.IBackendContext;
 
@@ -84,72 +78,11 @@ public class Startup
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
 
-        services.AddSwaggerGen(options =>
-            {
-                options.CustomSchemaIds(t => t.FullName);
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Hfd. WebApi v1", Version = "v1" });
-                options.CustomSchemaIds(s => s.FullName?.Replace("+", "."));
-                options.DescribeAllParametersInCamelCase();
-                options.EnableAnnotations();
-
-                options.MapType<Stream>(() => new OpenApiSchema { Type = "file" });
-
-                Array.ForEach(
-                    Assemblies,
-                    a =>
-                    {
-                        var xmlFile = $"{a.GetName().Name}.xml";
-                        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                        if (File.Exists(xmlPath))
-                        {
-                            options.IncludeXmlComments(xmlPath);
-                        }
-                    });
-
-                options.TagActionsBy(api =>
-                {
-                    if (api.ActionDescriptor is not ControllerActionDescriptor descriptor)
-                    {
-                        return new List<string> { "Другие методы" };
-                    }
-
-                    var attribute = descriptor.ControllerTypeInfo.GetCustomAttribute<DisplayAttribute>();
-                    return new List<string> { attribute?.Name ?? descriptor.ControllerName };
-                });
-
-                options.OrderActionsBy(api =>
-                {
-                    if (api.ActionDescriptor is not ControllerActionDescriptor descriptor)
-                    {
-                        return "9999:zzzz";
-                    }
-
-                    var hi = descriptor.ControllerTypeInfo.GetCustomAttribute<DisplayAttribute>();
-                    var lo = descriptor.MethodInfo.GetCustomAttribute<DisplayAttribute>();
-                    var loName = lo?.Order != null ? $"{lo.Order:0000}" : descriptor.ActionName;
-                    return $"{hi?.Order ?? 9999:0000}:{loName}";
-                });
-
-                var securityDefinition = new OpenApiSecurityScheme
-                {
-                    Name = "Bearer",
-                    BearerFormat = "Jwt",
-                    Scheme = "bearer",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.Http,
-                    Description = "Specify the authorization token.",
-                };
-
-                var securityReference = new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Jwt" },
-                };
-
-                var securityRequirement = new OpenApiSecurityRequirement { { securityReference, Array.Empty<string>() }, };
-
-                options.AddSecurityDefinition("Jwt", securityDefinition);
-                options.AddSecurityRequirement(securityRequirement);
-            })
+        services.AddSwaggerGen(
+                "Hfd. WebApi",
+                "v1",
+                Assemblies,
+                options => options.FixCustomSchemaIds().SetActionTagAndOrder().SetApikeySecurity())
             .AddSwaggerGenNewtonsoftSupport();
     }
 
@@ -157,32 +90,12 @@ public class Startup
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseExceptionHandler("/api/error");
-
-        app.UseSwagger(o => { o.SerializeAsV2 = false; })
-            .UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Hfd. WebApi v1");
-                c.DocExpansion(DocExpansion.None);
-                c.RoutePrefix = string.Empty;
-            });
-
+        app.UseSwagger();
         app.UseSerilogRequestLogging();
-
-        app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
-        app.UseCookiePolicy(
-            new CookiePolicyOptions
-            {
-                HttpOnly = HttpOnlyPolicy.Always, Secure = CookieSecurePolicy.None, MinimumSameSitePolicy = SameSiteMode.Lax,
-            });
-
-        // app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseRouting();
-
         app.UseAuthentication();
         app.UseAuthorization();
-
         app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
     }
 }
