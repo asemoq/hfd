@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Net.Mime;
 using System.Security.Claims;
 using Hfd.BizLayer;
+using Hfd.BizLayer.Features;
 using Hfd.Common.ApiClient.Model;
 using Hfd.Common.Backend.Jwt;
-using Hfd.Common.BizLayer.Features;
 using Hfd.Common.Contract.Exceptions;
 using Hfd.Common.Contract.Services;
 using Hfd.Provider.ApiClient.Services;
@@ -142,7 +143,7 @@ public class HfdController(IBackendContext context) : ControllerBase
     protected virtual Task<int?> HandleError(ErrorDetails details, Exception exception, CancellationToken token)
     {
         details.Message = "Internal Server Error.";
-        int? statusCode;
+        HttpStatusCode? statusCode;
 
         switch (exception)
         {
@@ -157,7 +158,7 @@ public class HfdController(IBackendContext context) : ControllerBase
             case InvalidOperationException invalidOperationException:
             {
                 details.Message = invalidOperationException.Message;
-                statusCode = StatusCodes.Status405MethodNotAllowed;
+                statusCode = HttpStatusCode.MethodNotAllowed;
                 break;
             }
 
@@ -165,14 +166,14 @@ public class HfdController(IBackendContext context) : ControllerBase
             {
                 details.Message = "Validation error";
                 details.Details = validationException.Errors.Select(s => s.ToString()).ToArray();
-                statusCode = StatusCodes.Status400BadRequest;
+                statusCode = HttpStatusCode.BadRequest;
                 break;
             }
 
             default:
             {
                 details.Details = [exception.InnerException?.Message ?? exception.InnerException?.StackTrace ?? string.Empty];
-                statusCode = StatusCodes.Status500InternalServerError;
+                statusCode = HttpStatusCode.InternalServerError;
                 break;
             }
         }
@@ -188,7 +189,7 @@ public class HfdController(IBackendContext context) : ControllerBase
             }
         }
 
-        return Task.FromResult(statusCode);
+        return Task.FromResult((int?)statusCode);
     }
 
     /// <summary>

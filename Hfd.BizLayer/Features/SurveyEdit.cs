@@ -8,7 +8,7 @@ public static class SurveyEdit
     /// <summary>
     ///     Request.
     /// </summary>
-    public sealed class Request : ISurveyInfo, IRequest<SurveyModel>
+    public sealed class Request : ISurveyInfo, IRequest<ISurveyFull>
     {
         /// <summary>
         ///     Идентификатор.
@@ -38,23 +38,13 @@ public static class SurveyEdit
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Request, SurveyModel>
+    public sealed class Handler(IDbStorage storage) : IRequestHandler<Request, ISurveyFull>
     {
-        private readonly IBizContext _context;
-
-        /// <summary>
-        ///     Creates an instance of <see cref="Handler" />.
-        /// </summary>
-        public Handler(IBizContext context)
-        {
-            this._context = context;
-        }
-
         /// <inheritdoc />
-        public async Task<SurveyModel> Handle(Request request, CancellationToken cancellationToken)
+        public async Task<ISurveyFull> Handle(Request request, CancellationToken cancellationToken)
         {
-            var service = this._context.Services.GetRequiredService<IDbStorage>().GetService<ISurveyService>();
-            return this._context.GetMapper().Map<ISurveyFull, SurveyModel>(await service.Edit(request.Id, request));
+            var service = storage.GetService<ISurveyService>();
+            return await service.Edit(request.Id, request);
         }
 
         /// <inheritdoc />

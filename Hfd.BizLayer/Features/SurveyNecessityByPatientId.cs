@@ -14,19 +14,12 @@ public static class SurveyNecessityByPatientId
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Request, bool>
+    public sealed class Handler(IDbStorage storage) : IRequestHandler<Request, bool>
     {
-        public readonly IBizContext _context;
-
-        public Handler(IBizContext context)
-        {
-            this._context = context;
-        }
-
         /// <inheritdoc />
         public async Task<bool> Handle(Request request, CancellationToken cancellationToken)
         {
-            var service = this._context.Services.GetRequiredService<IDbStorage>().GetService<ISurveyService>();
+            var service = storage.GetService<ISurveyService>();
             return await service.NecessityByPatientId(request.PatientId);
         }
 

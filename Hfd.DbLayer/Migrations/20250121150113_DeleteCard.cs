@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hfd.DbLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class deleteCard : Migration
+    public partial class DeleteCard : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

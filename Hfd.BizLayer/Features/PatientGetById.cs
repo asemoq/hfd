@@ -8,29 +8,19 @@ public static class PatientGetById
     /// <summary>
     ///     Request.
     /// </summary>
-    public sealed class Request : IRequest<PatientModel>
+    public sealed class Request : IRequest<IPatientFull>
     {
         public long PatientId { get; set; }
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Request, PatientModel>
+    public sealed class Handler(IDbStorage storage) : IRequestHandler<Request, IPatientFull>
     {
-        private readonly IBizContext _context;
-
-        /// <summary>
-        ///     Creates an instance of <see cref="Handler" />.
-        /// </summary>
-        public Handler(IBizContext context)
-        {
-            this._context = context;
-        }
-
         /// <inheritdoc />
-        public async Task<PatientModel> Handle(Request request, CancellationToken cancellationToken)
+        public async Task<IPatientFull> Handle(Request request, CancellationToken cancellationToken)
         {
-            var service = this._context.Services.GetRequiredService<IDbStorage>().GetService<IPatientService>();
-            return this._context.GetMapper().Map<IPatientFull, PatientModel>(await service.GetById(request.PatientId));
+            var service = storage.GetService<IPatientService>();
+            return await service.GetById(request.PatientId);
         }
 
         /// <inheritdoc />

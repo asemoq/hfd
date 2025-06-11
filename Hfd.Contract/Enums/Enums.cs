@@ -157,6 +157,8 @@ public enum ZoneType
 
 public enum DayTime
 {
+    None,
+
     /// <summary>
     ///     Утро
     /// </summary>

@@ -1,5 +1,3 @@
 namespace Hfd.Backend;
 
-internal class Backend
-{
-}
+internal sealed class AssemblyInfo;

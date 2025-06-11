@@ -37,9 +37,9 @@ public interface IPatientInfo
     /// <summary>
     ///     Шкала.
     /// </summary>
-    string Scale { get; }
+    string? Scale { get; }
 
-    string Imt { get; }
+    string? Imt { get; }
 
     int Klas { get; }
 
@@ -50,55 +50,55 @@ public interface IPatientInfo
     /// <summary>
     ///     Контактный номер.
     /// </summary>
-    string PhoneNumber { get; }
+    string? PhoneNumber { get; }
 
     /// <summary>
     ///     Пол.
     /// </summary>
-    string Gender { get; }
+    string? Gender { get; }
 
     /// <summary>
     ///     Дата рождения.
     /// </summary>
-    string Birthday { get; }
+    string? Birthday { get; }
 
     /// <summary>
     ///     Регион.
     /// </summary>
-    string Region { get; }
+    string? Region { get; }
 
     /// <summary>
     ///     Адрес.
     /// </summary>
-    string Address { get; }
+    string? Address { get; }
 
     /// <summary>
     ///     Диагноз.
     /// </summary>
-    string Diagnosis { get; }
+    string? Diagnosis { get; }
 
     /// <summary>
     ///     Болезни.
     /// </summary>
-    string Diseases { get; }
+    string? Diseases { get; }
 
     /// <summary>
     ///     Рост.
     /// </summary>
-    string Height { get; }
+    string? Height { get; }
 
     /// <summary>
     ///     Вес.
     /// </summary>
-    string Weight { get; }
+    string? Weight { get; }
 
     /// <summary>
     ///     ФИО родственника.
     /// </summary>
-    string FamilyFullName { get; }
+    string? FamilyFullName { get; }
 
     /// <summary>
     ///     Контактный номер родственника.
     /// </summary>
-    string FamilyPhoneNumber { get; }
+    string? FamilyPhoneNumber { get; }
 }

@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Hfd.Common.Contract.Model;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Model;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Hfd.DbLayer.Internals;
 
@@ -44,7 +42,7 @@ public class NurseEntity : EntityBase, INurseFull
     public UserEntity? UserEntity { get; set; }
 
     [InverseProperty(nameof(PatientEntity.NurseEntity))]
-    public virtual ICollection<PatientEntity> PatientEntities { get; set; } = new HashSet<PatientEntity>();
+    public virtual ICollection<PatientEntity> PatientEntities { get; init; } = new HashSet<PatientEntity>();
 
     #endregion
 }

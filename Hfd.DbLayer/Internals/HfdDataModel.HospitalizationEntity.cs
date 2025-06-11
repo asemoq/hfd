@@ -2,8 +2,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Model;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Hfd.DbLayer.Internals;
 
@@ -44,7 +42,7 @@ public class HospitalizationEntity : EntityBase, IHospitalizationFull
     /// </summary>
     [ForeignKey(nameof(PatientId))]
     [InverseProperty(nameof(Internals.PatientEntity.HospitalizationEntities))]
-    public PatientEntity PatientEntity { get; set; }
+    public PatientEntity? PatientEntity { get; set; }
 
     #endregion
 }

@@ -1,10 +1,11 @@
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Hfd.Common.Contract.Helpers;
 
 namespace Hfd.BizLayer.Features;
 
-public static class SurveyGetBySummary
+public static class SurveyGetSummary
 {
     /// <summary>
     ///     Request.
@@ -23,20 +24,13 @@ public static class SurveyGetBySummary
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Request, SummaryModel>
+    public sealed class Handler(IDbStorage storage) : IRequestHandler<Request, SummaryModel>
     {
-        public readonly IBizContext _context;
-
-        public Handler(IBizContext context)
-        {
-            this._context = context;
-        }
-
         /// <inheritdoc />
+        [Obsolete("Obsolete")]
         public async Task<SummaryModel> Handle(Request request, CancellationToken cancellationToken)
         {
-            var service = this._context.Services.GetRequiredService<IDbStorage>().GetService<ISurveyService>();
-
+            var service = storage.GetService<ISurveyService>();
             var surveys = await service.GetForPeriod(request.PatientId, request.Date.Month, request.Date.Year);
 
             var summary = new SummaryModel();
@@ -46,7 +40,7 @@ public static class SurveyGetBySummary
                 properties.AddRange(type.GetProperties());
             }
 
-            foreach (var row in properties.Select(property => DynamicRow.CreateInstance(property.Name)))
+            foreach (var row in properties.Select(property => DynamicRowDictionary.CreateInstance(property.Name)))
             {
                 summary.Rows.Add(row);
             }
@@ -58,7 +52,8 @@ public static class SurveyGetBySummary
             {
                 foreach (DayTime dayTime in Enum.GetValues(typeof(DayTime)))
                 {
-                    var columnName = $"{dayTime.ToString().ToLower()}_{currentDate.Day}_{currentDate.Month}_{currentDate.Year}";
+                    var columnName =
+                        $"{dayTime.ToString().ToLower(CultureInfo.CurrentCulture)}_{currentDate.Day}_{currentDate.Month}_{currentDate.Year}";
                     var column = new ColumnModel()
                     {
                         Name = columnName,
@@ -77,7 +72,7 @@ public static class SurveyGetBySummary
                 foreach (var item in group)
                 {
                     var columnName =
-                        $"{item.DayTime.ToString().ToLower()}_{item.DateTime.Day}_{item.DateTime.Month}_{item.DateTime.Year}";
+                        $"{item.DayTime.ToString().ToLower(CultureInfo.CurrentCulture)}_{item.DateTime.Day}_{item.DateTime.Month}_{item.DateTime.Year}";
                     foreach (var property in properties)
                     {
                         var row = summary.Rows.SingleOrDefault(x => x.Name == property.Name.ToLowerFirstChar());

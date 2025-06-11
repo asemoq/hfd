@@ -4,27 +4,15 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Hfd.Common.ApiClient.Model;
 using Hfd.Common.Contract.Exceptions;
-using Hfd.Common.DbLayer;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
 using Hfd.Contract.Services;
-using Hfd.DbLayer.Internals;
-using Microsoft.EntityFrameworkCore;
 
 namespace Hfd.DbLayer.Services;
 
-public class SurveyDbService : HfdDbService, ISurveyService
+public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
+    : HfdDbService(storage, log), ISurveyService
 {
-    /// <summary>
-    ///     Constructor of Survey service class.
-    /// </summary>
-    /// <param name="storage"></param>
-    /// <param name="log"></param>
-    public SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
-        : base(storage, log)
-    {
-    }
-
     public async Task<ISurveyFull> Add(ISurveyInfo surveyInfo)
     {
         return await this.Execute(async model =>
@@ -112,12 +100,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
         return await this.Execute(async model =>
         {
             Expression<Func<SurveyEntity, bool>> query = x => true;
-
-            if (patientId != null)
-            {
-                query = query.AndExpression(x => x.PatientId == patientId);
-            }
-
+            query = query.AndIf(patientId != null, x => x.PatientId == patientId);
             var total = await model.Surveys.Where(query).CountAsync();
             var skip = Math.Min(total, request.Skip);
             var take = Math.Min(total - request.Skip, request.Take == 0 ? total : request.Take);
@@ -127,7 +110,7 @@ public class SurveyDbService : HfdDbService, ISurveyService
                 First = skip,
                 Items = take > 0
                     ? await model.Surveys.Include(x => x.PatientEntity)
-                        .ThenInclude(p => p.UserEntity)
+                        .ThenInclude(p => p!.UserEntity)
                         .AsNoTracking()
                         .Where(query)
                         .Skip(skip)

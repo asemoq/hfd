@@ -1,7 +1,5 @@
 using Hfd.Common.Contract.Services;
 using Hfd.Common.DbLayer.Internals;
-using Hfd.Common.DbLayer.Services;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace Hfd.DbLayer.Internals;
@@ -21,22 +19,17 @@ public partial class HfdDataModel : DataModel
 
     #region [ Factory ]
 
-    public class Factory : DataModelFactory<HfdDataModel>
+    public class Factory(IUserAccessor userAccessor, ILogger<Factory> log)
+        : DataModelFactory<HfdDataModel>(userAccessor)
     {
         /// <summary>
         ///     Журнал приложения.
         /// </summary>
-        private readonly ILogger<Factory> _log;
-
-        public Factory(IUserAccessor userAccessor, ILogger<Factory> log)
-            : base(userAccessor)
-        {
-            this._log = log;
-        }
+        private readonly ILogger<Factory> log = log;
 
         public override HfdDataModel Create()
         {
-            this._log.LogDebug("Creating data model.");
+            this.log.CreatingDataModel();
 
             var options = new DbContextOptionsBuilder<HfdDataModel>().UseNpgsql(
                     this.ConnectionString,
@@ -62,7 +55,7 @@ public partial class HfdDataModel : DataModel
                     x => x.MigrationsHistoryTable("migration"))
                 .Options;
 
-            return new HfdDataModel(options, null);
+            return new HfdDataModel(options, null!);
         }
     }
 

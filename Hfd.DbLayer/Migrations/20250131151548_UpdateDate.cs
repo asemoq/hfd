@@ -5,7 +5,7 @@
 namespace Hfd.DbLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class updateDate : Migration
+    public partial class UpdateDate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hfd.DbLayer.Migrations
 {
     [DbContext(typeof(HfdDataModel))]
-    [Migration("20250121150113_deleteCard")]
-    partial class deleteCard
+    [Migration("20250121150113_DeleteCard")]
+    partial class DeleteCard
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

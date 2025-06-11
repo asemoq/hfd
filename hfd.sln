@@ -21,7 +21,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{78702278-EAA8-48F8-A8CF-EF04A2A99F91}"
 	ProjectSection(SolutionItems) = preProject
 		libs\common\.gitignore = libs\common\.gitignore
-		libs\common\nuget.push.cmd = libs\common\nuget.push.cmd
 		libs\common\version.targets = libs\common\version.targets
 		libs\common\README.md = libs\common\README.md
 		libs\common\stylecop.json = libs\common\stylecop.json
@@ -46,6 +45,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hfd.Backend", "Hfd.Backend\Hfd.Backend.csproj", "{F128F79B-062E-462B-B103-F5BB20FFE9DA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "provider", "provider", "{446BD63C-37B1-46C0-B793-63D64D62CC18}"
+	ProjectSection(SolutionItems) = preProject
+		libs\provider\version.targets = libs\provider\version.targets
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hfd.Provider.BizLayer", "libs\provider\Hfd.Provider.BizLayer\Hfd.Provider.BizLayer.csproj", "{0E60D443-CB8E-4BEF-B4AF-569CFA3CF585}"
 EndProject

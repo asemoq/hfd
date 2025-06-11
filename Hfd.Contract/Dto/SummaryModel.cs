@@ -1,40 +1,73 @@
-﻿using System.Collections.Generic;
+﻿#nullable disable
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Dynamic;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using Hfd.Common.Contract.Helpers;
 
 namespace Hfd.Contract.Dto;
 
 public class SummaryModel
 {
-    public List<ColumnModel> Columns { get; set; } = [];
+    public Collection<ColumnModel> Columns { get; } = [];
 
-    public List<DynamicRow> Rows { get; set; } = [];
+    public Collection<DynamicRowDictionary> Rows { get; } = [];
 }
 
 public class ColumnModel
 {
-    public string? Name { get; set; }
+    public string Name { get; set; }
 
-    public string? Header { get; set; }
+    public string Header { get; set; }
 
-    public string? GroupHeader { get; set; }
+    public string GroupHeader { get; set; }
 }
 
-public sealed partial class DynamicRow : DynamicObject, IDictionary<string, object>
+public sealed partial class DynamicRowDictionary : DynamicObject, IDictionary<string, object>
 {
     private readonly Dictionary<string, object> dictionary = new Dictionary<string, object>();
-    private string _name;
+    private string name;
 
-    public static DynamicRow CreateInstance(string name)
+    public ICollection<string> Keys => this.dictionary.Keys;
+
+    public ICollection<object> Values => this.dictionary.Values;
+
+    public int Count => this.dictionary.Count;
+
+    public bool IsReadOnly => false;
+
+    public string Name
     {
-        var instance = new DynamicRow();
+        get => this.name;
+        set
+        {
+            if (this.name == value)
+            {
+                return;
+            }
+
+            this.name = value;
+            this.dictionary["Name"] = value;
+        }
+    }
+
+    public object this[string key]
+    {
+        get => this.dictionary[key];
+        set => this.dictionary[key] = value;
+    }
+
+    public static DynamicRowDictionary CreateInstance(string name)
+    {
+        var instance = new DynamicRowDictionary();
         if (name == null)
         {
             return instance;
         }
 
         instance.Name = name.ToLowerFirstChar();
-        instance["header"] = string.Empty; // Uppercase().Replace(name, " $0");
+        instance["header"] = Uppercase().Replace(name, " $0");
         return instance;
     }
 
@@ -47,7 +80,7 @@ public sealed partial class DynamicRow : DynamicObject, IDictionary<string, obje
     {
         if (binder.Name == "Name")
         {
-            this._name = Convert.ToString(value);
+            this.name = Convert.ToString(value, CultureInfo.CurrentCulture);
             return true;
         }
 
@@ -67,20 +100,6 @@ public sealed partial class DynamicRow : DynamicObject, IDictionary<string, obje
     public bool Remove(string key) => this.dictionary.Remove(key);
 
     public bool TryGetValue(string key, out object value) => this.dictionary.TryGetValue(key, out value);
-
-    public object this[string key]
-    {
-        get => this.dictionary[key];
-        set => this.dictionary[key] = value;
-    }
-
-    public ICollection<string> Keys => this.dictionary.Keys;
-
-    public ICollection<object> Values => this.dictionary.Values;
-
-    public int Count => this.dictionary.Count;
-
-    public bool IsReadOnly => false;
 
     public void Add(KeyValuePair<string, object> item) => this.dictionary.Add(item.Key, item.Value);
 
@@ -108,23 +127,8 @@ public sealed partial class DynamicRow : DynamicObject, IDictionary<string, obje
 
     public bool Remove(KeyValuePair<string, object> item) => this.dictionary.Remove(item.Key);
 
-    public string Name
-    {
-        get => this._name;
-        set
-        {
-            if (this._name == value)
-            {
-                return;
-            }
-
-            this._name = value;
-            this.dictionary["Name"] = value;
-        }
-    }
+    [GeneratedRegex("(?<=.)[A-Z]")]
+    private static partial Regex Uppercase();
 
     private IEnumerator<KeyValuePair<string, object>> GetEnumerator() => this.dictionary.GetEnumerator();
-
-    // [GeneratedRegex("(?<=.)[A-Z]")]
-    // private static partial Regex Uppercase();
 }

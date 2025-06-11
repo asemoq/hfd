@@ -19,7 +19,7 @@ public class MapperProfile : Profile
         this.CreateMap<IPatientFull, PatientModel>()
             .ForMember(
                 dest => dest.PhoneNumber,
-                opt => opt.MapFrom(src => FieldFormatHelper.GetFormattedPhoneNumber(src.PhoneNumber, true)));
+                opt => opt.MapFrom(src => FieldFormatHelper.GetFormattedPhoneNumber(src.PhoneNumber!, true)));
         this.CreateMap<ISurveyFull, SurveyModel>()
             .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.PatientModel.User.FullName));
     }

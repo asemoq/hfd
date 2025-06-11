@@ -5,27 +5,15 @@ using System.Threading.Tasks;
 using Hfd.Common.ApiClient.Model;
 using Hfd.Common.Contract.Exceptions;
 using Hfd.Common.Contract.Helpers;
-using Hfd.Common.DbLayer;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
 using Hfd.Contract.Services;
-using Hfd.DbLayer.Internals;
-using Microsoft.EntityFrameworkCore;
 
 namespace Hfd.DbLayer.Services;
 
-public class PatientDbService : HfdDbService, IPatientService
+public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> log)
+    : HfdDbService(storage, log), IPatientService
 {
-    /// <summary>
-    ///     Constructor of Patient service class.
-    /// </summary>
-    /// <param name="storage"></param>
-    /// <param name="log"></param>
-    public PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> log)
-        : base(storage, log)
-    {
-    }
-
     public async Task<IPatientFull> Add(IPatientInfo patientInfo)
     {
         return await this.Execute(async model =>
@@ -63,7 +51,7 @@ public class PatientDbService : HfdDbService, IPatientService
                     Weight = patientInfo.Weight,
                     FamilyFullName = patientInfo.FamilyFullName,
                     FamilyPhoneNumber = patientInfo.FamilyPhoneNumber,
-                    PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(patientInfo.PhoneNumber),
+                    PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(patientInfo.PhoneNumber!),
                     CreatedAt = DateTime.UtcNow,
                 };
                 await model.Patients.AddAsync(patient);
@@ -123,7 +111,7 @@ public class PatientDbService : HfdDbService, IPatientService
                 patient.Weight = patientInfo.Weight;
                 patient.FamilyFullName = patientInfo.FamilyFullName;
                 patient.FamilyPhoneNumber = patientInfo.FamilyPhoneNumber;
-                patient.PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(patientInfo.PhoneNumber);
+                patient.PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(patientInfo.PhoneNumber!);
                 patient.UpdatedAt = DateTime.UtcNow;
 
                 await model.SaveChangesAsync();

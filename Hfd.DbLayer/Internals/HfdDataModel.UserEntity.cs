@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Hfd.Common.Contract.Enums;
 using Hfd.Common.Contract.Model;
 using Hfd.Common.DbLayer.Internals;
-using Microsoft.EntityFrameworkCore;
 
 namespace Hfd.DbLayer.Internals;
 

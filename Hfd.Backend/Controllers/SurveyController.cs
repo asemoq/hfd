@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Hfd.BizLayer.Features;
 using Hfd.Common.ApiClient.Model;
+using Hfd.Common.Contract.Model;
 using Hfd.Contract.Dto;
+using Hfd.Contract.Model;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Hfd.Backend.Controllers;
@@ -13,16 +16,8 @@ namespace Hfd.Backend.Controllers;
 [Route("survey")]
 [Authorize]
 [Display(Order = 7, Name = "Опросы")]
-public class SurveyController : ControllerBase
+public class SurveyController(IMediator mediator, IMapper mapper) : ControllerBase
 {
-    private readonly IMediator _mediator;
-
-    /// <summary>
-    ///     Constructor.
-    /// </summary>
-    /// <param name="mediator">Command processor.</param>
-    public SurveyController(IMediator mediator) => this._mediator = mediator;
-
     /// <summary>
     ///     Получить список всех опросов.
     /// </summary>
@@ -30,7 +25,7 @@ public class SurveyController : ControllerBase
     [HttpGet]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<PageList<SurveyModel>> GetAll([FromQuery] SurveyGetAll.Request request, CancellationToken token)
-        => await this._mediator.Send(request, token);
+        => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(request, token));
 
     /// <summary>
     ///     Получить график.
@@ -38,8 +33,8 @@ public class SurveyController : ControllerBase
     /// <returns>График.</returns>
     [HttpGet("summary")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public async Task<SummaryModel> GetSummary([FromQuery] SurveyGetBySummary.Request request, CancellationToken token)
-        => await this._mediator.Send(request, token);
+    public async Task<SummaryModel> GetSummary([FromQuery] SurveyGetSummary.Request request, CancellationToken token)
+        => await mediator.Send(request, token);
 
     /// <summary>
     ///     Получить последний пройденный опрос по идентификатору пациента.
@@ -49,7 +44,7 @@ public class SurveyController : ControllerBase
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<SurveyModel> GetLastByPatientId(
         [FromQuery] SurveyGetLastByPatientId.Request request,
-        CancellationToken token) => await this._mediator.Send(request, token);
+        CancellationToken token) => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(request, token));
 
     /// <summary>
     ///     Получить признак необходимости пройти опрос по идентификатору пациента.
@@ -58,7 +53,7 @@ public class SurveyController : ControllerBase
     [HttpGet("necessity")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<bool> NecessityByPatientId([FromQuery] SurveyNecessityByPatientId.Request request, CancellationToken token)
-        => await this._mediator.Send(request, token);
+        => await mediator.Send(request, token);
 
     /// <summary>
     ///     Получить опрос по идентификатору.
@@ -67,7 +62,7 @@ public class SurveyController : ControllerBase
     [HttpGet("{id:long}")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<SurveyModel> GetById([FromRoute] long id, CancellationToken token)
-        => await this._mediator.Send(new SurveyGetById.Request { SurveyId = id }, token);
+        => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(new SurveyGetById.Request { SurveyId = id }, token));
 
     /// <summary>
     ///     Заполнить опрос.
@@ -78,7 +73,7 @@ public class SurveyController : ControllerBase
     [HttpPost]
     [Produces("application/json")]
     public async Task<SurveyModel> Add(SurveyAdd.Request request, CancellationToken token)
-        => await this._mediator.Send(request, token);
+        => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(request, token));
 
     /// <summary>
     ///     Редактировать опрос.
@@ -89,7 +84,7 @@ public class SurveyController : ControllerBase
     [HttpPut]
     [Produces("application/json")]
     public async Task<SurveyModel> Edit(SurveyEdit.Request request, CancellationToken token)
-        => await this._mediator.Send(request, token);
+        => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(request, token));
 
     /// <summary>
     ///     Удалить опрос.
@@ -98,5 +93,5 @@ public class SurveyController : ControllerBase
     [HttpDelete("{id:long}")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<SurveyModel> Delete([FromRoute] long id, CancellationToken token)
-        => await this._mediator.Send(new SurveyDelete.Request { SurveyId = id }, token);
+        => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(new SurveyDelete.Request { SurveyId = id }, token));
 }

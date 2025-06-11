@@ -1,15 +1,8 @@
-using Hfd.Common.DbLayer.Services;
-
 namespace Hfd.DbLayer.Internals;
 
-public class HfdDbStorage : DbStorage<HfdDataModel>
+public class HfdDbStorage(IServiceProvider sp, ILogger<HfdDbStorage> log)
+    : DbStorage<HfdDataModel>(sp, log)
 {
-    public HfdDbStorage(IServiceProvider sp, ILogger<HfdDbStorage> log)
-        : base(sp, log)
-    {
-        log.LogDebug("Application repository created");
-    }
-
     /// <inheritdoc />
     protected override IDisposable BeginTransaction(HfdDataModel model)
     {

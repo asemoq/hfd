@@ -3,9 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Hfd.Common.Contract.Model;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Model;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+// ReSharper disable EntityFramework.ModelValidation.UnlimitedStringLength
 namespace Hfd.DbLayer.Internals;
 
 ///// <summary>
@@ -31,10 +30,10 @@ public class PatientEntity : EntityBase, IPatientFull
     public long? NurseId { get; set; }
 
     /// <inheritdoc />
-    public string Scale { get; set; }
+    public string? Scale { get; set; }
 
     /// <inheritdoc />
-    public string Imt { get; set; }
+    public string? Imt { get; set; }
 
     /// <inheritdoc />
     public int Klas { get; set; }
@@ -46,43 +45,43 @@ public class PatientEntity : EntityBase, IPatientFull
     public bool Dead { get; set; }
 
     /// <inheritdoc />
-    public string PhoneNumber { get; set; }
+    public string? PhoneNumber { get; set; }
 
     /// <inheritdoc />
-    public string Gender { get; set; }
+    public string? Gender { get; set; }
 
     /// <inheritdoc />
-    public string Birthday { get; set; }
+    public string? Birthday { get; set; }
 
     /// <inheritdoc />
-    public string Region { get; set; }
+    public string? Region { get; set; }
 
     /// <inheritdoc />
-    public string Address { get; set; }
+    public string? Address { get; set; }
 
     /// <inheritdoc />
-    public string Diagnosis { get; set; }
+    public string? Diagnosis { get; set; }
 
     /// <inheritdoc />
-    public string Diseases { get; set; }
+    public string? Diseases { get; set; }
 
     /// <inheritdoc />
-    public string Height { get; set; }
+    public string? Height { get; set; }
 
     /// <inheritdoc />
-    public string Weight { get; set; }
+    public string? Weight { get; set; }
 
     /// <inheritdoc />
-    public string FamilyFullName { get; set; }
+    public string? FamilyFullName { get; set; }
 
     /// <inheritdoc />
-    public string FamilyPhoneNumber { get; set; }
+    public string? FamilyPhoneNumber { get; set; }
 
     /// <inheritdoc />
     public IUserFull User => this.UserEntity;
 
     /// <inheritdoc />
-    public INurseFull Nurse => this.NurseEntity;
+    public INurseFull Nurse => this.NurseEntity!;
 
     #region Navigation
 
@@ -96,16 +95,16 @@ public class PatientEntity : EntityBase, IPatientFull
     /// </summary>
     [ForeignKey(nameof(NurseId))]
     [InverseProperty(nameof(Internals.NurseEntity.PatientEntities))]
-    public NurseEntity NurseEntity { get; set; }
+    public NurseEntity? NurseEntity { get; set; }
 
     [InverseProperty(nameof(SurveyEntity.PatientEntity))]
-    public virtual ICollection<SurveyEntity> SurveyEntities { get; set; } = new HashSet<SurveyEntity>();
+    public virtual ICollection<SurveyEntity> SurveyEntities { get; init; } = new HashSet<SurveyEntity>();
 
     [InverseProperty(nameof(TshhEntity.PatientEntity))]
-    public virtual ICollection<TshhEntity> TshhEntities { get; set; } = new HashSet<TshhEntity>();
+    public virtual ICollection<TshhEntity> TshhEntities { get; init; } = new HashSet<TshhEntity>();
 
     [InverseProperty(nameof(HospitalizationEntity.PatientEntity))]
-    public virtual ICollection<HospitalizationEntity> HospitalizationEntities { get; set; } =
+    public virtual ICollection<HospitalizationEntity> HospitalizationEntities { get; init; } =
         new HashSet<HospitalizationEntity>();
 
     #endregion

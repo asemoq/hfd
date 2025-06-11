@@ -14,24 +14,14 @@ public static class PatientGetStaffContactsById
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Request, StaffContact>
+    public sealed class Handler(IDbStorage storage) : IRequestHandler<Request, StaffContact>
     {
-        private readonly IBizContext _context;
-
-        /// <summary>
-        ///     Creates an instance of <see cref="Handler" />.
-        /// </summary>
-        public Handler(IBizContext context)
-        {
-            this._context = context;
-        }
-
         /// <inheritdoc />
         public async Task<StaffContact> Handle(Request request, CancellationToken cancellationToken)
         {
-            var service = this._context.Services.GetRequiredService<IDbStorage>().GetService<IPatientService>();
+            var service = storage.GetService<IPatientService>();
             var patient = await service.GetById(request.PatientId, true);
-            var contacts = new StaffContact() { Nurse = patient.Nurse?.PhoneNumber };
+            var contacts = new StaffContact() { Nurse = patient.Nurse?.PhoneNumber! };
             return contacts;
         }
 

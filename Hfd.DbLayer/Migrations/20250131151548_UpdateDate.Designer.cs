@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hfd.DbLayer.Migrations
 {
     [DbContext(typeof(HfdDataModel))]
-    [Migration("20250121163532_deleteDeletedFlag")]
-    partial class deleteDeletedFlag
+    [Migration("20250131151548_UpdateDate")]
+    partial class UpdateDate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -334,7 +334,7 @@ namespace Hfd.DbLayer.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("DateTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Dyspnea")

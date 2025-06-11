@@ -10,7 +10,7 @@ public static class NurseAdd
     /// <summary>
     ///     Request.
     /// </summary>
-    public sealed class Request : INurseInfo, IRequest<NurseModel>
+    public sealed class Request : INurseInfo, IRequest<INurseFull>
     {
         /// <inheritdoc />
         public long? PlotNumber { get; set; }
@@ -23,23 +23,13 @@ public static class NurseAdd
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Request, NurseModel>
+    public sealed class Handler(IDbStorage storage) : IRequestHandler<Request, INurseFull>
     {
-        private readonly IBizContext _context;
-
-        /// <summary>
-        ///     Creates an instance of <see cref="Handler" />.
-        /// </summary>
-        public Handler(IBizContext context)
-        {
-            this._context = context;
-        }
-
         /// <inheritdoc />
-        public async Task<NurseModel> Handle(Request request, CancellationToken cancellationToken)
+        public async Task<INurseFull> Handle(Request request, CancellationToken cancellationToken)
         {
-            var service = this._context.Services.GetRequiredService<IDbStorage>().GetService<INurseService>();
-            return this._context.GetMapper().Map<INurseFull, NurseModel>(await service.Add(request));
+            var service = storage.GetService<INurseService>();
+            return await service.Add(request);
         }
 
         /// <inheritdoc />

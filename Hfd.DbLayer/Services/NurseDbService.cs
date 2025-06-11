@@ -7,8 +7,6 @@ using Hfd.Common.Contract.Helpers;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
 using Hfd.Contract.Services;
-using Hfd.DbLayer.Internals;
-using Microsoft.EntityFrameworkCore;
 
 namespace Hfd.DbLayer.Services;
 

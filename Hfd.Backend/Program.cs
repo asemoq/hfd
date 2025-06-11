@@ -1,55 +1,69 @@
-using System.Text;
+using System.Reflection;
+using Hfd.Backend.Internals;
+using Hfd.BizLayer;
+using Hfd.Common.Backend;
+using Hfd.Contract;
 using Hfd.DbLayer;
-using Microsoft.AspNetCore.Hosting;
+using Hfd.Provider.ApiClient.Services;
+using Hfd.Provider.BizLayer.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Events;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
-namespace Hfd.Backend;
+Assembly[] assemblies =
+[
+    typeof(Hfd.Common.Backend.AssemblyInfo).Assembly,
+    typeof(Hfd.Common.BizLayer.AssemblyInfo).Assembly,
+    typeof(Hfd.Common.Contract.AssemblyInfo).Assembly,
+    typeof(Hfd.Common.DbLayer.AssemblyInfo).Assembly,
+    typeof(Hfd.Contract.AssemblyInfo).Assembly,
+    typeof(Hfd.BizLayer.AssemblyInfo).Assembly,
+    typeof(Hfd.DbLayer.AssemblyInfo).Assembly,
+    typeof(Hfd.Backend.AssemblyInfo).Assembly,
+];
 
-public class Program
-{
-    public static async Task Main(string[] args)
+System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("en-US");
+System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = new System.Globalization.CultureInfo("en-US");
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHfdContractServices(assemblies)
+    .AddHfdDbLayerServices(assemblies)
+    .AddHfdBizLayerServices(builder.Configuration, assemblies)
+    .AddJwtAuthentication()
+    .AddScoped<IBackendContext, BackendContext>();
+builder.Services.AddTransient(typeof(IClientFactory<>), typeof(ClientFactory<>));
+builder.Services.AddHttpClient(ClientFactory.UserClientName, (_, _) => { });
+builder.Services.AddHttpClient(ClientFactory.ServiceClientName, (_, _) => { });
+builder.Services.AddHttpContextAccessor().AddHttpClient();
+builder.Services.AddControllers()
+    .AddMvcOptions(options =>
     {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        Console.OutputEncoding = Encoding.UTF8;
-        Console.Title = @"[ Hfd ] - Heart failure diary";
+        options.InputFormatters.RemoveType<SystemTextJsonInputFormatter>();
+        options.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();
+        options.EnableEndpointRouting = false;
+    })
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+        options.SerializerSettings.Converters.Add(new StringEnumConverter());
+        options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+    });
 
-        Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-            .Enrich.FromLogContext()
-            .WriteTo.Console()
-            .CreateBootstrapLogger();
+builder.Services.AddSwaggerGen("ToDo API", "v1", assemblies, options => options.FixCustomSchemaIds().SetJwtSecurity())
+    .AddSwaggerGenNewtonsoftSupport();
 
-        try
-        {
-            var host = Host.CreateDefaultBuilder(args)
-                .UseSerilog((context, services, configuration) => configuration.ReadFrom.Configuration(context.Configuration)
-                    .ReadFrom.Services(services)
-                    .Enrich.FromLogContext()
-                    .WriteTo.Console())
-                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>())
-                .Build();
-
-            var scopeFactory = host.Services.GetRequiredService<IServiceScopeFactory>();
-            using (var scope = scopeFactory.CreateScope())
-            {
-                scope.ServiceProvider.MigrateHfdDbLayer();
-                scope.ServiceProvider.FillDbByDummyData();
-            }
-
-            host.Services.GetService<ILoggerFactory>().CreateLogger<Startup>().LogWarning("Hfd стартовал");
-            await host.RunAsync();
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex.Message);
-        }
-        finally
-        {
-            Log.CloseAndFlush();
-        }
-    }
-}
+var app = builder.Build();
+app.UseExceptionHandler("/api/error");
+app.UseSwagger();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+app.Services.MigrateHfdDbLayer();
+app.Run();

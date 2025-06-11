@@ -1,11 +1,12 @@
 global using System;
 global using System.Reflection;
+global using Hfd.Common.Contract;
+global using Hfd.Common.DbLayer;
+global using Hfd.Common.DbLayer.Services;
+global using Hfd.DbLayer.Internals;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
-using Hfd.Common.DbLayer;
-using Hfd.Common.DbLayer.Services;
-using Hfd.DbLayer.Internals;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Hfd.DbLayer;
 
@@ -19,9 +20,10 @@ public static class DbLayerExtensions
 
     public static void MigrateHfdDbLayer(this IServiceProvider serviceProvider)
     {
-        var factory = serviceProvider.GetService<IDataModelFactory<HfdDataModel>>();
-        using var model = factory.Create();
-        model.Database.Migrate();
-        serviceProvider.GetService<ILogger<HfdDataModel>>()?.LogDebug("Disposed data model.");
+        using var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
+        var factory = scope.ServiceProvider.GetService<IDataModelFactory<HfdDataModel>>();
+        using var model = factory?.Create();
+        model?.Database.Migrate();
+        serviceProvider.GetService<ILogger<HfdDataModel>>()?.DisposedDataModel();
     }
 }

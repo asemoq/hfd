@@ -65,7 +65,7 @@ public class BackendContext : IBackendContext
         {
             new(ClaimTypes.Role, $"{user.Usertype}"),
             new(ClaimTypes.NameIdentifier, user.Username),
-            new(ClaimTypes.UserData, user.UniqueId),
+            new(ClaimTypes.UserData, user.UniqueId!),
         };
 
         var identities = new List<ClaimsIdentity> { new(claims) };
@@ -89,7 +89,7 @@ public class BackendContext : IBackendContext
         {
             new(ClaimTypes.Role, $"{user.Usertype}"),
             new(ClaimTypes.NameIdentifier, user.Username),
-            new(ClaimTypes.UserData, user.UniqueId),
+            new(ClaimTypes.UserData, user.UniqueId!),
         };
 
         var identities = new List<ClaimsIdentity> { new(claims) };

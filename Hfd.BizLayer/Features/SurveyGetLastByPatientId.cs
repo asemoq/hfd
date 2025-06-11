@@ -5,7 +5,7 @@ public static class SurveyGetLastByPatientId
     /// <summary>
     ///     Request.
     /// </summary>
-    public sealed class Request : IRequest<SurveyModel>
+    public sealed class Request : IRequest<ISurveyFull>
     {
         /// <summary>
         ///     Id пациента.
@@ -14,20 +14,13 @@ public static class SurveyGetLastByPatientId
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Request, SurveyModel>
+    public sealed class Handler(IDbStorage storage) : IRequestHandler<Request, ISurveyFull>
     {
-        public readonly IBizContext _context;
-
-        public Handler(IBizContext context)
-        {
-            this._context = context;
-        }
-
         /// <inheritdoc />
-        public async Task<SurveyModel> Handle(Request request, CancellationToken cancellationToken)
+        public async Task<ISurveyFull> Handle(Request request, CancellationToken cancellationToken)
         {
-            var service = this._context.Services.GetRequiredService<IDbStorage>().GetService<ISurveyService>();
-            return this._context.GetMapper().Map<ISurveyFull, SurveyModel>(await service.GetLastByPatientId(request.PatientId));
+            var service = storage.GetService<ISurveyService>();
+            return await service.GetLastByPatientId(request.PatientId);
         }
 
         /// <inheritdoc />

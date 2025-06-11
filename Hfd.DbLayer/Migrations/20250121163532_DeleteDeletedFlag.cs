@@ -5,7 +5,7 @@
 namespace Hfd.DbLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class deleteDeletedFlag : Migration
+    public partial class DeleteDeletedFlag : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
