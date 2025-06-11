@@ -1,8 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
-MAINTAINER Asem Nurzhanova "luke@pumalo.org"
 
-RUN git clone git@bitbucket.org:User/repo.git
+RUN git clone git@gitlab.com:hfd.su/libs/common.git
 # Copy everything
 COPY . ./
 # Restore as distinct layers
