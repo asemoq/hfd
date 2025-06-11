@@ -15,7 +15,7 @@ namespace Hfd.Backend.Controllers;
 [ApiController]
 [Route("survey")]
 [Authorize]
-[Display(Order = 7, Name = "Опросы")]
+[Display(Order = 4, Name = "Опросы")]
 public class SurveyController(IMediator mediator, IMapper mapper) : ControllerBase
 {
     /// <summary>

@@ -15,7 +15,7 @@ namespace Hfd.Backend.Controllers;
 [ApiController]
 [Route("patient")]
 [Authorize]
-[Display(Order = 7, Name = "Пациенты")]
+[Display(Order = 3, Name = "Пациенты")]
 public class PatientController(IMediator mediator, IMapper mapper) : ControllerBase
 {
     /// <summary>

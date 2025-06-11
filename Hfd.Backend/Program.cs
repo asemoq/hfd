@@ -55,7 +55,11 @@ builder.Services.AddControllers()
         options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
     });
 
-builder.Services.AddSwaggerGen("ToDo API", "v1", assemblies, options => options.FixCustomSchemaIds().SetJwtSecurity())
+builder.Services.AddSwaggerGen(
+        "ToDo API",
+        "v1",
+        assemblies,
+        options => options.FixCustomSchemaIds().SetActionTagAndOrder().SetJwtSecurity())
     .AddSwaggerGenNewtonsoftSupport();
 
 var app = builder.Build();
