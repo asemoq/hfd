@@ -1,4 +1,5 @@
-﻿using Hfd.DbLayer.Internals;
+﻿using Hfd.Common.DbLayer.Configurations;
+using Hfd.DbLayer.Internals;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Hfd.DbLayer.Configurations;

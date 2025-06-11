@@ -1,19 +1,23 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  GIT_SUBMODULE_FORCE_HTTPS: "true"
+
 stages: [ build, deploy ]
 
 workflow:
-    auto_cancel:
-        on_job_failure: all
+  auto_cancel:
+    on_job_failure: all
 
 build:
-    stage: build
-    script:
-        - docker build --no-cache -t hfd:latest .
-    environment:
-        name: build
+  stage: build
+  script:
+    - docker build --no-cache -t hfd:latest .
+  environment:
+    name: build
 
 deploy:
-    stage: deploy
-    script:
-        - docker rm -f hfd || true
-        - docker run -d -it -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e "ASPNETCORE_ENVIRONMENT=Development" -p 8080  --name hfd --network hfd --ip 172.18.0.4 --restart=always hfd:latest
-        - docker image prune -a -f
+  stage: deploy
+  script:
+    - docker rm -f hfd || true
+    - docker run -d -it -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e "ASPNETCORE_ENVIRONMENT=Development" -p 8080  --name hfd --network hfd --ip 172.18.0.4 --restart=always hfd:latest
+    - docker image prune -a -f
