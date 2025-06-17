@@ -22,22 +22,21 @@ public partial class HfdDataModel
 public class SocialWorkerEntity : EntityBase, ISocialWorkerFull
 {
     /// <inheritdoc />
-    [MaxLength(int.MaxValue)]
+    [MaxLength(15)]
+    [Column("phone_number")]
     public string? PhoneNumber { get; set; }
 
     /// <inheritdoc />
     [MaxLength(int.MaxValue)]
-    public string? FullName { get; set; }
+    [Column("full_name")]
+    public string FullName { get; set; }
 
     /// <inheritdoc />
+    [Column("plot_number")]
     public long? PlotNumber { get; set; }
 
     /// <inheritdoc />
-    public long UserId { get; set; }
-
-    #region Navigation
-
-    public UserEntity? UserEntity { get; set; }
-
-    #endregion
+    [MaxLength(36)]
+    [Column("user_id")]
+    public string UserId { get; set; }
 }

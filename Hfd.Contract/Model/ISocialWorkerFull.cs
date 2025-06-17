@@ -17,5 +17,5 @@ public interface ISocialWorkerInfo
 
     long? PlotNumber { get; }
 
-    long UserId { get; }
+    string UserId { get; }
 }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Hfd.Common.ApiClient.Model;
 using Hfd.Common.Contract.Services;
+using Hfd.Common.Models;
 using Hfd.Contract.Model;
 
 namespace Hfd.Contract.Services;
@@ -38,7 +38,7 @@ public interface IPatientService : IDbService
     /// <summary>
     ///     Получить пациента из БД по идентификатору пользователя.
     /// </summary>
-    Task<IPatientFull> GetByUserId(long userId);
+    Task<IPatientFull> GetByUserId(string userId);
 
     /// <summary>
     ///     Удалить пациента.

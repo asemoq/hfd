@@ -3,20 +3,20 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Security.Claims;
+using Hfd.Backend.Internals;
 using Hfd.BizLayer;
-using Hfd.BizLayer.Features;
-using Hfd.Common.ApiClient.Model;
 using Hfd.Common.Backend.Jwt;
 using Hfd.Common.Contract.Exceptions;
-using Hfd.Common.Contract.Services;
+using Hfd.Common.Models;
 using Hfd.Provider.ApiClient.Services;
 using Hfd.Provider.BizLayer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Annotations;
-using IBackendContext = Hfd.Backend.Internals.IBackendContext;
 using ValidationException = FluentValidation.ValidationException;
 
 namespace Hfd.Backend.Controllers;
@@ -27,7 +27,10 @@ namespace Hfd.Backend.Controllers;
 [SwaggerResponse(StatusCodes.Status401Unauthorized, "User not authorized")]
 [ApiController, Route("hfd")]
 [Display(Order = 1, Name = "Управление сервисом")]
-public class HfdController(IBackendContext context) : ControllerBase
+public class HfdController(
+    IBackendContext context,
+    UserManager<HfdIdentityUser> userManager,
+    SignInManager<HfdIdentityUser> signInManager) : ControllerBase
 {
     [SwaggerResponse(StatusCodes.Status200OK, "Login information")]
     [HttpPost("/login"), Display(Order = 6)]
@@ -35,20 +38,27 @@ public class HfdController(IBackendContext context) : ControllerBase
     [Produces("application/json")]
     public async Task<LoginFull> Login([FromBody] LoginInfo rq)
     {
-        var principal = await context.GetPrincipal(rq.Username, rq.Password);
-        if (principal == null)
+        var user = await userManager.FindByNameAsync(rq.Username);
+        if (user == null)
+        {
+            throw new UserNotFoundException();
+        }
+
+        var result = await signInManager.PasswordSignInAsync(user, rq.Password, false, false);
+
+        if (!result.Succeeded)
         {
             throw new UnauthorizedException();
         }
 
+        var roles = await userManager.GetRolesAsync(user);
+        var principal = await context.GetPrincipal(user, roles);
         var handler = context.BizContext.Services.GetRequiredService<IJwtHandler>();
         var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
 
         var rs = new LoginFull
         {
-            Usertype = principal.Claims.Single(c => c.Type == ClaimTypes.Role).Value,
-            Username = principal.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value,
-            Token = token,
+            Username = principal.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value, Token = token,
         };
 
         return rs;
@@ -69,27 +79,20 @@ public class HfdController(IBackendContext context) : ControllerBase
 
         using var client = factory.CreateUserClient(providerOptions.TgUri!);
         var phoneNumber = await client.Login(data);
-        var service = context.BizContext.Services.GetRequiredService<IDbStorage>().GetService<IUserLoginDbService>();
-        var user = await service.GetOneByPhoneNumber(phoneNumber.ToString() ?? string.Empty);
+        var user = await userManager.Users.Where(x => x.PhoneNumber == phoneNumber.ToString()).FirstOrDefaultAsync();
         if (user == null)
         {
-            throw new UnauthorizedException();
+            throw new UserNotFoundException();
         }
 
-        var principal = await context.GetPrincipal(user);
-        if (principal == null)
-        {
-            throw new UnauthorizedException();
-        }
-
+        var roles = await userManager.GetRolesAsync(user);
+        var principal = await context.GetPrincipal(user, roles);
         var handler = context.BizContext.Services.GetRequiredService<IJwtHandler>();
         var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
 
         var rs = new LoginFull
         {
-            Usertype = principal.Claims.Single(c => c.Type == ClaimTypes.Role).Value,
-            Username = principal.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value,
-            Token = token,
+            Username = principal.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value, Token = token,
         };
 
         return rs;
@@ -98,19 +101,24 @@ public class HfdController(IBackendContext context) : ControllerBase
     [SwaggerResponse(StatusCodes.Status204NoContent, "Password changed")]
     [HttpPut("/password"), Authorize, Display(Order = 7)]
     [Consumes("application/json")]
-    public async Task<IActionResult> ChangePassword([FromBody] UserPasswordChange.Request rq, CancellationToken token)
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordInfo rq, CancellationToken token)
     {
-        await context.BizContext.GetMediator().Send(rq, token);
+        var result = await userManager.ChangePasswordAsync(context.BizContext.User, rq.OldPassword, rq.NewPassword);
+        if (!result.Succeeded)
+        {
+            throw new HfdException(result.Errors.Select(x => x.Description).ToArray());
+        }
+
         return this.NoContent();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    [ProducesResponseType(typeof(UserFull), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(HfdIdentityUser), StatusCodes.Status200OK)]
     [HttpGet("/self"), Authorize]
     [Produces("application/json")]
     [Display(Order = 5)]
-    public Task<UserFull> GetUiUserSelf(CancellationToken token = default)
-        => Task.FromResult(context.BizContext.UserFull);
+    public Task<HfdIdentityUser> GetUiUserSelf(CancellationToken token = default)
+        => Task.FromResult(context.BizContext.User);
 
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/api/error")]

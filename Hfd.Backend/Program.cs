@@ -2,8 +2,10 @@ using System.Reflection;
 using Hfd.Backend.Internals;
 using Hfd.BizLayer;
 using Hfd.Common.Backend;
+using Hfd.Common.Backend.Jwt;
 using Hfd.Contract;
 using Hfd.DbLayer;
+using Hfd.Identity;
 using Hfd.Provider.ApiClient.Services;
 using Hfd.Provider.BizLayer.Services;
 using Microsoft.AspNetCore.Builder;
@@ -35,8 +37,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHfdContractServices(assemblies)
     .AddHfdDbLayerServices(assemblies)
     .AddHfdBizLayerServices(builder.Configuration, assemblies)
+    .AddIdentityServices(builder.Configuration)
     .AddJwtAuthentication()
-    .AddScoped<IBackendContext, BackendContext>();
+    .AddScoped<IBackendContext, BackendContext>()
+    .AddTransient<IBackendSecure, BackendSecure>();
+
 builder.Services.AddTransient(typeof(IClientFactory<>), typeof(ClientFactory<>));
 builder.Services.AddHttpClient(ClientFactory.UserClientName, (_, _) => { });
 builder.Services.AddHttpClient(ClientFactory.ServiceClientName, (_, _) => { });
@@ -56,7 +61,7 @@ builder.Services.AddControllers()
     });
 
 builder.Services.AddSwaggerGen(
-        "ToDo API",
+        "HFD API",
         "v1",
         assemblies,
         options => options.FixCustomSchemaIds().SetActionTagAndOrder().SetJwtSecurity())
@@ -70,4 +75,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Services.MigrateHfdDbLayer();
-app.Run();
+
+await IdentitySeedData.EnsurePopulated(app.Services);
+await app.RunAsync();

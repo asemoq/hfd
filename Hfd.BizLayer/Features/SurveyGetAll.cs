@@ -1,4 +1,4 @@
-using Hfd.Common.ApiClient.Model;
+using Hfd.Common.Models;
 
 namespace Hfd.BizLayer.Features;
 

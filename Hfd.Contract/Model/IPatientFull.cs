@@ -16,11 +16,6 @@ public interface IPatientFull : IPatientModel
     ///     Ссылка на медсестру.
     /// </summary>
     long? NurseId { get; }
-
-    /// <summary>
-    ///     Связанный пользователь.
-    /// </summary>
-    IUserFull User { get; }
 }
 
 public interface IPatientModel : IBaseInfo, IPatientInfo
@@ -32,7 +27,12 @@ public interface IPatientInfo
     /// <summary>
     ///     Ссылка на пользователя.
     /// </summary>
-    long UserId { get; }
+    string UserId { get; }
+
+    /// <summary>
+    ///     ФИО.
+    /// </summary>
+    string FullName { get; }
 
     /// <summary>
     ///     Шкала.

@@ -1,4 +1,4 @@
-﻿using Hfd.Common.ApiClient.Model;
+﻿using Hfd.Common.Models;
 using Hfd.Contract.Model;
 
 namespace Hfd.Contract.Dto;
@@ -6,7 +6,10 @@ namespace Hfd.Contract.Dto;
 public class PatientModel : BaseModel, IPatientModel
 {
     /// <inheritdoc />
-    public long UserId { get; set; }
+    public string UserId { get; set; }
+
+    /// <inheritdoc />
+    public string FullName { get; set; }
 
     /// <inheritdoc />
     public string Scale { get; set; }
@@ -55,6 +58,4 @@ public class PatientModel : BaseModel, IPatientModel
 
     /// <inheritdoc />
     public string FamilyPhoneNumber { get; set; }
-
-    public UserFull User { get; set; }
 }

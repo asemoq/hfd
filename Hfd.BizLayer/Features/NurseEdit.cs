@@ -27,7 +27,7 @@ public static class NurseEdit
         public long? PlotNumber { get; set; }
 
         /// <inheritdoc />
-        public long UserId { get; set; }
+        public string UserId { get; set; }
     }
 
     /// <inheritdoc />
@@ -45,7 +45,7 @@ public static class NurseEdit
         {
             public Validator()
             {
-                this.RuleFor(x => x.UserId).GreaterThan(0).WithMessage(nameof(HfdError.HFDNurseUserIdIsNotCorrect));
+                this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.HFDNurseUserIdIsNotCorrect));
                 this.RuleFor(x => x.PhoneNumber)
                     .Must(IsValidPhoneNumber)
                     .WithMessage(nameof(HfdError.HFDNursePhoneNumberIsNotValid));

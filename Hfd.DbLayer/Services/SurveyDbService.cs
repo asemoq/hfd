@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Hfd.Common.ApiClient.Model;
 using Hfd.Common.Contract.Exceptions;
+using Hfd.Common.Models;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
 using Hfd.Contract.Services;
@@ -110,7 +110,6 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
                 First = skip,
                 Items = take > 0
                     ? await model.Surveys.Include(x => x.PatientEntity)
-                        .ThenInclude(p => p!.UserEntity)
                         .AsNoTracking()
                         .Where(query)
                         .Skip(skip)

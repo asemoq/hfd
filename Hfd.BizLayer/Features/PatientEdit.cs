@@ -19,7 +19,10 @@ public static class PatientEdit
         public long Id { get; set; }
 
         /// <inheritdoc />
-        public long UserId { get; set; }
+        public string UserId { get; set; }
+
+        /// <inheritdoc />
+        public string FullName { get; set; }
 
         /// <inheritdoc />
         public string Scale { get; set; }
@@ -87,7 +90,7 @@ public static class PatientEdit
             public Validator()
             {
                 this.RuleFor(x => x.Id).GreaterThan(0).WithMessage(nameof(HfdError.HFDPatientIdIsNotCorrect));
-                this.RuleFor(x => x.UserId).GreaterThan(0).WithMessage(nameof(HfdError.HFDPatientUserIdIsNotCorrect));
+                this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.HFDPatientUserIdIsNotCorrect));
                 this.RuleFor(x => x.PhoneNumber)
                     .Must(IsValidPhoneNumber)
                     .WithMessage(nameof(HfdError.HFDPatientPhoneNumberIsNotValid));

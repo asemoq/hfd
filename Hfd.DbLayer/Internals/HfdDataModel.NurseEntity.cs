@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Hfd.Common.Contract.Model;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Model;
 
@@ -24,22 +23,25 @@ public partial class HfdDataModel
 public class NurseEntity : EntityBase, INurseFull
 {
     /// <inheritdoc />
-    [MaxLength(int.MaxValue)]
+    [MaxLength(15)]
+    [Column("phone_number")]
     public required string PhoneNumber { get; set; }
 
     /// <inheritdoc />
+    [MaxLength(int.MaxValue)]
+    [Column("full_name")]
+    public string FullName { get; set; }
+
+    /// <inheritdoc />
+    [Column("plot_number")]
     public long? PlotNumber { get; set; }
 
     /// <inheritdoc />
-    public long UserId { get; set; }
-
-    /// <inheritdoc />
-    [NotMapped]
-    public IUserFull User => this.UserEntity!;
+    [MaxLength(36)]
+    [Column("user_id")]
+    public string UserId { get; set; }
 
     #region Navigation
-
-    public UserEntity? UserEntity { get; set; }
 
     [InverseProperty(nameof(PatientEntity.NurseEntity))]
     public virtual ICollection<PatientEntity> PatientEntities { get; init; } = new HashSet<PatientEntity>();

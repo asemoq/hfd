@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Hfd.Common.ApiClient.Model;
 using Hfd.Common.Contract.Exceptions;
 using Hfd.Common.Contract.Helpers;
+using Hfd.Common.Models;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
 using Hfd.Contract.Services;
@@ -21,21 +21,9 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
             await using var trans = await model.Database.BeginTransactionAsync();
             try
             {
-                var user = await model.Users.Include(userEntity => userEntity.PatientEntity)
-                    .SingleOrDefaultAsync(x => x.Id == patientInfo.UserId);
-                if (user == null)
-                {
-                    throw new HfdException(nameof(HfdError.HFDPatientUserNotFound));
-                }
-
-                if (user.PatientEntity != null)
-                {
-                    throw new HfdException(nameof(HfdError.HFDPatientUserExist));
-                }
-
                 var patient = new PatientEntity
                 {
-                    UserId = user.Id,
+                    UserId = patientInfo.UserId,
                     Scale = patientInfo.Scale,
                     Imt = patientInfo.Imt,
                     Klas = patientInfo.Klas,
@@ -78,21 +66,6 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
                 if (patient == null)
                 {
                     throw new HfdException(nameof(HfdError.HFDPatientNotExists));
-                }
-
-                if (patient.UserId != patientInfo.UserId)
-                {
-                    var user = await model.Users.Include(userEntity => userEntity.PatientEntity)
-                        .SingleOrDefaultAsync(x => x.Id == patientInfo.UserId);
-                    if (user == null)
-                    {
-                        throw new HfdException(nameof(HfdError.HFDPatientUserNotFound));
-                    }
-
-                    if (user.PatientEntity != null)
-                    {
-                        throw new HfdException(nameof(HfdError.HFDPatientUserExist));
-                    }
                 }
 
                 patient.UserId = patientInfo.UserId;
@@ -154,9 +127,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
     {
         return await this.Execute(async model =>
         {
-            return await model.Patients.Include(x => x.UserEntity)
-                .Where(x => x.Dead == false && x.UserEntity.Blocked == false)
-                .ToListAsync<IPatientFull>();
+            return await model.Patients.Where(x => x.Dead == false).ToListAsync<IPatientFull>();
         });
     }
 
@@ -177,7 +148,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
         });
     }
 
-    public async Task<IPatientFull> GetByUserId(long userId)
+    public async Task<IPatientFull> GetByUserId(string userId)
     {
         return await this.Execute(async model => await model.Patients.SingleOrDefaultAsync(x => x.UserId == userId)
                                                  ?? throw new HfdException(nameof(HfdError.HFDPatientNotFound)));

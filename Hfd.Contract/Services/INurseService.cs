@@ -1,5 +1,5 @@
-using Hfd.Common.ApiClient.Model;
 using Hfd.Common.Contract.Services;
+using Hfd.Common.Models;
 using Hfd.Contract.Model;
 
 namespace Hfd.Contract.Services;
@@ -32,7 +32,7 @@ public interface INurseService : IDbService
     /// <summary>
     ///     Получить медсестру из БД по идентификатору пользователя.
     /// </summary>
-    Task<INurseFull> GetByUserId(long userId);
+    Task<INurseFull> GetByUserId(string userId);
 
     /// <summary>
     ///     Удалить медсестру.

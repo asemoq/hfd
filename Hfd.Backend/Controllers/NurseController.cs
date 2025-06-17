@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Hfd.BizLayer.Features;
-using Hfd.Common.ApiClient.Model;
 using Hfd.Common.Contract.Model;
+using Hfd.Common.Models;
 using Hfd.Contract.Dto;
 using Hfd.Contract.Model;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +14,7 @@ namespace Hfd.Backend.Controllers;
 /// </summary>
 [ApiController]
 [Route("nurse")]
-[Authorize]
+[Authorize(Roles = "Administrator")]
 [Display(Order = 2, Name = "Медсестры")]
 public class NurseController(IMediator mediator, IMapper mapper) : ControllerBase
 {
@@ -40,9 +40,9 @@ public class NurseController(IMediator mediator, IMapper mapper) : ControllerBas
     ///     Получить медсестру по идентификатору пользователя.
     /// </summary>
     /// <returns>Медсестра.</returns>
-    [HttpGet("user/{userId:long}")]
+    [HttpGet("user/{userId}")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public async Task<NurseModel> GetByUserId([FromRoute] long userId, CancellationToken token)
+    public async Task<NurseModel> GetByUserId([FromRoute] string userId, CancellationToken token)
         => mapper.Map<INurseFull, NurseModel>(await mediator.Send(new NurseGetByUserId.Request { UserId = userId }, token));
 
     /// <summary>

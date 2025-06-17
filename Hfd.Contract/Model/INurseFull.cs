@@ -7,10 +7,6 @@ namespace Hfd.Contract.Model;
 /// </summary>
 public interface INurseFull : INurseModel
 {
-    /// <summary>
-    ///     Пользователь.
-    /// </summary>
-    IUserFull User { get; }
 }
 
 public interface INurseModel : IBaseInfo, INurseInfo
@@ -25,6 +21,11 @@ public interface INurseInfo
     string PhoneNumber { get; }
 
     /// <summary>
+    ///     ФИО.
+    /// </summary>
+    string FullName { get; }
+
+    /// <summary>
     ///     Номер участка
     /// </summary>
     long? PlotNumber { get; }
@@ -32,5 +33,5 @@ public interface INurseInfo
     /// <summary>
     ///     Ссылка на пользователя
     /// </summary>
-    long UserId { get; }
+    string UserId { get; }
 }

@@ -13,9 +13,9 @@ public interface IPsychologistInfo
 {
     string? PhoneNumber { get; }
 
-    string? FullName { get; }
+    string FullName { get; }
 
     long? PlotNumber { get; }
 
-    long UserId { get; }
+    string UserId { get; }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Hfd.Common.Contract.Model;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Model;
 
@@ -24,7 +24,13 @@ public partial class HfdDataModel
 public class PatientEntity : EntityBase, IPatientFull
 {
     /// <inheritdoc />
-    public long UserId { get; set; }
+    [MaxLength(36)]
+    [Column("user_id")]
+    public string UserId { get; set; }
+
+    /// <inheritdoc />
+    [Column("full_name")]
+    public string FullName { get; set; }
 
     /// <inheritdoc />
     public long? NurseId { get; set; }
@@ -39,12 +45,15 @@ public class PatientEntity : EntityBase, IPatientFull
     public int Klas { get; set; }
 
     /// <inheritdoc />
+    [Column("plot_number")]
     public int PlotNumber { get; set; }
 
     /// <inheritdoc />
     public bool Dead { get; set; }
 
     /// <inheritdoc />
+    [MaxLength(15)]
+    [Column("phone_number")]
     public string? PhoneNumber { get; set; }
 
     /// <inheritdoc />
@@ -78,17 +87,9 @@ public class PatientEntity : EntityBase, IPatientFull
     public string? FamilyPhoneNumber { get; set; }
 
     /// <inheritdoc />
-    public IUserFull User => this.UserEntity;
-
-    /// <inheritdoc />
     public INurseFull Nurse => this.NurseEntity!;
 
     #region Navigation
-
-    /// <summary>
-    ///     User.
-    /// </summary>
-    public UserEntity UserEntity { get; set; }
 
     /// <summary>
     ///     Nurse.

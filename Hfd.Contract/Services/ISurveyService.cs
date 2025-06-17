@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Hfd.Common.ApiClient.Model;
 using Hfd.Common.Contract.Services;
+using Hfd.Common.Models;
 using Hfd.Contract.Model;
 
 namespace Hfd.Contract.Services;

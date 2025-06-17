@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Hfd.BizLayer.Features;
-using Hfd.Common.ApiClient.Model;
 using Hfd.Common.Contract.Model;
+using Hfd.Common.Models;
 using Hfd.Contract.Dto;
 using Hfd.Contract.Model;
 using Microsoft.AspNetCore.Authorization;

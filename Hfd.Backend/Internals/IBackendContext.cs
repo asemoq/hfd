@@ -1,8 +1,7 @@
+using System.Linq;
 using System.Security.Claims;
-using Hfd.Common.Contract.Exceptions;
-using Hfd.Common.Contract.Internals;
-using Hfd.Common.Contract.Model;
 using Hfd.Common.Contract.Services;
+using Hfd.Common.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,9 +13,7 @@ public interface IBackendContext
 
     internal IBizContext BizContext { get; }
 
-    Task<ClaimsPrincipal> GetPrincipal(string login, string password);
-
-    Task<ClaimsPrincipal> GetPrincipal(IUserFull user);
+    Task<ClaimsPrincipal> GetPrincipal(HfdIdentityUser user, IEnumerable<string> roles);
 }
 
 /// <inheritdoc />
@@ -40,58 +37,17 @@ public class BackendContext : IBackendContext
     public CancellationToken RequestAborted { get; } = CancellationToken.None;
 
     /// <inheritdoc />
-    public async Task<ClaimsPrincipal> GetPrincipal(string login, string password)
+    public Task<ClaimsPrincipal> GetPrincipal(HfdIdentityUser user, IEnumerable<string> roles)
     {
-        var user = await this.BizContext.Services.GetRequiredService<IDbStorage>()
-            .GetService<IUserLoginDbService>()
-            .GetOne(login);
-
-        if (user == null)
-        {
-            throw new UserNotFoundException();
-        }
-
-        if (!password.Verify(user.Password))
-        {
-            return null!;
-        }
-
-        if (user.Blocked)
-        {
-            throw new HfdException(nameof(HfdCoreError.UserBlocked));
-        }
-
         var claims = new List<Claim>
         {
-            new(ClaimTypes.Role, $"{user.Usertype}"),
-            new(ClaimTypes.NameIdentifier, user.Username),
-            new(ClaimTypes.UserData, user.UniqueId!),
+            new(ClaimTypes.NameIdentifier, user.Id),
+            new(ClaimTypes.Name, user.UserName!),
+            new("AspNet.Identity.SecurityStamp", user.SecurityStamp!),
+            new("amr", "pwd"),
+            new(ClaimTypes.UserData, user.Iin!),
         };
-
-        var identities = new List<ClaimsIdentity> { new(claims) };
-        return new ClaimsPrincipal(identities);
-    }
-
-    /// <inheritdoc />
-    public Task<ClaimsPrincipal> GetPrincipal(IUserFull user)
-    {
-        if (user == null)
-        {
-            throw new UserNotFoundException();
-        }
-
-        if (user.Blocked)
-        {
-            throw new HfdException(nameof(HfdCoreError.UserBlocked));
-        }
-
-        var claims = new List<Claim>
-        {
-            new(ClaimTypes.Role, $"{user.Usertype}"),
-            new(ClaimTypes.NameIdentifier, user.Username),
-            new(ClaimTypes.UserData, user.UniqueId!),
-        };
-
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
         var identities = new List<ClaimsIdentity> { new(claims) };
         return Task.FromResult(new ClaimsPrincipal(identities));
     }

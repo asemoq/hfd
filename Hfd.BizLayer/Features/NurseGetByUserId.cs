@@ -10,7 +10,7 @@ public static class NurseGetByUserId
     /// </summary>
     public sealed class Request : IRequest<INurseFull>
     {
-        public long UserId { get; set; }
+        public string UserId { get; set; }
     }
 
     /// <inheritdoc />
@@ -28,7 +28,7 @@ public static class NurseGetByUserId
         {
             public Validator()
             {
-                this.RuleFor(x => x.UserId).GreaterThan(0).WithMessage(nameof(HfdError.HFDNurseUserIdIsNotCorrect));
+                this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.HFDNurseUserIdIsNotCorrect));
             }
         }
     }
