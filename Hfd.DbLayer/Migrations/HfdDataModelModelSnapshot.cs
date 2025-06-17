@@ -60,7 +60,7 @@ namespace Hfd.DbLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("file");
+                    b.ToTable("file", (string)null);
                 });
 
             modelBuilder.Entity("Hfd.DbLayer.Internals.HospitalizationEntity", b =>
@@ -100,7 +100,7 @@ namespace Hfd.DbLayer.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("hospitalization");
+                    b.ToTable("hospitalization", (string)null);
                 });
 
             modelBuilder.Entity("Hfd.DbLayer.Internals.NurseEntity", b =>
@@ -124,8 +124,8 @@ namespace Hfd.DbLayer.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)")
                         .HasColumnName("phone_number");
 
                     b.Property<long?>("PlotNumber")
@@ -144,7 +144,7 @@ namespace Hfd.DbLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("nurse");
+                    b.ToTable("nurse", (string)null);
                 });
 
             modelBuilder.Entity("Hfd.DbLayer.Internals.PatientEntity", b =>
@@ -202,8 +202,8 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)")
                         .HasColumnName("phone_number");
 
                     b.Property<int>("PlotNumber")
@@ -233,7 +233,7 @@ namespace Hfd.DbLayer.Migrations
 
                     b.HasIndex("NurseId");
 
-                    b.ToTable("patient");
+                    b.ToTable("patient", (string)null);
                 });
 
             modelBuilder.Entity("Hfd.DbLayer.Internals.PsychologistEntity", b =>
@@ -256,8 +256,8 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnName("full_name");
 
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)")
                         .HasColumnName("phone_number");
 
                     b.Property<long?>("PlotNumber")
@@ -276,7 +276,7 @@ namespace Hfd.DbLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("psychologist");
+                    b.ToTable("psychologist", (string)null);
                 });
 
             modelBuilder.Entity("Hfd.DbLayer.Internals.SocialWorkerEntity", b =>
@@ -299,8 +299,8 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnName("full_name");
 
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)")
                         .HasColumnName("phone_number");
 
                     b.Property<long?>("PlotNumber")
@@ -319,7 +319,7 @@ namespace Hfd.DbLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("social_worker");
+                    b.ToTable("social_worker", (string)null);
                 });
 
             modelBuilder.Entity("Hfd.DbLayer.Internals.SurveyEntity", b =>
@@ -367,7 +367,7 @@ namespace Hfd.DbLayer.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("survey");
+                    b.ToTable("survey", (string)null);
                 });
 
             modelBuilder.Entity("Hfd.DbLayer.Internals.TrainingEntity", b =>
@@ -407,7 +407,7 @@ namespace Hfd.DbLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("training");
+                    b.ToTable("training", (string)null);
                 });
 
             modelBuilder.Entity("Hfd.DbLayer.Internals.TshhEntity", b =>
@@ -443,7 +443,7 @@ namespace Hfd.DbLayer.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("tshh");
+                    b.ToTable("tshh", (string)null);
                 });
 
             modelBuilder.Entity("Hfd.DbLayer.Internals.HospitalizationEntity", b =>
