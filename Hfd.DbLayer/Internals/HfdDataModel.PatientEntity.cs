@@ -52,7 +52,7 @@ public class PatientEntity : EntityBase, IPatientFull
     public bool Dead { get; set; }
 
     /// <inheritdoc />
-    [MaxLength(15)]
+    [MaxLength(20)]
     [Column("phone_number")]
     public string? PhoneNumber { get; set; }
 

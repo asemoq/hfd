@@ -23,7 +23,7 @@ public partial class HfdDataModel
 public class NurseEntity : EntityBase, INurseFull
 {
     /// <inheritdoc />
-    [MaxLength(15)]
+    [MaxLength(20)]
     [Column("phone_number")]
     public required string PhoneNumber { get; set; }
 

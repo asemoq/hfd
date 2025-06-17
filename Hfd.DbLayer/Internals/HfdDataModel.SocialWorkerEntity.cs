@@ -22,7 +22,7 @@ public partial class HfdDataModel
 public class SocialWorkerEntity : EntityBase, ISocialWorkerFull
 {
     /// <inheritdoc />
-    [MaxLength(15)]
+    [MaxLength(20)]
     [Column("phone_number")]
     public string? PhoneNumber { get; set; }
 
