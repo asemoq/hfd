@@ -124,8 +124,8 @@ namespace Hfd.DbLayer.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("phone_number");
 
                     b.Property<long?>("PlotNumber")
@@ -202,8 +202,8 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("phone_number");
 
                     b.Property<int>("PlotNumber")
@@ -256,8 +256,8 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnName("full_name");
 
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("phone_number");
 
                     b.Property<long?>("PlotNumber")
@@ -299,8 +299,8 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnName("full_name");
 
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("phone_number");
 
                     b.Property<long?>("PlotNumber")
