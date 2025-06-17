@@ -33,7 +33,8 @@ System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = new System.Glob
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHfdContractServices(assemblies)
+builder.Services.AddCors("_allowOrigins")
+    .AddHfdContractServices(assemblies)
     .AddHfdDbLayerServices(assemblies)
     .AddHfdBizLayerServices(builder.Configuration, assemblies)
     .AddIdentityServices(builder.Configuration)
@@ -67,6 +68,7 @@ var app = builder.Build();
 app.UseExceptionHandler("/api/error");
 app.UseSwagger();
 app.UseRouting();
+app.UseCors("_allowOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
