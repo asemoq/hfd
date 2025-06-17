@@ -1,6 +1,8 @@
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
   GIT_SUBMODULE_FORCE_HTTPS: "true"
+  APPSETTINGS_PATH: $CI_PROJECT_DIR/Hfd.Backend/appsettings.json
+  APPSETTINGS: $APPSETTINGS_HFD
 
 stages: [ build, deploy ]
 
@@ -11,6 +13,7 @@ workflow:
 build:
   stage: build
   script:
+    - echo $APPSETTINGS > $APPSETTINGS_PATH
     - docker build --no-cache -t hfd:latest .
   environment:
     name: build
