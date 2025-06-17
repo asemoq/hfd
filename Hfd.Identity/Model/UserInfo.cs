@@ -24,6 +24,11 @@ public class UserInfo
     public string FullName { get; set; }
 
     /// <summary>
+    ///     Номер телефона.
+    /// </summary>
+    public string PhoneNumber { get; set; }
+
+    /// <summary>
     ///     Выбранный язык по умолчанию.
     /// </summary>
     public Language Language { get; set; }

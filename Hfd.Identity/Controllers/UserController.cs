@@ -96,8 +96,15 @@ public class UserController(UserManager<HfdIdentityUser> userManager) : Controll
     {
         var user = await userManager.FindByIdAsync(id) ?? throw new UserNotFoundException();
         user.FullName = info.FullName;
+        user.PhoneNumber = info.PhoneNumber;
+        user.Language = info.Language;
         user.Iin = info.Iin;
         await userManager.UpdateAsync(user);
+        foreach (var role in info.Roles)
+        {
+            await userManager.AddToRoleAsync(user, role.ToString());
+        }
+
         return user;
     }
 
