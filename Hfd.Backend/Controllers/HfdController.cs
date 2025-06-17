@@ -58,7 +58,7 @@ public class HfdController(
 
         var rs = new LoginFull
         {
-            Username = principal.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value, Token = token,
+            Username = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token,
         };
 
         return rs;
@@ -92,7 +92,7 @@ public class HfdController(
 
         var rs = new LoginFull
         {
-            Username = principal.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value, Token = token,
+            Username = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token,
         };
 
         return rs;
