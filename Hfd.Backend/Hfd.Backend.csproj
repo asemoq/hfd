@@ -7,6 +7,7 @@
     <ProjectReference Include="..\libs\common\Hfd.Common.Backend\Hfd.Common.Backend.csproj"/>
     <ProjectReference Include="..\libs\identity\Hfd.Identity\Hfd.Identity.csproj" />
     <ProjectReference Include="..\libs\provider\Hfd.Provider.BizLayer\Hfd.Provider.BizLayer.csproj"/>
+    <ProjectReference Include="..\libs\provider\Hfd.Provider.Services\Hfd.Provider.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,3 +4,6 @@
 [submodule "libs/provider"]
 	path = libs/provider
 	url = https://gitlab.com/hfd.su/libs/provider.git
+[submodule "libs/identity"]
+	path = libs/identity
+	url = https://gitlab.com/hfd.su/libs/identity.git

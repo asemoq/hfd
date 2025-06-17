@@ -6,8 +6,7 @@ using Hfd.Common.Backend.Jwt;
 using Hfd.Contract;
 using Hfd.DbLayer;
 using Hfd.Identity;
-using Hfd.Provider.ApiClient.Services;
-using Hfd.Provider.BizLayer.Services;
+using Hfd.Provider.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,10 +40,7 @@ builder.Services.AddHfdContractServices(assemblies)
     .AddJwtAuthentication()
     .AddScoped<IBackendContext, BackendContext>()
     .AddTransient<IBackendSecure, BackendSecure>();
-
-builder.Services.AddTransient(typeof(IClientFactory<>), typeof(ClientFactory<>));
-builder.Services.AddHttpClient(ClientFactory.UserClientName, (_, _) => { });
-builder.Services.AddHttpClient(ClientFactory.ServiceClientName, (_, _) => { });
+builder.Services.AddServices();
 builder.Services.AddHttpContextAccessor().AddHttpClient();
 builder.Services.AddControllers()
     .AddMvcOptions(options =>
