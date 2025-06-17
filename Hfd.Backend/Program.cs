@@ -66,6 +66,7 @@ builder.Services.AddSwaggerGen(
 
 var app = builder.Build();
 app.UseExceptionHandler("/api/error");
+app.UseStaticFiles();
 app.UseSwagger();
 app.UseRouting();
 app.UseCors("_allowOrigins");
