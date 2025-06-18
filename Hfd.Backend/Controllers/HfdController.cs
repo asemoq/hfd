@@ -8,6 +8,7 @@ using Hfd.BizLayer;
 using Hfd.Common.Backend.Jwt;
 using Hfd.Common.Contract.Exceptions;
 using Hfd.Common.Models;
+using Hfd.Identity.Model;
 using Hfd.Provider.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
@@ -55,7 +56,10 @@ public class HfdController(
         var handler = context.BizContext.Services.GetRequiredService<IJwtHandler>();
         var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
 
-        var rs = new LoginFull { Username = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token, };
+        var rs = new LoginFull
+        {
+            Username = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token,
+        };
 
         return rs;
     }
@@ -86,7 +90,10 @@ public class HfdController(
         var handler = context.BizContext.Services.GetRequiredService<IJwtHandler>();
         var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
 
-        var rs = new LoginFull { Username = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token, };
+        var rs = new LoginFull
+        {
+            Username = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token,
+        };
 
         return rs;
     }
@@ -96,7 +103,8 @@ public class HfdController(
     [Consumes("application/json")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordInfo rq, CancellationToken token)
     {
-        var result = await userManager.ChangePasswordAsync(context.BizContext.User, rq.OldPassword, rq.NewPassword);
+        var user = await userManager.FindByIdAsync(context.BizContext.User.Id) ?? throw new UserNotFoundException();
+        var result = await userManager.ChangePasswordAsync(user, rq.OldPassword, rq.NewPassword);
         if (!result.Succeeded)
         {
             throw new HfdException(result.Errors.Select(x => x.Description).ToArray());
@@ -110,7 +118,7 @@ public class HfdController(
     [HttpGet("/self"), Authorize]
     [Produces("application/json")]
     [Display(Order = 5)]
-    public Task<HfdIdentityUser> GetUiUserSelf(CancellationToken token = default)
+    public Task<UserFull> GetUiUserSelf(CancellationToken token = default)
         => Task.FromResult(context.BizContext.User);
 
     [ApiExplorerSettings(IgnoreApi = true)]
@@ -131,7 +139,10 @@ public class HfdController(
             error.Details = [ex.Message,];
         }
 
-        var result = new ObjectResult(error) { StatusCode = statusCode };
+        var result = new ObjectResult(error)
+        {
+            StatusCode = statusCode
+        };
         result.ContentTypes.Add(MediaTypeNames.Application.Json);
         return result;
     }

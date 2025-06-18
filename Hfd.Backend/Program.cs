@@ -21,6 +21,7 @@ Assembly[] assemblies =
     typeof(Hfd.Common.BizLayer.AssemblyInfo).Assembly,
     typeof(Hfd.Common.Contract.AssemblyInfo).Assembly,
     typeof(Hfd.Common.DbLayer.AssemblyInfo).Assembly,
+    typeof(Hfd.Identity.AssemblyInfo).Assembly,
     typeof(Hfd.Contract.AssemblyInfo).Assembly,
     typeof(Hfd.BizLayer.AssemblyInfo).Assembly,
     typeof(Hfd.DbLayer.AssemblyInfo).Assembly,

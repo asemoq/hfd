@@ -1,17 +1,19 @@
 ﻿using System.Linq;
 using System.Security.Claims;
+using AutoMapper;
 using Hfd.Common.Backend.Jwt;
 using Hfd.Common.Contract;
 using Hfd.Common.Contract.Exceptions;
 using Hfd.Common.Models;
+using Hfd.Identity.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 namespace Hfd.Backend.Internals;
 
-internal sealed class BackendSecure(UserManager<HfdIdentityUser> userManager, ILogger<BackendSecure> log) : IBackendSecure
+internal sealed class BackendSecure(IMapper mapper, UserManager<HfdIdentityUser> userManager, ILogger<BackendSecure> log) : IBackendSecure
 {
-    public async Task<HfdIdentityUser> Verify(ClaimsPrincipal principal)
+    public async Task<UserFull> Verify(ClaimsPrincipal principal)
     {
         try
         {
@@ -26,7 +28,7 @@ internal sealed class BackendSecure(UserManager<HfdIdentityUser> userManager, IL
 
             if (user.Iin == uniqueId?.Value)
             {
-                return user;
+                return mapper.Map<UserFull>(user);
             }
         }
         catch (Exception)
