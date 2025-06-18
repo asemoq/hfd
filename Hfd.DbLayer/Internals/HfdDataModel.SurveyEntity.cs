@@ -37,8 +37,7 @@ public class SurveyEntity : EntityBase, ISurveyFull
     {
         >= 120 => AdType.Normal,
         < 120 and > 100 => AdType.FirstHypotension,
-        <= 100 => AdType.SecondHypotension,
-        _ => throw new ArgumentOutOfRangeException(),
+        _ => AdType.SecondHypotension,
     };
 
     /// <inheritdoc />
@@ -60,8 +59,7 @@ public class SurveyEntity : EntityBase, ISurveyFull
     {
         >= 90 => HeartRateType.TachycardiaOrBradycardia,
         < 90 and > 60 => HeartRateType.Normal,
-        <= 60 => HeartRateType.TachycardiaOrBradycardia,
-        _ => throw new ArgumentOutOfRangeException(),
+        _ => HeartRateType.TachycardiaOrBradycardia,
     };
 
     /// <inheritdoc />
@@ -84,12 +82,12 @@ public class SurveyEntity : EntityBase, ISurveyFull
 
     /// <inheritdoc />
     [NotMapped]
-    public ZoneType ScoreZone => this.Score switch
+    public ZoneType? ScoreZone => this.Score switch
     {
         >= 0 and <= 2 => ZoneType.Green,
         >= 3 and <= 6 => ZoneType.Yellow,
         >= 7 and <= 16 => ZoneType.Red,
-        _ => throw new ArgumentOutOfRangeException(),
+        _ => null,
     };
 
     #region Navigation

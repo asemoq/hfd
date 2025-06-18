@@ -43,5 +43,5 @@ public class SurveyModel : BaseModel, ISurveyModel
 
     public int Score { get; set; }
 
-    public ZoneType ScoreZone { get; set; }
+    public ZoneType? ScoreZone { get; set; }
 }

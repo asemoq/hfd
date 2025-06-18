@@ -40,7 +40,7 @@ public interface ISurveyModel : IBaseInfo, ISurveyInfo
 
     int Score { get; }
 
-    ZoneType ScoreZone { get; }
+    ZoneType? ScoreZone { get; }
 }
 
 public interface ISurveyInfo

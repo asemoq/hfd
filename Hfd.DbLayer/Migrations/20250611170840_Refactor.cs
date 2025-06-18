@@ -45,7 +45,7 @@ namespace Hfd.DbLayer.Migrations
                 type: "text",
                 maxLength: 2147483647,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "text",
                 oldNullable: true);
@@ -56,7 +56,7 @@ namespace Hfd.DbLayer.Migrations
                 type: "text",
                 maxLength: 2147483647,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "text",
                 oldNullable: true);
@@ -67,7 +67,7 @@ namespace Hfd.DbLayer.Migrations
                 type: "text",
                 maxLength: 2147483647,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "text",
                 oldNullable: true);
@@ -78,7 +78,7 @@ namespace Hfd.DbLayer.Migrations
                 type: "text",
                 maxLength: 2147483647,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "text",
                 oldNullable: true);
@@ -89,7 +89,7 @@ namespace Hfd.DbLayer.Migrations
                 type: "text",
                 maxLength: 2147483647,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "text",
                 oldNullable: true);
@@ -100,7 +100,7 @@ namespace Hfd.DbLayer.Migrations
                 type: "text",
                 maxLength: 2147483647,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "text",
                 oldNullable: true);
@@ -111,7 +111,7 @@ namespace Hfd.DbLayer.Migrations
                 type: "text",
                 maxLength: 2147483647,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "text",
                 oldNullable: true);
@@ -122,7 +122,7 @@ namespace Hfd.DbLayer.Migrations
                 type: "text",
                 maxLength: 2147483647,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "text",
                 oldNullable: true);
@@ -133,7 +133,7 @@ namespace Hfd.DbLayer.Migrations
                 type: "text",
                 maxLength: 2147483647,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "text",
                 oldNullable: true);
@@ -144,7 +144,7 @@ namespace Hfd.DbLayer.Migrations
                 type: "text",
                 maxLength: 2147483647,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "text",
                 oldNullable: true);
@@ -265,7 +265,7 @@ namespace Hfd.DbLayer.Migrations
                     scopeId = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     startedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     stoppedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    userUid = table.Column<string>(type: "text", nullable: false)
+                    userUid = table.Column<string>(type: "text", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -281,7 +281,7 @@ namespace Hfd.DbLayer.Migrations
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     PatientId = table.Column<long>(type: "bigint", nullable: false),
                     SubscribedFlags = table.Column<long>(type: "bigint", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -299,7 +299,7 @@ namespace Hfd.DbLayer.Migrations
                     State = table.Column<int>(type: "integer", nullable: false),
                     StateName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
                     CreatedBy = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -321,7 +321,7 @@ namespace Hfd.DbLayer.Migrations
                     RelationName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
                     PropertyName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
                     OldValue = table.Column<string>(type: "text", nullable: true),
-                    NewValue = table.Column<string>(type: "text", nullable: true)
+                    NewValue = table.Column<string>(type: "text", nullable: true),
                 },
                 constraints: table =>
                 {

@@ -278,7 +278,7 @@ namespace Hfd.DbLayer.Migrations
                 type: "text",
                 maxLength: 2147483647,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "text",
                 oldMaxLength: 2147483647,
@@ -310,7 +310,7 @@ namespace Hfd.DbLayer.Migrations
                 type: "text",
                 maxLength: 2147483647,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "text",
                 oldMaxLength: 2147483647,
@@ -340,7 +340,7 @@ namespace Hfd.DbLayer.Migrations
                 table: "patient",
                 type: "text",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.AlterColumn<string>(
                 name: "user_id",
@@ -367,7 +367,7 @@ namespace Hfd.DbLayer.Migrations
                 type: "text",
                 maxLength: 2147483647,
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
         }
 
         /// <inheritdoc />
@@ -698,7 +698,7 @@ namespace Hfd.DbLayer.Migrations
                     UniqueId = table.Column<string>(type: "text", maxLength: 2147483647, nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Username = table.Column<string>(type: "text", maxLength: 2147483647, nullable: false),
-                    Usertype = table.Column<int>(type: "integer", nullable: false)
+                    Usertype = table.Column<int>(type: "integer", nullable: false),
                 },
                 constraints: table =>
                 {
