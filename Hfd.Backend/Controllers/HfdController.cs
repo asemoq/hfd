@@ -55,10 +55,7 @@ public class HfdController(
         var handler = context.BizContext.Services.GetRequiredService<IJwtHandler>();
         var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
 
-        var rs = new LoginFull
-        {
-            Username = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Roles = roles, Token = token,
-        };
+        var rs = new LoginFull { Username = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token, };
 
         return rs;
     }
