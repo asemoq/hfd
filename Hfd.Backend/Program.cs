@@ -14,7 +14,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
-var corsPolicyName = "CorsPolicy";
 Assembly[] assemblies =
 [
     typeof(Hfd.Common.Backend.AssemblyInfo).Assembly,
@@ -35,7 +34,7 @@ System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = new System.Glob
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(corsPolicyName)
+builder.Services.AddCors()
     .AddHfdContractServices(assemblies)
     .AddHfdDbLayerServices(assemblies)
     .AddHfdBizLayerServices(builder.Configuration, assemblies)
@@ -71,7 +70,7 @@ app.UseExceptionHandler("/api/error");
 app.UseStaticFiles();
 app.UseSwagger();
 app.UseRouting();
-app.UseCors(corsPolicyName);
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
