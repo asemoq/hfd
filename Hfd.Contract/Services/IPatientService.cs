@@ -13,12 +13,12 @@ public interface IPatientService : IDbService
     /// <summary>
     ///     Сохранить пациента в БД.
     /// </summary>
-    Task<IPatientFull> Add(IPatientInfo patientInfo);
+    Task<IPatientFull> Add(IPatientInfo patientInfo, string userId);
 
     /// <summary>
     ///     Изменить пациента в БД.
     /// </summary>
-    Task<IPatientFull> Edit(long patientId, IPatientInfo patientInfo);
+    Task<IPatientFull> Edit(long patientId, IPatientInfo patientInfo, string userId);
 
     /// <summary>
     ///     Получить список пациентов из БД.

@@ -10,19 +10,10 @@ using Hfd.Contract.Services;
 
 namespace Hfd.DbLayer.Services;
 
-public class NurseDbService : HfdDbService, INurseService
+public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
+    : HfdDbService(storage, log), INurseService
 {
-    /// <summary>
-    ///     Constructor of Nurse service class.
-    /// </summary>
-    /// <param name="storage"></param>
-    /// <param name="log"></param>
-    public NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
-        : base(storage, log)
-    {
-    }
-
-    public async Task<INurseFull> Add(INurseInfo nurseInfo)
+    public async Task<INurseFull> Add(INurseInfo nurseInfo, string userId)
     {
         return await this.Execute(async model =>
         {
@@ -31,9 +22,7 @@ public class NurseDbService : HfdDbService, INurseService
             {
                 var nurse = new NurseEntity
                 {
-                    UserId = nurseInfo.UserId,
-                    FullName = nurseInfo.FullName,
-                    PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(nurseInfo.PhoneNumber),
+                    UserId = userId,
                     PlotNumber = nurseInfo.PlotNumber,
                     CreatedAt = DateTime.UtcNow,
                 };
@@ -50,7 +39,7 @@ public class NurseDbService : HfdDbService, INurseService
         });
     }
 
-    public async Task<INurseFull> Edit(long nurseId, INurseInfo nurseInfo)
+    public async Task<INurseFull> Edit(long nurseId, INurseInfo nurseInfo, string userId)
     {
         return await this.Execute(async model =>
         {
@@ -63,9 +52,7 @@ public class NurseDbService : HfdDbService, INurseService
                     throw new HfdException(nameof(HfdError.HFDNurseNotExists));
                 }
 
-                nurse.UserId = nurseInfo.UserId;
-                nurse.FullName = nurseInfo.FullName;
-                nurse.PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(nurseInfo.PhoneNumber);
+                nurse.UserId = userId;
                 nurse.PlotNumber = nurseInfo.PlotNumber;
                 nurse.UpdatedAt = DateTime.UtcNow;
 

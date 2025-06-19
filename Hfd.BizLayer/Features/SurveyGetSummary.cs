@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Hfd.Common.Contract.Helpers;
+using Hfd.Models;
 
 namespace Hfd.BizLayer.Features;
 

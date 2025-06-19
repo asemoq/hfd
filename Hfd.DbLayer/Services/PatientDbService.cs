@@ -14,7 +14,7 @@ namespace Hfd.DbLayer.Services;
 public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> log)
     : HfdDbService(storage, log), IPatientService
 {
-    public async Task<IPatientFull> Add(IPatientInfo patientInfo)
+    public async Task<IPatientFull> Add(IPatientInfo patientInfo, string userId)
     {
         return await this.Execute(async model =>
         {
@@ -23,7 +23,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
             {
                 var patient = new PatientEntity
                 {
-                    UserId = patientInfo.UserId,
+                    UserId = userId,
                     Scale = patientInfo.Scale,
                     Imt = patientInfo.Imt,
                     Klas = patientInfo.Klas,
@@ -39,7 +39,6 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
                     Weight = patientInfo.Weight,
                     FamilyFullName = patientInfo.FamilyFullName,
                     FamilyPhoneNumber = patientInfo.FamilyPhoneNumber,
-                    PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(patientInfo.PhoneNumber!),
                     CreatedAt = DateTime.UtcNow,
                 };
                 await model.Patients.AddAsync(patient);
@@ -55,7 +54,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
         });
     }
 
-    public async Task<IPatientFull> Edit(long patientId, IPatientInfo patientInfo)
+    public async Task<IPatientFull> Edit(long patientId, IPatientInfo patientInfo, string userId)
     {
         return await this.Execute(async model =>
         {
@@ -68,7 +67,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
                     throw new HfdException(nameof(HfdError.HFDPatientNotExists));
                 }
 
-                patient.UserId = patientInfo.UserId;
+                patient.UserId = userId;
                 patient.Scale = patientInfo.Scale;
                 patient.Imt = patientInfo.Imt;
                 patient.Klas = patientInfo.Klas;
@@ -84,7 +83,6 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
                 patient.Weight = patientInfo.Weight;
                 patient.FamilyFullName = patientInfo.FamilyFullName;
                 patient.FamilyPhoneNumber = patientInfo.FamilyPhoneNumber;
-                patient.PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(patientInfo.PhoneNumber!);
                 patient.UpdatedAt = DateTime.UtcNow;
 
                 await model.SaveChangesAsync();

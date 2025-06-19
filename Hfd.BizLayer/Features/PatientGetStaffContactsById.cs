@@ -21,7 +21,7 @@ public static class PatientGetStaffContactsById
         {
             var service = storage.GetService<IPatientService>();
             var patient = await service.GetById(request.PatientId, true);
-            var contacts = new StaffContact() { Nurse = patient.Nurse?.PhoneNumber! };
+            var contacts = new StaffContact() { Nurse = patient.Nurse.UserId! }; // ToDo phone number
             return contacts;
         }
 

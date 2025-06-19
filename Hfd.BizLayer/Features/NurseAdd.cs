@@ -13,16 +13,9 @@ public static class NurseAdd
     public sealed class Request : INurseInfo, IRequest<INurseFull>
     {
         /// <inheritdoc />
-        public string FullName { get; set; }
-
-        /// <inheritdoc />
         public long? PlotNumber { get; set; }
 
-        /// <inheritdoc />
         public string UserId { get; set; }
-
-        /// <inheritdoc />
-        public string PhoneNumber { get; set; }
     }
 
     /// <inheritdoc />
@@ -32,7 +25,7 @@ public static class NurseAdd
         public async Task<INurseFull> Handle(Request request, CancellationToken cancellationToken)
         {
             var service = storage.GetService<INurseService>();
-            return await service.Add(request);
+            return await service.Add(request, request.UserId);
         }
 
         /// <inheritdoc />
@@ -41,9 +34,6 @@ public static class NurseAdd
             public Validator()
             {
                 this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.HFDNurseUserIdIsNotCorrect));
-                this.RuleFor(x => x.PhoneNumber)
-                    .Must(IsValidPhoneNumber)
-                    .WithMessage(nameof(HfdError.HFDNursePhoneNumberIsNotValid));
             }
         }
     }

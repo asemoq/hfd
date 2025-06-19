@@ -6,6 +6,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Hfd.Models\Hfd.Models.csproj" />
     <ProjectReference Include="..\libs\common\Hfd.Common.Contract\Hfd.Common.Contract.csproj"/>
   </ItemGroup>
 

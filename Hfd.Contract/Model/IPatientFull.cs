@@ -5,7 +5,7 @@ namespace Hfd.Contract.Model;
 /// <summary>
 ///     Пациент.
 /// </summary>
-public interface IPatientFull : IPatientModel
+public interface IPatientFull : IPersonInfo, IPatientInfo
 {
     /// <summary>
     ///     Прикрепленная медсестра.
@@ -18,22 +18,8 @@ public interface IPatientFull : IPatientModel
     long? NurseId { get; }
 }
 
-public interface IPatientModel : IBaseInfo, IPatientInfo
-{
-}
-
 public interface IPatientInfo
 {
-    /// <summary>
-    ///     Ссылка на пользователя.
-    /// </summary>
-    string UserId { get; }
-
-    /// <summary>
-    ///     ФИО.
-    /// </summary>
-    string FullName { get; }
-
     /// <summary>
     ///     Шкала.
     /// </summary>
@@ -46,11 +32,6 @@ public interface IPatientInfo
     int PlotNumber { get; }
 
     bool Dead { get; }
-
-    /// <summary>
-    ///     Контактный номер.
-    /// </summary>
-    string? PhoneNumber { get; }
 
     /// <summary>
     ///     Пол.

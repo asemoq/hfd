@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\version.targets"/>
+  <ItemGroup>
+    <ProjectReference Include="..\libs\common\Hfd.Common.Models\Hfd.Common.Models.csproj" />
+  </ItemGroup>
+
+</Project>

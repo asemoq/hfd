@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
-using Hfd.Common.Contract.Helpers;
-using Hfd.Contract.Dto;
+using Hfd.Common.Contract.Model;
+using Hfd.Common.Models;
 using Hfd.Contract.Model;
+using Hfd.Models;
 
 namespace Hfd.Contract;
 
@@ -12,15 +13,8 @@ public class MapperProfile : Profile
 {
     public MapperProfile()
     {
-        this.CreateMap<INurseFull, NurseModel>()
-            .ForMember(
-                dest => dest.PhoneNumber,
-                opt => opt.MapFrom(src => FieldFormatHelper.GetFormattedPhoneNumber(src.PhoneNumber, true)));
-        this.CreateMap<IPatientFull, PatientModel>()
-            .ForMember(
-                dest => dest.PhoneNumber,
-                opt => opt.MapFrom(src => FieldFormatHelper.GetFormattedPhoneNumber(src.PhoneNumber!, true)));
-        this.CreateMap<ISurveyFull, SurveyModel>()
-            .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.PatientModel.FullName));
+        this.CreateMap<INurseFull, NurseModel>().IncludeBase<IPersonInfo, PersonModel>();
+        this.CreateMap<IPatientFull, PatientModel>().IncludeBase<IPersonInfo, PersonModel>();
+        this.CreateMap<ISurveyFull, SurveyModel>();
     }
 }

@@ -13,11 +13,7 @@ public static class PatientAdd
     /// </summary>
     public sealed class Request : IPatientInfo, IRequest<IPatientFull>
     {
-        /// <inheritdoc />
         public string UserId { get; set; }
-
-        /// <inheritdoc />
-        public string FullName { get; set; }
 
         /// <inheritdoc />
         public string Scale { get; set; }
@@ -34,9 +30,6 @@ public static class PatientAdd
         /// <inheritdoc />
         [DefaultValue(false)]
         public bool Dead { get; set; }
-
-        /// <inheritdoc />
-        public string PhoneNumber { get; set; }
 
         /// <inheritdoc />
         public string Gender { get; set; }
@@ -76,7 +69,7 @@ public static class PatientAdd
         public async Task<IPatientFull> Handle(Request request, CancellationToken cancellationToken)
         {
             var service = storage.GetService<IPatientService>();
-            return await service.Add(request);
+            return await service.Add(request, request.UserId);
         }
 
         /// <inheritdoc />
@@ -85,9 +78,6 @@ public static class PatientAdd
             public Validator()
             {
                 this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.HFDPatientUserIdIsNotCorrect));
-                this.RuleFor(x => x.PhoneNumber)
-                    .Must(IsValidPhoneNumber)
-                    .WithMessage(nameof(HfdError.HFDPatientPhoneNumberIsNotValid));
             }
         }
     }

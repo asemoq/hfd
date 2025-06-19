@@ -29,10 +29,6 @@ public class PatientEntity : EntityBase, IPatientFull
     public string UserId { get; set; }
 
     /// <inheritdoc />
-    [Column("full_name")]
-    public string FullName { get; set; }
-
-    /// <inheritdoc />
     public long? NurseId { get; set; }
 
     /// <inheritdoc />
@@ -50,11 +46,6 @@ public class PatientEntity : EntityBase, IPatientFull
 
     /// <inheritdoc />
     public bool Dead { get; set; }
-
-    /// <inheritdoc />
-    [MaxLength(15)]
-    [Column("phone_number")]
-    public string? PhoneNumber { get; set; }
 
     /// <inheritdoc />
     public string? Gender { get; set; }

@@ -4,7 +4,6 @@ global using System.Threading;
 global using System.Threading.Tasks;
 global using FluentValidation;
 global using Hfd.Common.Contract.Services;
-global using Hfd.Contract.Dto;
 global using Hfd.Contract.Enums;
 global using Hfd.Contract.Model;
 global using Hfd.Contract.Services;

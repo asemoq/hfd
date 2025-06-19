@@ -4,8 +4,8 @@ using Hfd.BizLayer.Features;
 using Hfd.Common.Contract;
 using Hfd.Common.Contract.Model;
 using Hfd.Common.Models;
-using Hfd.Contract.Dto;
 using Hfd.Contract.Model;
+using Hfd.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Hfd.Backend.Controllers;

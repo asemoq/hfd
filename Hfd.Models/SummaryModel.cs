@@ -1,12 +1,13 @@
 ﻿#nullable disable
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Dynamic;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using Hfd.Common.Contract.Helpers;
+using Hfd.Common.Models.Helpers;
 
-namespace Hfd.Contract.Dto;
+namespace Hfd.Models;
 
 public class SummaryModel
 {

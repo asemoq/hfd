@@ -18,11 +18,7 @@ public static class PatientEdit
         /// </summary>
         public long Id { get; set; }
 
-        /// <inheritdoc />
         public string UserId { get; set; }
-
-        /// <inheritdoc />
-        public string FullName { get; set; }
 
         /// <inheritdoc />
         public string Scale { get; set; }
@@ -39,9 +35,6 @@ public static class PatientEdit
         /// <inheritdoc />
         [DefaultValue(false)]
         public bool Dead { get; set; }
-
-        /// <inheritdoc />
-        public string PhoneNumber { get; set; }
 
         /// <inheritdoc />
         public string Gender { get; set; }
@@ -81,7 +74,7 @@ public static class PatientEdit
         public async Task<IPatientFull> Handle(Request request, CancellationToken cancellationToken)
         {
             var service = storage.GetService<IPatientService>();
-            return await service.Edit(request.Id, request);
+            return await service.Edit(request.Id, request, request.UserId);
         }
 
         /// <inheritdoc />
@@ -91,9 +84,6 @@ public static class PatientEdit
             {
                 this.RuleFor(x => x.Id).GreaterThan(0).WithMessage(nameof(HfdError.HFDPatientIdIsNotCorrect));
                 this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.HFDPatientUserIdIsNotCorrect));
-                this.RuleFor(x => x.PhoneNumber)
-                    .Must(IsValidPhoneNumber)
-                    .WithMessage(nameof(HfdError.HFDPatientPhoneNumberIsNotValid));
             }
         }
     }

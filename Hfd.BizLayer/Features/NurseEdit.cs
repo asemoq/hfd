@@ -18,15 +18,8 @@ public static class NurseEdit
         public long Id { get; set; }
 
         /// <inheritdoc />
-        public string FullName { get; set; }
-
-        /// <inheritdoc />
-        public string PhoneNumber { get; set; }
-
-        /// <inheritdoc />
         public long? PlotNumber { get; set; }
 
-        /// <inheritdoc />
         public string UserId { get; set; }
     }
 
@@ -37,7 +30,7 @@ public static class NurseEdit
         public async Task<INurseFull> Handle(Request request, CancellationToken cancellationToken)
         {
             var service = storage.GetService<INurseService>();
-            return await service.Edit(request.Id, request);
+            return await service.Edit(request.Id, request, request.UserId);
         }
 
         /// <inheritdoc />
@@ -46,9 +39,6 @@ public static class NurseEdit
             public Validator()
             {
                 this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.HFDNurseUserIdIsNotCorrect));
-                this.RuleFor(x => x.PhoneNumber)
-                    .Must(IsValidPhoneNumber)
-                    .WithMessage(nameof(HfdError.HFDNursePhoneNumberIsNotValid));
             }
         }
     }
