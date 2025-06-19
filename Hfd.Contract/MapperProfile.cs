@@ -9,12 +9,13 @@ namespace Hfd.Contract;
 /// <summary>
 ///     Automapper setup.
 /// </summary>
-public class MapperProfile : Profile
+public partial class MapperProfile : Profile
 {
     public MapperProfile()
     {
         this.CreateMap<INurseFull, NurseModel>().IncludeBase<IPersonInfo, PersonModel>();
         this.CreateMap<IPatientFull, PatientModel>().IncludeBase<IPersonInfo, PersonModel>();
+        this.CreateMap<IPatientFull, StaffContact>().ConvertUsing<StaffContactTypeConverter>();
         this.CreateMap<ISurveyFull, SurveyModel>();
     }
 }

@@ -10,4 +10,10 @@
     <ProjectReference Include="..\libs\common\Hfd.Common.Contract\Hfd.Common.Contract.csproj"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="StaffContactTypeConverter.cs">
+      <DependentUpon>MapperProfile.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
