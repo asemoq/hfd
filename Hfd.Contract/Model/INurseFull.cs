@@ -5,14 +5,10 @@ namespace Hfd.Contract.Model;
 /// <summary>
 ///     Медсестра.
 /// </summary>
-public interface INurseFull : IPersonInfo, INurseInfo
+public interface INurseFull : IBaseInfo, INurseInfo
 {
 }
 
-public interface INurseInfo
+public interface INurseInfo : IPersonInfo
 {
-    /// <summary>
-    ///     Номер участка
-    /// </summary>
-    long? PlotNumber { get; }
 }

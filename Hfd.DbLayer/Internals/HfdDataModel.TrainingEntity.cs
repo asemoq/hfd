@@ -24,16 +24,20 @@ public class TrainingEntity : EntityBase, ITrainingFull
 {
     /// <inheritdoc />
     [MaxLength(int.MaxValue)]
+    [Column("name")]
     public required string Name { get; set; }
 
     /// <inheritdoc />
     [MaxLength(int.MaxValue)]
+    [Column("text")]
     public required string Text { get; set; }
 
     /// <inheritdoc />
     [MaxLength(int.MaxValue)]
+    [Column("file_id")]
     public required string FileId { get; set; }
 
     /// <inheritdoc />
+    [Column("file_type")]
     public FileType FileType { get; set; }
 }

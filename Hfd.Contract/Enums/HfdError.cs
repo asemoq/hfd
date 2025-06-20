@@ -49,4 +49,12 @@ public enum HfdError
     HFDProviderUserNotFound,
 
     #endregion
+
+    #region [ Plot ]
+
+    HFDPlotIdIsNotCorrect,
+    HFDPlotNotFound,
+    HFDPlotNotExists,
+
+    #endregion
 }

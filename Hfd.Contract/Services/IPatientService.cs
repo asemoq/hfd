@@ -13,12 +13,12 @@ public interface IPatientService : IDbService
     /// <summary>
     ///     Сохранить пациента в БД.
     /// </summary>
-    Task<IPatientFull> Add(IPatientInfo patientInfo, string userId);
+    Task<IPatientFull> Add(IPatientInfo patientInfo);
 
     /// <summary>
     ///     Изменить пациента в БД.
     /// </summary>
-    Task<IPatientFull> Edit(long patientId, IPatientInfo patientInfo, string userId);
+    Task<IPatientFull> Edit(long patientId, IPatientInfo patientInfo);
 
     /// <summary>
     ///     Получить список пациентов из БД.
@@ -33,7 +33,7 @@ public interface IPatientService : IDbService
     /// <summary>
     ///     Получить пациента из БД по идентификатору.
     /// </summary>
-    Task<IPatientFull> GetById(long patientId, bool includeDependencies = false);
+    Task<IPatientFull> GetById(long patientId);
 
     /// <summary>
     ///     Получить пациента из БД по идентификатору пользователя.

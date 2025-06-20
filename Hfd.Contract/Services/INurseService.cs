@@ -12,12 +12,12 @@ public interface INurseService : IDbService
     /// <summary>
     ///     Сохранить медсестру в БД.
     /// </summary>
-    Task<INurseFull> Add(INurseInfo nurseInfo, string userId);
+    Task<INurseFull> Add(INurseInfo nurseInfo);
 
     /// <summary>
     ///     Изменить медсестру в БД.
     /// </summary>
-    Task<INurseFull> Edit(long nurseId, INurseInfo nurseInfo, string userId);
+    Task<INurseFull> Edit(long nurseId, INurseInfo nurseInfo);
 
     /// <summary>
     ///     Получить список медсестер из БД.

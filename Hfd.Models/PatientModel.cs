@@ -4,15 +4,11 @@ namespace Hfd.Models;
 
 public class PatientModel : PersonModel
 {
-    public string FullName { get; set; }
-
     public string Scale { get; set; }
 
     public string Imt { get; set; }
 
     public int Klas { get; set; }
-
-    public int PlotNumber { get; set; }
 
     public bool Dead { get; set; }
 

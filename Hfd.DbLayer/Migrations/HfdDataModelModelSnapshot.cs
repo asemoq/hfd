@@ -36,23 +36,28 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("Data")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("data");
 
                     b.Property<string>("FileId")
                         .IsRequired()
                         .HasMaxLength(2147483647)
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("file_id");
 
                     b.Property<long>("MessageId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("message_id");
 
                     b.Property<long?>("Size")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("size");
 
                     b.Property<string>("UniqueId")
                         .IsRequired()
                         .HasMaxLength(2147483647)
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("unique_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -75,22 +80,26 @@ namespace Hfd.DbLayer.Migrations
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasMaxLength(2147483647)
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("address");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<DateTime>("CreationDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("creation_date");
 
                     b.Property<string>("DocId")
                         .IsRequired()
                         .HasMaxLength(2147483647)
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("doc_id");
 
                     b.Property<long>("PatientId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("patient_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -116,9 +125,9 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<long?>("PlotNumber")
+                    b.Property<long?>("PlotId")
                         .HasColumnType("bigint")
-                        .HasColumnName("plot_number");
+                        .HasColumnName("plot_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -131,6 +140,8 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PlotId");
 
                     b.ToTable("nurse");
                 });
@@ -145,54 +156,64 @@ namespace Hfd.DbLayer.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Address")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("address");
 
                     b.Property<string>("Birthday")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("birthday");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<bool>("Dead")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("dead");
 
                     b.Property<string>("Diagnosis")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("diagnosis");
 
                     b.Property<string>("Diseases")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("diseases");
 
                     b.Property<string>("FamilyFullName")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("family_full_name");
 
                     b.Property<string>("FamilyPhoneNumber")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("family_phone_number");
 
                     b.Property<string>("Gender")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("gender");
 
                     b.Property<string>("Height")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("height");
 
                     b.Property<string>("Imt")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("imt");
 
                     b.Property<int>("Klas")
-                        .HasColumnType("integer");
-
-                    b.Property<long?>("NurseId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("PlotNumber")
                         .HasColumnType("integer")
-                        .HasColumnName("plot_number");
+                        .HasColumnName("klas");
+
+                    b.Property<long?>("PlotId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("plot_id");
 
                     b.Property<string>("Region")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("region");
 
                     b.Property<string>("Scale")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("scale");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -205,13 +226,45 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnName("user_id");
 
                     b.Property<string>("Weight")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("weight");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NurseId");
+                    b.HasIndex("PlotId");
 
                     b.ToTable("patient");
+                });
+
+            modelBuilder.Entity("Hfd.DbLayer.Internals.PlotEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Area")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("area");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("PlotNumber")
+                        .HasColumnType("integer")
+                        .HasColumnName("plot_number");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("plot");
                 });
 
             modelBuilder.Entity("Hfd.DbLayer.Internals.PsychologistEntity", b =>
@@ -227,9 +280,9 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<long?>("PlotNumber")
+                    b.Property<long?>("PlotId")
                         .HasColumnType("bigint")
-                        .HasColumnName("plot_number");
+                        .HasColumnName("plot_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -242,6 +295,8 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PlotId");
 
                     b.ToTable("psychologist");
                 });
@@ -259,9 +314,9 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<long?>("PlotNumber")
+                    b.Property<long?>("PlotId")
                         .HasColumnType("bigint")
-                        .HasColumnName("plot_number");
+                        .HasColumnName("plot_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -274,6 +329,8 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PlotId");
 
                     b.ToTable("social_worker");
                 });
@@ -288,36 +345,44 @@ namespace Hfd.DbLayer.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<double>("AdValue")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("ad_value");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("date_time");
 
                     b.Property<int>("Dyspnea")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("dyspnea");
 
                     b.Property<int>("Edema")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("edema");
 
                     b.Property<double>("HeartRateValue")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("heart_rate_value");
 
                     b.Property<long>("PatientId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("patient_id");
 
                     b.Property<int>("PositionInBed")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("position_in_bed");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.Property<double>("WeightValue")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("weight_value");
 
                     b.HasKey("Id");
 
@@ -342,20 +407,24 @@ namespace Hfd.DbLayer.Migrations
                     b.Property<string>("FileId")
                         .IsRequired()
                         .HasMaxLength(2147483647)
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("file_id");
 
                     b.Property<int>("FileType")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("file_type");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(2147483647)
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(2147483647)
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("text");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -380,16 +449,20 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<DateTime>("CreationDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("creation_date");
 
                     b.Property<long>("Distance")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("distance");
 
                     b.Property<long>("Klass")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("klass");
 
                     b.Property<long>("PatientId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("patient_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -413,13 +486,40 @@ namespace Hfd.DbLayer.Migrations
                     b.Navigation("PatientEntity");
                 });
 
+            modelBuilder.Entity("Hfd.DbLayer.Internals.NurseEntity", b =>
+                {
+                    b.HasOne("Hfd.DbLayer.Internals.PlotEntity", "PlotEntity")
+                        .WithMany("NurseEntities")
+                        .HasForeignKey("PlotId");
+
+                    b.Navigation("PlotEntity");
+                });
+
             modelBuilder.Entity("Hfd.DbLayer.Internals.PatientEntity", b =>
                 {
-                    b.HasOne("Hfd.DbLayer.Internals.NurseEntity", "NurseEntity")
+                    b.HasOne("Hfd.DbLayer.Internals.PlotEntity", "PlotEntity")
                         .WithMany("PatientEntities")
-                        .HasForeignKey("NurseId");
+                        .HasForeignKey("PlotId");
 
-                    b.Navigation("NurseEntity");
+                    b.Navigation("PlotEntity");
+                });
+
+            modelBuilder.Entity("Hfd.DbLayer.Internals.PsychologistEntity", b =>
+                {
+                    b.HasOne("Hfd.DbLayer.Internals.PlotEntity", "PlotEntity")
+                        .WithMany("PsychologistEntities")
+                        .HasForeignKey("PlotId");
+
+                    b.Navigation("PlotEntity");
+                });
+
+            modelBuilder.Entity("Hfd.DbLayer.Internals.SocialWorkerEntity", b =>
+                {
+                    b.HasOne("Hfd.DbLayer.Internals.PlotEntity", "PlotEntity")
+                        .WithMany("SocialWorkerEntities")
+                        .HasForeignKey("PlotId");
+
+                    b.Navigation("PlotEntity");
                 });
 
             modelBuilder.Entity("Hfd.DbLayer.Internals.SurveyEntity", b =>
@@ -444,11 +544,6 @@ namespace Hfd.DbLayer.Migrations
                     b.Navigation("PatientEntity");
                 });
 
-            modelBuilder.Entity("Hfd.DbLayer.Internals.NurseEntity", b =>
-                {
-                    b.Navigation("PatientEntities");
-                });
-
             modelBuilder.Entity("Hfd.DbLayer.Internals.PatientEntity", b =>
                 {
                     b.Navigation("HospitalizationEntities");
@@ -456,6 +551,17 @@ namespace Hfd.DbLayer.Migrations
                     b.Navigation("SurveyEntities");
 
                     b.Navigation("TshhEntities");
+                });
+
+            modelBuilder.Entity("Hfd.DbLayer.Internals.PlotEntity", b =>
+                {
+                    b.Navigation("NurseEntities");
+
+                    b.Navigation("PatientEntities");
+
+                    b.Navigation("PsychologistEntities");
+
+                    b.Navigation("SocialWorkerEntities");
                 });
 #pragma warning restore 612, 618
         }

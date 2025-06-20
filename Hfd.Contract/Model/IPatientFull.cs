@@ -5,20 +5,11 @@ namespace Hfd.Contract.Model;
 /// <summary>
 ///     Пациент.
 /// </summary>
-public interface IPatientFull : IPersonInfo, IPatientInfo
+public interface IPatientFull : IBaseInfo, IPatientInfo
 {
-    /// <summary>
-    ///     Прикрепленная медсестра.
-    /// </summary>
-    INurseFull Nurse { get; }
-
-    /// <summary>
-    ///     Ссылка на медсестру.
-    /// </summary>
-    long? NurseId { get; }
 }
 
-public interface IPatientInfo
+public interface IPatientInfo : IPersonInfo
 {
     /// <summary>
     ///     Шкала.
@@ -28,8 +19,6 @@ public interface IPatientInfo
     string? Imt { get; }
 
     int Klas { get; }
-
-    int PlotNumber { get; }
 
     bool Dead { get; }
 

@@ -1,5 +1,3 @@
-using static Hfd.Common.Contract.Helpers.FieldFormatHelper;
-
 namespace Hfd.BizLayer.Features;
 
 /// <summary>
@@ -13,9 +11,10 @@ public static class NurseAdd
     public sealed class Request : INurseInfo, IRequest<INurseFull>
     {
         /// <inheritdoc />
-        public long? PlotNumber { get; set; }
-
         public string UserId { get; set; }
+
+        /// <inheritdoc />
+        public long? PlotId { get; set; }
     }
 
     /// <inheritdoc />
@@ -25,7 +24,7 @@ public static class NurseAdd
         public async Task<INurseFull> Handle(Request request, CancellationToken cancellationToken)
         {
             var service = storage.GetService<INurseService>();
-            return await service.Add(request, request.UserId);
+            return await service.Add(request);
         }
 
         /// <inheritdoc />

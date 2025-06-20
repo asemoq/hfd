@@ -2,7 +2,6 @@
 using AutoMapper;
 using Hfd.BizLayer.Features;
 using Hfd.Common.Contract;
-using Hfd.Common.Contract.Model;
 using Hfd.Common.Models;
 using Hfd.Contract.Model;
 using Hfd.Models;

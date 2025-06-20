@@ -4,5 +4,4 @@ namespace Hfd.Models;
 
 public class NurseModel : PersonModel
 {
-    public long? PlotNumber { get; set; }
 }

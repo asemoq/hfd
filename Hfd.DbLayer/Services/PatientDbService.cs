@@ -3,7 +3,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Hfd.Common.Contract.Exceptions;
-using Hfd.Common.Contract.Helpers;
 using Hfd.Common.Models;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
@@ -14,7 +13,7 @@ namespace Hfd.DbLayer.Services;
 public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> log)
     : HfdDbService(storage, log), IPatientService
 {
-    public async Task<IPatientFull> Add(IPatientInfo patientInfo, string userId)
+    public async Task<IPatientFull> Add(IPatientInfo patientInfo)
     {
         return await this.Execute(async model =>
         {
@@ -23,11 +22,11 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
             {
                 var patient = new PatientEntity
                 {
-                    UserId = userId,
+                    UserId = patientInfo.UserId,
+                    PlotId = patientInfo.PlotId,
                     Scale = patientInfo.Scale,
                     Imt = patientInfo.Imt,
                     Klas = patientInfo.Klas,
-                    PlotNumber = patientInfo.PlotNumber,
                     Dead = patientInfo.Dead,
                     Gender = patientInfo.Gender,
                     Birthday = patientInfo.Birthday,
@@ -54,7 +53,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
         });
     }
 
-    public async Task<IPatientFull> Edit(long patientId, IPatientInfo patientInfo, string userId)
+    public async Task<IPatientFull> Edit(long patientId, IPatientInfo patientInfo)
     {
         return await this.Execute(async model =>
         {
@@ -67,11 +66,11 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
                     throw new HfdException(nameof(HfdError.HFDPatientNotExists));
                 }
 
-                patient.UserId = userId;
+                patient.UserId = patientInfo.UserId;
+                patient.PlotId = patientInfo.PlotId;
                 patient.Scale = patientInfo.Scale;
                 patient.Imt = patientInfo.Imt;
                 patient.Klas = patientInfo.Klas;
-                patient.PlotNumber = patientInfo.PlotNumber;
                 patient.Dead = patientInfo.Dead;
                 patient.Gender = patientInfo.Gender;
                 patient.Birthday = patientInfo.Birthday;
@@ -102,10 +101,12 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
         return await this.Execute(async model =>
         {
             Expression<Func<PatientEntity, bool>> query = x => true;
-            if (nurseId != null)
-            {
-                query = query.AndExpression(x => x.NurseId == nurseId);
-            }
+
+            // if (nurseId != null)
+            // {
+            //     query = query.AndExpression(x => x.NurseId == nurseId);
+            // }
+
 
             var total = await model.Patients.Where(query).CountAsync();
             var skip = Math.Min(total, request.Skip);
@@ -129,20 +130,12 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
         });
     }
 
-    public async Task<IPatientFull> GetById(long patientId, bool includeDependencies)
+    public async Task<IPatientFull> GetById(long patientId)
     {
         return await this.Execute(async model =>
         {
-            if (includeDependencies)
-            {
-                return await model.Patients.Include(x => x.NurseEntity).SingleOrDefaultAsync(x => x.Id == patientId)
-                       ?? throw new HfdException(nameof(HfdError.HFDPatientNotFound));
-            }
-            else
-            {
-                return await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId)
-                       ?? throw new HfdException(nameof(HfdError.HFDPatientNotFound));
-            }
+            return await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId)
+                   ?? throw new HfdException(nameof(HfdError.HFDPatientNotFound));
         });
     }
 

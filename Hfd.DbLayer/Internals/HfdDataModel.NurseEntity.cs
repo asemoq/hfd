@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Model;
@@ -23,8 +22,8 @@ public partial class HfdDataModel
 public class NurseEntity : EntityBase, INurseFull
 {
     /// <inheritdoc />
-    [Column("plot_number")]
-    public long? PlotNumber { get; set; }
+    [Column("plot_id")]
+    public long? PlotId { get; set; }
 
     /// <inheritdoc />
     [MaxLength(36)]
@@ -33,8 +32,9 @@ public class NurseEntity : EntityBase, INurseFull
 
     #region Navigation
 
-    [InverseProperty(nameof(PatientEntity.NurseEntity))]
-    public virtual ICollection<PatientEntity> PatientEntities { get; init; } = new HashSet<PatientEntity>();
+    [ForeignKey(nameof(PlotId))]
+    [InverseProperty(nameof(Internals.PlotEntity.NurseEntities))]
+    public PlotEntity? PlotEntity { get; set; }
 
     #endregion
 }

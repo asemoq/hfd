@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Hfd.Common.Contract.Exceptions;
-using Hfd.Common.Contract.Helpers;
 using Hfd.Common.Models;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
@@ -13,7 +12,7 @@ namespace Hfd.DbLayer.Services;
 public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
     : HfdDbService(storage, log), INurseService
 {
-    public async Task<INurseFull> Add(INurseInfo nurseInfo, string userId)
+    public async Task<INurseFull> Add(INurseInfo nurseInfo)
     {
         return await this.Execute(async model =>
         {
@@ -22,9 +21,7 @@ public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
             {
                 var nurse = new NurseEntity
                 {
-                    UserId = userId,
-                    PlotNumber = nurseInfo.PlotNumber,
-                    CreatedAt = DateTime.UtcNow,
+                    UserId = nurseInfo.UserId, PlotId = nurseInfo.PlotId, CreatedAt = DateTime.UtcNow,
                 };
                 await model.Nurses.AddAsync(nurse);
                 await model.SaveChangesAsync();
@@ -39,7 +36,7 @@ public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
         });
     }
 
-    public async Task<INurseFull> Edit(long nurseId, INurseInfo nurseInfo, string userId)
+    public async Task<INurseFull> Edit(long nurseId, INurseInfo nurseInfo)
     {
         return await this.Execute(async model =>
         {
@@ -52,8 +49,8 @@ public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
                     throw new HfdException(nameof(HfdError.HFDNurseNotExists));
                 }
 
-                nurse.UserId = userId;
-                nurse.PlotNumber = nurseInfo.PlotNumber;
+                nurse.UserId = nurseInfo.UserId;
+                nurse.PlotId = nurseInfo.PlotId;
                 nurse.UpdatedAt = DateTime.UtcNow;
 
                 await model.SaveChangesAsync();

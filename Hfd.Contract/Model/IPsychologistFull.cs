@@ -5,11 +5,10 @@ namespace Hfd.Contract.Model;
 /// <summary>
 ///     Опрос.
 /// </summary>
-public interface IPsychologistFull : IPersonInfo, IPsychologistInfo
+public interface IPsychologistFull : IBaseInfo, IPsychologistInfo
 {
 }
 
-public interface IPsychologistInfo
+public interface IPsychologistInfo : IPersonInfo
 {
-    long? PlotNumber { get; }
 }

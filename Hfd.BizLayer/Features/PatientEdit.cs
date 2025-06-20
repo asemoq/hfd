@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using static Hfd.Common.Contract.Helpers.FieldFormatHelper;
 
 namespace Hfd.BizLayer.Features;
 
@@ -18,7 +17,11 @@ public static class PatientEdit
         /// </summary>
         public long Id { get; set; }
 
+        /// <inheritdoc />
         public string UserId { get; set; }
+
+        /// <inheritdoc />
+        public long? PlotId { get; set; }
 
         /// <inheritdoc />
         public string Scale { get; set; }
@@ -28,9 +31,6 @@ public static class PatientEdit
 
         /// <inheritdoc />
         public int Klas { get; set; }
-
-        /// <inheritdoc />
-        public int PlotNumber { get; set; }
 
         /// <inheritdoc />
         [DefaultValue(false)]
@@ -74,7 +74,7 @@ public static class PatientEdit
         public async Task<IPatientFull> Handle(Request request, CancellationToken cancellationToken)
         {
             var service = storage.GetService<IPatientService>();
-            return await service.Edit(request.Id, request, request.UserId);
+            return await service.Edit(request.Id, request);
         }
 
         /// <inheritdoc />

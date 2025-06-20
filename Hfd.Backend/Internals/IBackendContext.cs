@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Security.Claims;
 using Hfd.Common.Contract.Services;
-using Hfd.Common.Models;
 using Hfd.Identity.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;

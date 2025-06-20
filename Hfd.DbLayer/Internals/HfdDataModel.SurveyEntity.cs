@@ -22,13 +22,17 @@ public partial class HfdDataModel
 public class SurveyEntity : EntityBase, ISurveyFull
 {
     /// <inheritdoc />
+    [Column("dyspnea")]
     public DyspneaType Dyspnea { get; set; }
 
     /// <inheritdoc />
+    [Column("ad_value")]
     public double AdValue { get; set; }
 
+    [NotMapped]
     public IPatientFull PatientModel => this.PatientEntity!;
 
+    [NotMapped]
     public DayTime DayTime => this.DateTime.Hour < 12 ? DayTime.Morning : DayTime.Afternoon;
 
     /// <inheritdoc />
@@ -41,6 +45,7 @@ public class SurveyEntity : EntityBase, ISurveyFull
     };
 
     /// <inheritdoc />
+    [Column("weight_value")]
     public double WeightValue { get; set; }
 
     /// <inheritdoc />
@@ -48,9 +53,11 @@ public class SurveyEntity : EntityBase, ISurveyFull
     public WeightType Weight => WeightType.Normal;
 
     /// <inheritdoc />
+    [Column("edema")]
     public EdemaType Edema { get; set; }
 
     /// <inheritdoc />
+    [Column("heart_rate_value")]
     public double HeartRateValue { get; set; }
 
     /// <inheritdoc />
@@ -63,12 +70,15 @@ public class SurveyEntity : EntityBase, ISurveyFull
     };
 
     /// <inheritdoc />
+    [Column("position_in_bed")]
     public PositionInBedType PositionInBed { get; set; }
 
     /// <inheritdoc />
+    [Column("patient_id")]
     public long PatientId { get; set; }
 
     /// <inheritdoc />
+    [Column("date_time")]
     public DateTime DateTime { get; set; }
 
     /// <inheritdoc />

@@ -5,15 +5,15 @@ public class StaffContact
     /// <summary>
     ///     Nurse contact.
     /// </summary>
-    public string? Nurse { get; set; }
+    public string[] Nurses { get; set; }
 
     /// <summary>
     ///     Psychologist contact.
     /// </summary>
-    public string? Psychologist { get; set; }
+    public string[] Psychologists { get; set; }
 
     /// <summary>
     ///     SocialWorker contact.
     /// </summary>
-    public string? SocialWorker { get; set; }
+    public string[] SocialWorkers { get; set; }
 }

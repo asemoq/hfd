@@ -26,6 +26,9 @@
     <Compile Update="Features\Nurse*.cs">
       <DependentUpon>Nurse.md</DependentUpon>
     </Compile>
+    <Compile Update="Features\PlotGetById.cs">
+      <DependentUpon>Plot.md</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

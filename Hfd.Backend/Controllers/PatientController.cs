@@ -2,7 +2,6 @@
 using AutoMapper;
 using Hfd.BizLayer.Features;
 using Hfd.Common.Contract;
-using Hfd.Common.Contract.Model;
 using Hfd.Common.Models;
 using Hfd.Contract.Model;
 using Hfd.Models;
@@ -44,7 +43,7 @@ public class PatientController(IMediator mediator, IMapper mapper) : ControllerB
     [HttpGet("{id:long}/staff_contact")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<StaffContact> GetStaffContactsById([FromRoute] long id, CancellationToken token)
-        => mapper.Map<IPatientFull, StaffContact>(await mediator.Send(new PatientGetWithDeps.Request { PatientId = id }, token));
+        => mapper.Map<IPatientFull, StaffContact>(await mediator.Send(new PatientGetById.Request { PatientId = id }, token));
 
     /// <summary>
     ///     Получить пациента по идентификатору пользователя.

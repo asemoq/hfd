@@ -29,14 +29,18 @@ public class TshhEntity : EntityBase, ITshhFull
     #endregion
 
     /// <inheritdoc />
+    [Column("klass")]
     public long Klass { get; set; }
 
     /// <inheritdoc />
+    [Column("distance")]
     public long Distance { get; set; }
 
     /// <inheritdoc />
+    [Column("patient_id")]
     public long PatientId { get; set; }
 
     /// <inheritdoc />
+    [Column("creation_date")]
     public DateTime CreationDate { get; set; }
 }

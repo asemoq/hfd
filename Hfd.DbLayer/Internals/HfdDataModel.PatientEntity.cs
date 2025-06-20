@@ -29,65 +29,70 @@ public class PatientEntity : EntityBase, IPatientFull
     public string UserId { get; set; }
 
     /// <inheritdoc />
-    public long? NurseId { get; set; }
-
-    /// <inheritdoc />
+    [Column("scale")]
     public string? Scale { get; set; }
 
     /// <inheritdoc />
+    [Column("imt")]
     public string? Imt { get; set; }
 
     /// <inheritdoc />
+    [Column("klas")]
     public int Klas { get; set; }
 
     /// <inheritdoc />
-    [Column("plot_number")]
-    public int PlotNumber { get; set; }
+    [Column("plot_id")]
+    public long? PlotId { get; set; }
 
     /// <inheritdoc />
+    [Column("dead")]
     public bool Dead { get; set; }
 
     /// <inheritdoc />
+    [Column("gender")]
     public string? Gender { get; set; }
 
     /// <inheritdoc />
+    [Column("birthday")]
     public string? Birthday { get; set; }
 
     /// <inheritdoc />
+    [Column("region")]
     public string? Region { get; set; }
 
     /// <inheritdoc />
+    [Column("address")]
     public string? Address { get; set; }
 
     /// <inheritdoc />
+    [Column("diagnosis")]
     public string? Diagnosis { get; set; }
 
     /// <inheritdoc />
+    [Column("diseases")]
     public string? Diseases { get; set; }
 
     /// <inheritdoc />
+    [Column("height")]
     public string? Height { get; set; }
 
     /// <inheritdoc />
+    [Column("weight")]
     public string? Weight { get; set; }
 
     /// <inheritdoc />
+    [Column("family_full_name")]
     public string? FamilyFullName { get; set; }
 
     /// <inheritdoc />
+    [Column("family_phone_number")]
     public string? FamilyPhoneNumber { get; set; }
-
-    /// <inheritdoc />
-    public INurseFull Nurse => this.NurseEntity!;
 
     #region Navigation
 
-    /// <summary>
-    ///     Nurse.
-    /// </summary>
-    [ForeignKey(nameof(NurseId))]
-    [InverseProperty(nameof(Internals.NurseEntity.PatientEntities))]
-    public NurseEntity? NurseEntity { get; set; }
+    [ForeignKey(nameof(PlotId))]
+    [InverseProperty(nameof(Internals.PlotEntity.PatientEntities))]
+    public PlotEntity? PlotEntity { get; set; }
 
     [InverseProperty(nameof(SurveyEntity.PatientEntity))]
     public virtual ICollection<SurveyEntity> SurveyEntities { get; init; } = new HashSet<SurveyEntity>();

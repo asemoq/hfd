@@ -23,16 +23,20 @@ public class HospitalizationEntity : EntityBase, IHospitalizationFull
 {
     /// <inheritdoc />
     [MaxLength(int.MaxValue)]
+    [Column("address")]
     public required string Address { get; set; }
 
     /// <inheritdoc />
     [MaxLength(int.MaxValue)]
+    [Column("doc_id")]
     public required string DocId { get; set; }
 
     /// <inheritdoc />
+    [Column("creation_date")]
     public DateTime CreationDate { get; set; }
 
     /// <inheritdoc />
+    [Column("patient_id")]
     public long PatientId { get; set; }
 
     #region Navigation
