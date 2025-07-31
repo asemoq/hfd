@@ -40,7 +40,7 @@ public class PatientController(IMediator mediator, IMapper mapper) : ControllerB
     ///     Получить контакты сотрудников привязанных к пациенту.
     /// </summary>
     /// <returns>Пациент.</returns>
-    [HttpGet("{id:long}/staff_contact")]
+    [HttpGet("{id:long}/staff-contact")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<StaffContact> GetStaffContactsById([FromRoute] long id, CancellationToken token)
         => mapper.Map<IPatientFull, StaffContact>(await mediator.Send(new PatientGetById.Request { PatientId = id }, token));

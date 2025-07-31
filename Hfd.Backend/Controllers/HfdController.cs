@@ -60,7 +60,7 @@ public class HfdController(IBackendContext context, UserManager<HfdIdentityUser>
     }
 
     [SwaggerResponse(StatusCodes.Status200OK, "Login information")]
-    [HttpPost("/provider_login"), Display(Order = 6)]
+    [HttpPost("/provider-login"), Display(Order = 6)]
     [Consumes("application/json")]
     [Produces("application/json")]
     public async Task<LoginFull> Login([FromQuery] string providerType, [FromBody] object data)

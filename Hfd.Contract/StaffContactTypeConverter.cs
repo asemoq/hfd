@@ -26,7 +26,10 @@ public partial class MapperProfile : Profile
                         var service = storage.GetService<IPlotService>();
                         var plot = await service.GetById(source.PlotId.Value, true);
                         var nurses = context.Mapper.Map<INurseFull, NurseModel>(plot.Nurses);
-                        destination = new StaffContact() { Nurses = nurses.Select(x => x.User.PhoneNumber).ToArray() };
+                        destination = new StaffContact()
+                        {
+                            Nurses = nurses.Select(x => FieldFormatHelper.GetFormattedPhoneNumber(x.User.PhoneNumber)).ToArray(),
+                        };
                     }
 
                     return destination;
