@@ -28,7 +28,12 @@ public partial class MapperProfile : Profile
                         var nurses = context.Mapper.Map<INurseFull, NurseModel>(plot.Nurses);
                         destination = new StaffContact()
                         {
-                            Nurses = nurses.Select(x => FieldFormatHelper.GetFormattedPhoneNumber(x.User.PhoneNumber)).ToArray(),
+                            Nurses = nurses.Select(x => new Contact()
+                                {
+                                    PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(x.User.PhoneNumber)!,
+                                    FullName = x.User.FullName!,
+                                })
+                                .ToArray(),
                         };
                     }
 
