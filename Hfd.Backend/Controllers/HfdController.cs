@@ -209,14 +209,14 @@ public class HfdController(IBackendContext context, UserManager<HfdIdentityUser>
             case DataException dataException:
             {
                 details.Message = dataException.Message;
-                details.Details = [exception.InnerException?.StackTrace ?? string.Empty];
+                details.Details = exception.GetInnerExceptions().Select(e => e.Message);
                 statusCode = HttpStatusCode.InternalServerError;
                 break;
             }
 
             default:
             {
-                details.Details = [exception.InnerException?.StackTrace ?? string.Empty];
+                details.Details = [exception.StackTrace];
                 statusCode = HttpStatusCode.InternalServerError;
                 break;
             }
@@ -243,6 +243,6 @@ public class HfdController(IBackendContext context, UserManager<HfdIdentityUser>
     {
         public string? Message { get; set; }
 
-        public IEnumerable<string>? Details { get; set; }
+        public IEnumerable<string?>? Details { get; set; }
     }
 }
