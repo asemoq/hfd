@@ -2,7 +2,7 @@
 
 namespace Hfd.Models;
 
-public class PlotModel : PersonModel
+public class PlotModel : BaseModel
 {
     public long PlotNumber { get; set; }
 
