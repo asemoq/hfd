@@ -107,7 +107,6 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
             //     query = query.AndExpression(x => x.NurseId == nurseId);
             // }
 
-
             var total = await model.Patients.Where(query).CountAsync();
             var skip = Math.Min(total, request.Skip);
             var take = Math.Min(total - request.Skip, request.Take == 0 ? total : request.Take);
