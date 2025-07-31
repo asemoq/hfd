@@ -206,6 +206,14 @@ public class HfdController(IBackendContext context, UserManager<HfdIdentityUser>
                 break;
             }
 
+            case DataException dataException:
+            {
+                details.Message = dataException.Message;
+                details.Details = [exception.InnerException?.StackTrace ?? string.Empty];
+                statusCode = HttpStatusCode.InternalServerError;
+                break;
+            }
+
             default:
             {
                 details.Details = [exception.InnerException?.StackTrace ?? string.Empty];
