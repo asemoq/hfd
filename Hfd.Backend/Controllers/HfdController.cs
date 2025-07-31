@@ -118,11 +118,7 @@ public class HfdController(IBackendContext context, UserManager<HfdIdentityUser>
     {
         var user = await userManager.FindByIdAsync(context.BizContext.User.Id) ?? throw new UserNotFoundException();
         var roles = await userManager.GetRolesAsync(user);
-        if (roles.Contains(role.ToString()))
-        {
-            user.DefaultRole = role;
-        }
-
+        user.DefaultRole = roles.Contains(role.ToString()) ? role : throw new AccessDeniedException();
         await userManager.UpdateAsync(user);
         return user;
     }
