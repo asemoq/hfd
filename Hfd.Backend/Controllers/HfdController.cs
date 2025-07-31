@@ -27,10 +27,8 @@ namespace Hfd.Backend.Controllers;
 [SwaggerResponse(StatusCodes.Status401Unauthorized, "User not authorized")]
 [ApiController, Route("hfd")]
 [Display(Order = 1, Name = "Управление сервисом")]
-public class HfdController(
-    IBackendContext context,
-    UserManager<HfdIdentityUser> userManager,
-    SignInManager<HfdIdentityUser> signInManager) : ControllerBase
+public class HfdController(IBackendContext context, UserManager<HfdIdentityUser> userManager, SignInManager<HfdIdentityUser> signInManager)
+    : ControllerBase
 {
     [SwaggerResponse(StatusCodes.Status200OK, "Login information")]
     [HttpPost("/login"), Display(Order = 6)]
@@ -56,10 +54,7 @@ public class HfdController(
         var handler = context.BizContext.Services.GetRequiredService<IJwtHandler>();
         var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
 
-        var rs = new LoginFull
-        {
-            UserName = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token,
-        };
+        var rs = new LoginFull { UserName = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token, };
 
         return rs;
     }
@@ -90,10 +85,7 @@ public class HfdController(
         var handler = context.BizContext.Services.GetRequiredService<IJwtHandler>();
         var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
 
-        var rs = new LoginFull
-        {
-            UserName = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token,
-        };
+        var rs = new LoginFull { UserName = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token, };
 
         return rs;
     }
@@ -111,6 +103,45 @@ public class HfdController(
         }
 
         return this.NoContent();
+    }
+
+    /// <summary>
+    ///     Изменить роль текущего пользователя по умолчанию.
+    /// </summary>
+    /// <param name="role">Новая роль по умолчанию.</param>
+    /// <returns>Учетная запись.</returns>
+    [SwaggerResponse(StatusCodes.Status200OK, "User has been updated")]
+    [HttpPut("/change-default-role")]
+    [Consumes("application/json")]
+    [Produces("application/json")]
+    public async Task<HfdIdentityUser> ChangeDefaultRole([FromQuery] UserRole role)
+    {
+        var user = await userManager.FindByIdAsync(context.BizContext.User.Id) ?? throw new UserNotFoundException();
+        var roles = await userManager.GetRolesAsync(user);
+        if (roles.Contains(role.ToString()))
+        {
+            user.DefaultRole = role;
+        }
+
+        await userManager.UpdateAsync(user);
+        return user;
+    }
+
+    /// <summary>
+    ///    Изменить язык текущего пользователя.
+    /// </summary>
+    /// <param name="language">Язык.</param>
+    /// <returns>Учетная запись.</returns>
+    [SwaggerResponse(StatusCodes.Status200OK, "User has been updated")]
+    [HttpPut("/change-language")]
+    [Consumes("application/json")]
+    [Produces("application/json")]
+    public async Task<HfdIdentityUser> ChangeLanguage([FromQuery] Language language)
+    {
+        var user = await userManager.FindByIdAsync(context.BizContext.User.Id) ?? throw new UserNotFoundException();
+        user.Language = language;
+        await userManager.UpdateAsync(user);
+        return user;
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -139,10 +170,7 @@ public class HfdController(
             error.Details = [ex.Message,];
         }
 
-        var result = new ObjectResult(error)
-        {
-            StatusCode = statusCode
-        };
+        var result = new ObjectResult(error) { StatusCode = statusCode };
         result.ContentTypes.Add(MediaTypeNames.Application.Json);
         return result;
     }
