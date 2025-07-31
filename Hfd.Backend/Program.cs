@@ -45,12 +45,11 @@ builder.Services.AddCors(corsPolicyName)
     .AddTransient<IBackendSecure, BackendSecure>();
 builder.Services.AddServices();
 builder.Services.AddHttpContextAccessor().AddHttpClient();
-builder.Services.AddControllers()
+builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
     .AddMvcOptions(options =>
     {
         options.InputFormatters.RemoveType<SystemTextJsonInputFormatter>();
         options.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();
-        options.EnableEndpointRouting = false;
     })
     .AddNewtonsoftJson(options =>
     {
@@ -59,11 +58,7 @@ builder.Services.AddControllers()
         options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
     });
 
-builder.Services.AddSwaggerGen(
-        "HFD API",
-        "v1",
-        assemblies,
-        options => options.FixCustomSchemaIds().SetActionTagAndOrder().SetJwtSecurity())
+builder.Services.AddSwaggerGen("HFD API", "v1", assemblies, options => options.FixCustomSchemaIds().SetActionTagAndOrder().SetJwtSecurity())
     .AddSwaggerGenNewtonsoftSupport();
 
 var app = builder.Build();

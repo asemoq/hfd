@@ -208,7 +208,7 @@ public class HfdController(IBackendContext context, UserManager<HfdIdentityUser>
 
             default:
             {
-                details.Details = [exception.InnerException?.Message ?? exception.InnerException?.StackTrace ?? string.Empty];
+                details.Details = [exception.InnerException?.StackTrace ?? string.Empty];
                 statusCode = HttpStatusCode.InternalServerError;
                 break;
             }
