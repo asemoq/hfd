@@ -34,7 +34,7 @@ public enum DyspneaType
     /// <summary>
     ///     Нет одышки
     /// </summary>
-    NoDyspnea = 0,
+    No = 0,
 
     /// <summary>
     ///     При нагрузке
@@ -101,12 +101,12 @@ public enum EdemaType
     /// <summary>
     ///     Выраженные отеки
     /// </summary>
-    PronouncedEdema = 1,
+    Pronounced = 1,
 
     /// <summary>
     ///     Тяжелые отеки
     /// </summary>
-    SevereEdema = 2,
+    Severe = 2,
 
     /// <summary>
     ///     Асцит
