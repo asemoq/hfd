@@ -4,10 +4,10 @@ using System.Net;
 using System.Net.Mime;
 using System.Security.Claims;
 using AutoMapper;
-using Hfd.Backend.Internals;
 using Hfd.BizLayer;
 using Hfd.Common.Backend.Jwt;
 using Hfd.Common.Contract.Exceptions;
+using Hfd.Common.Contract.Services;
 using Hfd.Common.Models;
 using Hfd.Identity.Model;
 using Hfd.Provider.Services;
@@ -29,7 +29,7 @@ namespace Hfd.Backend.Controllers;
 [ApiController, Route("hfd")]
 [Display(Order = 1, Name = "Управление сервисом")]
 public class HfdController(
-    IBackendContext context,
+    IBizContext context,
     IMapper mapper,
     UserManager<HfdIdentityUser> userManager,
     SignInManager<HfdIdentityUser> signInManager) : ControllerBase
@@ -53,9 +53,8 @@ public class HfdController(
             throw new UnauthorizedException();
         }
 
-        var roles = await userManager.GetRolesAsync(user);
-        var principal = await context.GetPrincipal(user, roles);
-        var handler = context.BizContext.Services.GetRequiredService<IJwtHandler>();
+        var handler = context.Services.GetRequiredService<IJwtHandler>();
+        var principal = await handler.GetPrincipal(mapper.Map<UserFull>(user));
         var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
 
         var rs = new LoginFull { UserName = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token, };
@@ -69,8 +68,8 @@ public class HfdController(
     [Produces("application/json")]
     public async Task<LoginFull> Login([FromQuery] string providerType, [FromBody] object data)
     {
-        var factory = context.BizContext.Services.GetRequiredService<IClientFactory<IProviderClient>>();
-        var providerOptions = context.BizContext.Services.GetRequiredService<IProviderOptions>();
+        var factory = context.Services.GetRequiredService<IClientFactory<IProviderClient>>();
+        var providerOptions = context.Services.GetRequiredService<IProviderOptions>();
         if (providerType != "tg")
         {
             return null!;
@@ -84,9 +83,9 @@ public class HfdController(
             throw new UserNotFoundException();
         }
 
-        var roles = await userManager.GetRolesAsync(user);
-        var principal = await context.GetPrincipal(user, roles);
-        var handler = context.BizContext.Services.GetRequiredService<IJwtHandler>();
+        var handler = context.Services.GetRequiredService<IJwtHandler>();
+        var principal = await handler.GetPrincipal(mapper.Map<UserFull>(user));
+
         var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
 
         var rs = new LoginFull { UserName = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token, };
@@ -99,7 +98,7 @@ public class HfdController(
     [Consumes("application/json")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordInfo rq, CancellationToken token)
     {
-        var user = await userManager.FindByIdAsync(context.BizContext.User.Id) ?? throw new UserNotFoundException();
+        var user = await userManager.FindByIdAsync(context.User.Id) ?? throw new UserNotFoundException();
         var result = await userManager.ChangePasswordAsync(user, rq.OldPassword, rq.NewPassword);
         if (!result.Succeeded)
         {
@@ -120,7 +119,7 @@ public class HfdController(
     [Produces("application/json")]
     public async Task<HfdIdentityUser> ChangeDefaultRole([FromQuery] UserRole role)
     {
-        var user = await userManager.FindByIdAsync(context.BizContext.User.Id) ?? throw new UserNotFoundException();
+        var user = await userManager.FindByIdAsync(context.User.Id) ?? throw new UserNotFoundException();
         var roles = await userManager.GetRolesAsync(user);
         user.DefaultRole = roles.Contains(role.ToString()) ? role : throw new AccessDeniedException();
         await userManager.UpdateAsync(user);
@@ -138,19 +137,19 @@ public class HfdController(
     [Produces("application/json")]
     public async Task<HfdIdentityUser> ChangeLanguage([FromQuery] Language language)
     {
-        var user = await userManager.FindByIdAsync(context.BizContext.User.Id) ?? throw new UserNotFoundException();
+        var user = await userManager.FindByIdAsync(context.User.Id) ?? throw new UserNotFoundException();
         user.Language = language;
         await userManager.UpdateAsync(user);
         return user;
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    [ProducesResponseType(typeof(HfdIdentityUser), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserFull), StatusCodes.Status200OK)]
     [HttpGet("/self"), Authorize]
     [Produces("application/json")]
     [Display(Order = 5)]
     public Task<UserFull> GetUiUserSelf(CancellationToken token = default)
-        => Task.FromResult(context.BizContext.User);
+        => Task.FromResult(context.User);
 
     /// <summary>
     ///     Получить учетную запись по номеру телефона.

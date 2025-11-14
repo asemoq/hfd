@@ -11,11 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Hfd.Backend.Internals;
 
-internal sealed class BackendSecure(
-    IBackendContext context,
-    IMapper mapper,
-    UserManager<HfdIdentityUser> userManager,
-    ILogger<BackendSecure> log) : IBackendSecure
+internal sealed class BackendSecure(IMapper mapper, UserManager<HfdIdentityUser> userManager, ILogger<BackendSecure> log) : IBackendSecure
 {
     public async Task<UserFull> Verify(ClaimsPrincipal principal)
     {
@@ -36,12 +32,5 @@ internal sealed class BackendSecure(
         }
 
         throw new UnauthorizedException();
-    }
-
-    public async Task<ClaimsPrincipal> GetPrincipal(UserFull user)
-    {
-        var dbUser = await userManager.FindByIdAsync(user.Id) ?? throw new UserNotFoundException(user.UserName!);
-        var roles = await userManager.GetRolesAsync(dbUser);
-        return await context.GetPrincipal(dbUser, roles);
     }
 }

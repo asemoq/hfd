@@ -41,7 +41,6 @@ builder.Services.AddCors(corsPolicyName)
     .AddHfdBizLayerServices(builder.Configuration, assemblies)
     .AddIdentityServices(builder.Configuration)
     .AddJwtAuthentication()
-    .AddScoped<IBackendContext, BackendContext>()
     .AddTransient<IBackendSecure, BackendSecure>();
 builder.Services.AddServices();
 builder.Services.AddHttpContextAccessor().AddHttpClient();
