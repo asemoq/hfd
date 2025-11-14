@@ -153,22 +153,20 @@ public class HfdController(
         => Task.FromResult(context.BizContext.User);
 
     /// <summary>
-    ///     Найти учетную запись.
+    ///     Получить учетную запись по номеру телефона.
     /// </summary>
-    /// <param name="phoneNumber">Номер телефона.</param>
+    /// <param name="number">Номер телефона.</param>
     /// <param name="token">Токен отмены.</param>
     /// <returns>Учетная запись.</returns>
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     [SwaggerResponse(StatusCodes.Status200OK, "User")]
-    [HttpGet("/find-user"), Authorize(Roles = "Administrator")]
+    [HttpGet("/get-user-by-phone-number/{number}"), Authorize(Roles = "Administrator")]
     [Produces("application/json")]
-    public async Task<UserFull> GetUserByPhoneNumber([FromQuery] [Required] string phoneNumber, CancellationToken token)
+    public async Task<UserFull?> GetUserByPhoneNumber([FromRoute] [Required] string number, CancellationToken token)
     {
-        var user = await userManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber, token)
-                   ?? throw new UserNotFoundException();
-        return mapper.Map<UserFull>(user);
+        var user = await userManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == number, token);
+        return user != null ? mapper.Map<UserFull>(user) : null;
     }
-
 
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/api/error")]
