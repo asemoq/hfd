@@ -30,7 +30,7 @@ public partial class MapperProfile : Profile
                         {
                             Nurses = nurses.Select(x => new Contact()
                                 {
-                                    PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(x.User.PhoneNumber)!,
+                                    PhoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(x.User.PhoneNumber, false)!,
                                     FullName = x.User.FullName!,
                                 })
                                 .ToArray(),
