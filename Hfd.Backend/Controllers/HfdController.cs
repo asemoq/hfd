@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Security.Claims;
+using AutoMapper;
 using Hfd.Backend.Internals;
 using Hfd.BizLayer;
 using Hfd.Common.Backend.Jwt;
@@ -27,8 +28,11 @@ namespace Hfd.Backend.Controllers;
 [SwaggerResponse(StatusCodes.Status401Unauthorized, "User not authorized")]
 [ApiController, Route("hfd")]
 [Display(Order = 1, Name = "Управление сервисом")]
-public class HfdController(IBackendContext context, UserManager<HfdIdentityUser> userManager, SignInManager<HfdIdentityUser> signInManager)
-    : ControllerBase
+public class HfdController(
+    IBackendContext context,
+    IMapper mapper,
+    UserManager<HfdIdentityUser> userManager,
+    SignInManager<HfdIdentityUser> signInManager) : ControllerBase
 {
     [SwaggerResponse(StatusCodes.Status200OK, "Login information")]
     [HttpPost("/login"), Display(Order = 6)]
@@ -147,6 +151,24 @@ public class HfdController(IBackendContext context, UserManager<HfdIdentityUser>
     [Display(Order = 5)]
     public Task<UserFull> GetUiUserSelf(CancellationToken token = default)
         => Task.FromResult(context.BizContext.User);
+
+    /// <summary>
+    ///     Найти учетную запись.
+    /// </summary>
+    /// <param name="phoneNumber">Номер телефона.</param>
+    /// <param name="token">Токен отмены.</param>
+    /// <returns>Учетная запись.</returns>
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    [SwaggerResponse(StatusCodes.Status200OK, "User")]
+    [HttpGet("/find-user"), Authorize(Roles = "Administrator")]
+    [Produces("application/json")]
+    public async Task<UserFull> GetUserByPhoneNumber([FromQuery] [Required] string phoneNumber, CancellationToken token)
+    {
+        var user = await userManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber, token)
+                   ?? throw new UserNotFoundException();
+        return mapper.Map<UserFull>(user);
+    }
+
 
     [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/api/error")]
