@@ -9,6 +9,7 @@ using Hfd.Common.Backend.Jwt;
 using Hfd.Common.Contract.Exceptions;
 using Hfd.Common.Contract.Services;
 using Hfd.Common.Models;
+using Hfd.Common.Services;
 using Hfd.Identity.Model;
 using Hfd.Provider.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -152,18 +153,18 @@ public class HfdController(
         => Task.FromResult(context.User);
 
     /// <summary>
-    ///     Получить учетную запись по номеру телефона.
+    ///     Получить учетную запись по идентификатору.
     /// </summary>
-    /// <param name="number">Номер телефона.</param>
+    /// <param name="id">Идентификатор пользователя.</param>
     /// <param name="token">Токен отмены.</param>
     /// <returns>Учетная запись.</returns>
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     [SwaggerResponse(StatusCodes.Status200OK, "User")]
-    [HttpGet("/get-user-by-phone-number/{number}"), Authorize(Roles = "Administrator")]
+    [HttpGet("/get-user-by-id/{id}"), Authorize(Roles = "Administrator")]
     [Produces("application/json")]
-    public async Task<UserFull?> GetUserByPhoneNumber([FromRoute] [Required] string number, CancellationToken token)
+    public async Task<UserFull?> GetUserById([FromRoute] [Required] string id, CancellationToken token)
     {
-        var user = await userManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == number, token);
+        var user = await userManager.Users.SingleOrDefaultAsync(u => u.Id == id, token);
         return user != null ? mapper.Map<UserFull>(user) : null;
     }
 

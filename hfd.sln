@@ -48,8 +48,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "provider", "provider", "{44
 		libs\provider\version.targets = libs\provider\version.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hfd.Provider.Contract", "libs\provider\Hfd.Provider.Contract\Hfd.Provider.Contract.csproj", "{04A551D4-4541-464E-A340-CBA3BE74DCC3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "identity", "identity", "{37F9EB79-C7DE-4281-A113-C76A53F1F9C6}"
 	ProjectSection(SolutionItems) = preProject
 		libs\identity\.gitignore = libs\identity\.gitignore
@@ -62,6 +60,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hfd.Provider.Services", "libs\provider\Hfd.Provider.Services\Hfd.Provider.Services.csproj", "{700995D6-456C-45B8-9B6C-F09D83686350}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hfd.Models", "Hfd.Models\Hfd.Models.csproj", "{76739E7A-DE82-4E63-B7D3-BE64ACBE4670}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hfd.Common.Services", "libs\common\Hfd.Common.Services\Hfd.Common.Services.csproj", "{62D4FE88-A214-41C6-A1BB-59F6A5CA6677}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,10 +105,6 @@ Global
 		{F128F79B-062E-462B-B103-F5BB20FFE9DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F128F79B-062E-462B-B103-F5BB20FFE9DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F128F79B-062E-462B-B103-F5BB20FFE9DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04A551D4-4541-464E-A340-CBA3BE74DCC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04A551D4-4541-464E-A340-CBA3BE74DCC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04A551D4-4541-464E-A340-CBA3BE74DCC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04A551D4-4541-464E-A340-CBA3BE74DCC3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8FF51A3-C3A5-42B9-998C-1CBB233A8CA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A8FF51A3-C3A5-42B9-998C-1CBB233A8CA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8FF51A3-C3A5-42B9-998C-1CBB233A8CA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -121,6 +117,10 @@ Global
 		{76739E7A-DE82-4E63-B7D3-BE64ACBE4670}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76739E7A-DE82-4E63-B7D3-BE64ACBE4670}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76739E7A-DE82-4E63-B7D3-BE64ACBE4670}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62D4FE88-A214-41C6-A1BB-59F6A5CA6677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62D4FE88-A214-41C6-A1BB-59F6A5CA6677}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62D4FE88-A214-41C6-A1BB-59F6A5CA6677}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62D4FE88-A214-41C6-A1BB-59F6A5CA6677}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,10 +133,10 @@ Global
 		{55297918-D553-4C44-953A-3E72E39FBC13} = {78702278-EAA8-48F8-A8CF-EF04A2A99F91}
 		{22CC9181-4E81-45BD-8063-30FE628FA6FE} = {78702278-EAA8-48F8-A8CF-EF04A2A99F91}
 		{446BD63C-37B1-46C0-B793-63D64D62CC18} = {5B75BF1A-E42E-4FCD-8B93-F885953A6A84}
-		{04A551D4-4541-464E-A340-CBA3BE74DCC3} = {446BD63C-37B1-46C0-B793-63D64D62CC18}
 		{37F9EB79-C7DE-4281-A113-C76A53F1F9C6} = {5B75BF1A-E42E-4FCD-8B93-F885953A6A84}
 		{A8FF51A3-C3A5-42B9-998C-1CBB233A8CA5} = {37F9EB79-C7DE-4281-A113-C76A53F1F9C6}
 		{700995D6-456C-45B8-9B6C-F09D83686350} = {446BD63C-37B1-46C0-B793-63D64D62CC18}
+		{62D4FE88-A214-41C6-A1BB-59F6A5CA6677} = {78702278-EAA8-48F8-A8CF-EF04A2A99F91}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {626A3E97-E913-4105-A96A-7830359415D1}

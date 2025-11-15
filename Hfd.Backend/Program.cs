@@ -3,6 +3,7 @@ using Hfd.Backend.Internals;
 using Hfd.BizLayer;
 using Hfd.Common.Backend;
 using Hfd.Common.Backend.Jwt;
+using Hfd.Common.Services;
 using Hfd.Contract;
 using Hfd.DbLayer;
 using Hfd.Identity;
