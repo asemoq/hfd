@@ -157,15 +157,13 @@ public enum ZoneType
 
 public enum DayTime
 {
-    None,
-
     /// <summary>
     ///     Утро
     /// </summary>
-    Morning = 10,
+    Morning = 0,
 
     /// <summary>
     ///     Вечер
     /// </summary>
-    Afternoon = 20,
+    Afternoon = 12,
 }
