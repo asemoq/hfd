@@ -102,10 +102,12 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
         {
             Expression<Func<PatientEntity, bool>> query = x => true;
 
-            // if (nurseId != null)
-            // {
-            //     query = query.AndExpression(x => x.NurseId == nurseId);
-            // }
+            if (nurseId != null)
+            {
+                var nurse = await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId)
+                            ?? throw new HfdException(nameof(HfdError.HFDNurseNotFound));
+                query = query.AndExpression(x => x.PlotId == nurse.PlotId);
+            }
 
             var total = await model.Patients.Where(query).CountAsync();
             var skip = Math.Min(total, request.Skip);

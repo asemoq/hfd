@@ -13,7 +13,7 @@ namespace Hfd.Contract;
 /// <inheritdoc/>
 public partial class MapperProfile : Profile
 {
-    internal class StaffContactTypeConverter(IDbStorage storage) : ITypeConverter<IPatientFull, StaffContact>
+    internal sealed class StaffContactTypeConverter(IDbStorage storage) : ITypeConverter<IPatientFull, StaffContact>
     {
         public StaffContact Convert(IPatientFull source, StaffContact destination, ResolutionContext context)
         {

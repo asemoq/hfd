@@ -276,7 +276,7 @@ namespace Hfd.DbLayer.Migrations
                     plot_number = table.Column<int>(type: "integer", nullable: false),
                     area = table.Column<string>(type: "text", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                 },
                 constraints: table =>
                 {
