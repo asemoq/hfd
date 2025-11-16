@@ -136,6 +136,11 @@ public class HfdController(
         var user = await userManager.FindByIdAsync(context.User.Id) ?? throw new UserNotFoundException();
         user.Language = language;
         await userManager.UpdateAsync(user);
+        var factory = context.Services.GetRequiredService<IClientFactory<IProviderClient>>();
+        var providerOptions = context.Services.GetRequiredService<IProviderOptions>();
+        if (providerOptions.TgUri == null) return user;
+        using var client = factory.CreateUserClient(providerOptions.TgUri!);
+        await client.UpdateLanguage();
         return user;
     }
 
