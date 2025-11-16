@@ -140,7 +140,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
         {
             var surveys = await model.Surveys.Where(x => x.PatientId == patientId && x.DateTime.Date == DateTime.UtcNow.Date)
                 .ToListAsync();
-            var dayTime = DateTime.UtcNow.Hour < 12 ? DayTime.Morning : DayTime.Afternoon;
+            var dayTime = DateTime.Now.Hour < 12 ? DayTime.Morning : DayTime.Afternoon;
             switch (surveys.Count)
             {
                 case > 2:
