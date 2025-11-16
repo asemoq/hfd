@@ -8,6 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\libs\common\Hfd.Common.BizLayer\Hfd.Common.BizLayer.csproj"/>
     <ProjectReference Include="..\Hfd.Contract\Hfd.Contract.csproj"/>
+    <ProjectReference Include="..\libs\provider\Hfd.Provider.Services\Hfd.Provider.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

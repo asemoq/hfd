@@ -1,4 +1,4 @@
-namespace Hfd.BizLayer;
+namespace Hfd.BizLayer.Internals;
 
 public interface IProviderOptions
 {

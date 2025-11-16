@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Mime;
 using System.Security.Claims;
 using AutoMapper;
-using Hfd.BizLayer;
+using Hfd.BizLayer.Internals;
 using Hfd.Common.Backend.Jwt;
 using Hfd.Common.Contract.Exceptions;
 using Hfd.Common.Contract.Services;
@@ -56,7 +56,7 @@ public class HfdController(
 
         var handler = context.Services.GetRequiredService<IJwtHandler>();
         var principal = await handler.GetPrincipal(mapper.Map<UserFull>(user));
-        var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
+        var token = handler.CreateToken(principal, TimeSpan.FromDays(7));
 
         var rs = new LoginFull { UserName = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token, };
 
@@ -87,7 +87,7 @@ public class HfdController(
         var handler = context.Services.GetRequiredService<IJwtHandler>();
         var principal = await handler.GetPrincipal(mapper.Map<UserFull>(user));
 
-        var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
+        var token = handler.CreateToken(principal, TimeSpan.FromDays(7));
 
         var rs = new LoginFull { UserName = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token, };
 
@@ -101,12 +101,7 @@ public class HfdController(
     {
         var user = await userManager.FindByIdAsync(context.User.Id) ?? throw new UserNotFoundException();
         var result = await userManager.ChangePasswordAsync(user, rq.OldPassword, rq.NewPassword);
-        if (!result.Succeeded)
-        {
-            throw new HfdException(result.Errors.Select(x => x.Description).ToArray());
-        }
-
-        return this.NoContent();
+        return !result.Succeeded ? throw new HfdException(result.Errors.Select(x => x.Description).ToArray()) : this.NoContent();
     }
 
     /// <summary>

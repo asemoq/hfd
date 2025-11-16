@@ -1,6 +1,7 @@
 using System.Reflection;
 using Hfd.Backend.Internals;
 using Hfd.BizLayer;
+using Hfd.BizLayer.Internals;
 using Hfd.Common.Backend;
 using Hfd.Common.Backend.Jwt;
 using Hfd.Common.Services;
@@ -42,7 +43,9 @@ builder.Services.AddCors(corsPolicyName)
     .AddHfdBizLayerServices(builder.Configuration, assemblies)
     .AddIdentityServices(builder.Configuration)
     .AddJwtAuthentication()
-    .AddTransient<IBackendSecure, BackendSecure>();
+    .AddQuartzJobs(builder.Configuration)
+    .AddTransient<IBackendSecure, BackendSecure>()
+    .AddTransient<IAdminClientFactory, AdminClientFactory>();
 builder.Services.AddServices();
 builder.Services.AddHttpContextAccessor().AddHttpClient();
 builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)

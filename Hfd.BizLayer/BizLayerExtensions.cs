@@ -1,4 +1,5 @@
 using System.Reflection;
+using Hfd.BizLayer.Internals;
 using Hfd.Common.BizLayer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
