@@ -19,10 +19,7 @@ public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
             await using var trans = await model.Database.BeginTransactionAsync();
             try
             {
-                var nurse = new NurseEntity
-                {
-                    UserId = nurseInfo.UserId, PlotId = nurseInfo.PlotId, CreatedAt = DateTime.UtcNow,
-                };
+                var nurse = new NurseEntity { UserId = nurseInfo.UserId, PlotId = nurseInfo.PlotId, CreatedAt = DateTime.UtcNow, };
                 await model.Nurses.AddAsync(nurse);
                 await model.SaveChangesAsync();
                 await trans.CommitAsync();
@@ -77,7 +74,7 @@ public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
                 Total = total,
                 First = skip,
                 Items = take > 0
-                    ? await model.Nurses.AsNoTracking().Skip(skip).Take(take).ToListAsync<INurseFull>()
+                    ? await model.Nurses.AsNoTracking().Skip(skip).Take(take).OrderBy(x => x.Id).ToListAsync<INurseFull>()
                     : new List<INurseFull>(),
             };
         });

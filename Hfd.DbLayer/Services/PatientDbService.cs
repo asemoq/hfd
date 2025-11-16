@@ -115,7 +115,12 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
                 Total = total,
                 First = skip,
                 Items = take > 0
-                    ? await model.Patients.AsNoTracking().Where(query).Skip(skip).Take(take).ToListAsync<IPatientFull>()
+                    ? await model.Patients.AsNoTracking()
+                        .Where(query)
+                        .Skip(skip)
+                        .Take(take)
+                        .OrderBy(x => x.Id)
+                        .ToListAsync<IPatientFull>()
                     : new List<IPatientFull>(),
             };
         });

@@ -19,10 +19,7 @@ public class PlotDbService(HfdDbStorage storage, ILogger<PlotDbService> log)
             await using var trans = await model.Database.BeginTransactionAsync();
             try
             {
-                var plot = new PlotEntity
-                {
-                    PlotNumber = plotInfo.PlotNumber, Area = plotInfo.Area, CreatedAt = DateTime.UtcNow,
-                };
+                var plot = new PlotEntity { PlotNumber = plotInfo.PlotNumber, Area = plotInfo.Area, CreatedAt = DateTime.UtcNow, };
                 await model.Plots.AddAsync(plot);
                 await model.SaveChangesAsync();
                 await trans.CommitAsync();
@@ -77,7 +74,7 @@ public class PlotDbService(HfdDbStorage storage, ILogger<PlotDbService> log)
                 Total = total,
                 First = skip,
                 Items = take > 0
-                    ? await model.Plots.AsNoTracking().Skip(skip).Take(take).ToListAsync<IPlotFull>()
+                    ? await model.Plots.AsNoTracking().Skip(skip).Take(take).OrderBy(x => x.Id).ToListAsync<IPlotFull>()
                     : new List<IPlotFull>(),
             };
         });
@@ -94,8 +91,7 @@ public class PlotDbService(HfdDbStorage storage, ILogger<PlotDbService> log)
                       .Include(x => x.SocialWorkerEntities)
                       .SingleOrDefaultAsync(x => x.Id == plotId)
                   ?? throw new HfdException(nameof(HfdError.HFDPlotNotFound))
-                : await model.Plots.SingleOrDefaultAsync(x => x.Id == plotId)
-                  ?? throw new HfdException(nameof(HfdError.HFDPlotNotFound));
+                : await model.Plots.SingleOrDefaultAsync(x => x.Id == plotId) ?? throw new HfdException(nameof(HfdError.HFDPlotNotFound));
         });
     }
 
