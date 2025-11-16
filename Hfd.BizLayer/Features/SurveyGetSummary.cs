@@ -21,7 +21,7 @@ public static class SurveyGetSummary
         /// <summary>
         ///     Месяц и год.
         /// </summary>
-        public DateOnly Date { get; set; }
+        public DateTime Date { get; set; }
     }
 
     /// <inheritdoc />
