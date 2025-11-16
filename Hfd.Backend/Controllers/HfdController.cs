@@ -157,10 +157,10 @@ public class HfdController(
     [SwaggerResponse(StatusCodes.Status200OK, "User")]
     [HttpGet("/get-user-by-id/{id}"), Authorize(Roles = "Administrator")]
     [Produces("application/json")]
-    public async Task<UserFull?> GetUserById([FromRoute] [Required] string id, CancellationToken token)
+    public async Task<UserFull> GetUserById([FromRoute] [Required] string id, CancellationToken token)
     {
         var user = await userManager.Users.SingleOrDefaultAsync(u => u.Id == id, token);
-        return user != null ? mapper.Map<UserFull>(user) : null;
+        return mapper.Map<UserFull>(user) ?? throw new UserNotFoundException();
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]
