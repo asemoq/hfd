@@ -1,5 +1,6 @@
 using Hfd.BizLayer.Internals;
 using Hfd.Common.Contract.Attributes;
+using RestEase;
 
 namespace Hfd.BizLayer.Jobs;
 
@@ -12,18 +13,21 @@ public sealed class ConductTheSurveyJob(IDbStorage storage, IAdminClientFactory 
     /// <inheritdoc />
     public async Task Execute(IExecutionContext context)
     {
-        if (options.TgUri == null)
-        {
-            return;
-        }
-
+        if (options.TgUri == null) return;
         using var client = await factory.CreateClient(options.TgUri);
         var patients = await storage.GetService<IPatientService>().GetForRequest();
         foreach (var patient in patients)
         {
-            if (Guid.TryParse(patient.UserId, out var guid))
+            if (!Guid.TryParse(patient.UserId, out var guid)) continue;
+
+            try
             {
                 await client.SendNotification(guid.ToString(), context.Aborted);
+            }
+            catch (ApiException e)
+            {
+                Console.WriteLine(e.Content);
+                throw;
             }
         }
     }
