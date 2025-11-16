@@ -36,7 +36,7 @@ public class HfdController(
     SignInManager<HfdIdentityUser> signInManager) : ControllerBase
 {
     [SwaggerResponse(StatusCodes.Status200OK, "Login information")]
-    [HttpPost("/login"), Display(Order = 6)]
+    [HttpPost("/login"), Display(Order = 1)]
     [Consumes("application/json")]
     [Produces("application/json")]
     public async Task<LoginFull> Login([FromBody] LoginInfo rq)
@@ -64,7 +64,7 @@ public class HfdController(
     }
 
     [SwaggerResponse(StatusCodes.Status200OK, "Login information")]
-    [HttpPost("/provider-login"), Display(Order = 6)]
+    [HttpPost("/provider-login"), Display(Order = 2)]
     [Consumes("application/json")]
     [Produces("application/json")]
     public async Task<LoginFull> Login([FromQuery] string providerType, [FromBody] object data)
@@ -95,7 +95,7 @@ public class HfdController(
     }
 
     [SwaggerResponse(StatusCodes.Status204NoContent, "Password changed")]
-    [HttpPut("/password"), Authorize, Display(Order = 7)]
+    [HttpPut("/password"), Authorize, Display(Order = 3)]
     [Consumes("application/json")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordInfo rq, CancellationToken token)
     {
@@ -110,16 +110,16 @@ public class HfdController(
     /// <param name="role">Новая роль по умолчанию.</param>
     /// <returns>Учетная запись.</returns>
     [SwaggerResponse(StatusCodes.Status200OK, "User has been updated")]
-    [HttpPut("/change-default-role")]
+    [HttpPut("/change-default-role"), Display(Order = 4)]
     [Consumes("application/json")]
     [Produces("application/json")]
-    public async Task<HfdIdentityUser> ChangeDefaultRole([FromQuery] UserRole role)
+    public async Task<UserFull> ChangeDefaultRole([FromQuery] UserRole role)
     {
         var user = await userManager.FindByIdAsync(context.User.Id) ?? throw new UserNotFoundException();
         var roles = await userManager.GetRolesAsync(user);
         user.DefaultRole = roles.Contains(role.ToString()) ? role : throw new AccessDeniedException();
         await userManager.UpdateAsync(user);
-        return user;
+        return mapper.Map<UserFull>(user);
     }
 
     /// <summary>
@@ -128,27 +128,26 @@ public class HfdController(
     /// <param name="language">Язык.</param>
     /// <returns>Учетная запись.</returns>
     [SwaggerResponse(StatusCodes.Status200OK, "User has been updated")]
-    [HttpPut("/change-language")]
+    [HttpPut("/change-language"), Authorize, Display(Order = 5)]
     [Consumes("application/json")]
     [Produces("application/json")]
-    public async Task<HfdIdentityUser> ChangeLanguage([FromQuery] Language language)
+    public async Task<UserFull> ChangeLanguage([FromQuery] Language language)
     {
         var user = await userManager.FindByIdAsync(context.User.Id) ?? throw new UserNotFoundException();
         user.Language = language;
         await userManager.UpdateAsync(user);
         var factory = context.Services.GetRequiredService<IClientFactory<IProviderClient>>();
         var providerOptions = context.Services.GetRequiredService<IProviderOptions>();
-        if (providerOptions.TgUri == null) return user;
+        if (providerOptions.TgUri == null) return mapper.Map<UserFull>(user);
         using var client = factory.CreateUserClient(providerOptions.TgUri!);
         await client.UpdateLanguage();
-        return user;
+        return mapper.Map<UserFull>(user);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     [ProducesResponseType(typeof(UserFull), StatusCodes.Status200OK)]
-    [HttpGet("/self"), Authorize]
+    [HttpGet("/self"), Authorize, Display(Order = 6)]
     [Produces("application/json")]
-    [Display(Order = 5)]
     public Task<UserFull> GetUiUserSelf(CancellationToken token = default)
         => Task.FromResult(context.User);
 
@@ -160,12 +159,31 @@ public class HfdController(
     /// <returns>Учетная запись.</returns>
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     [SwaggerResponse(StatusCodes.Status200OK, "User")]
-    [HttpGet("/get-user-by-id/{id}"), Authorize(Roles = "Administrator")]
+    [HttpGet("/get-user-by-id/{id}"), Authorize(Roles = "Administrator"), Display(Order = 7)]
     [Produces("application/json")]
     public async Task<UserFull> GetUserById([FromRoute] [Required] string id, CancellationToken token)
     {
         var user = await userManager.Users.SingleOrDefaultAsync(u => u.Id == id, token);
         return mapper.Map<UserFull>(user) ?? throw new UserNotFoundException();
+    }
+
+    /// <summary>
+    ///     Изменить роль пользователя по умолчанию.
+    /// </summary>
+    /// <param name="id">Идентификатор пользователя.</param>
+    /// <param name="role">Новая роль по умолчанию.</param>
+    /// <returns>Учетная запись.</returns>
+    [SwaggerResponse(StatusCodes.Status200OK, "User has been updated")]
+    [HttpPut("/change-default-role/{id}"), Authorize(Roles = "Administrator"), Display(Order = 8)]
+    [Consumes("application/json")]
+    [Produces("application/json")]
+    public async Task<UserFull> ChangeDefaultRoleById([FromRoute] [Required] string id, [FromQuery] UserRole role)
+    {
+        var user = await userManager.FindByIdAsync(id) ?? throw new UserNotFoundException();
+        var roles = await userManager.GetRolesAsync(user);
+        user.DefaultRole = roles.Contains(role.ToString()) ? role : throw new AccessDeniedException();
+        await userManager.UpdateAsync(user);
+        return mapper.Map<UserFull>(user);
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]
