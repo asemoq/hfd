@@ -9,6 +9,6 @@ public interface ISocialWorkerFull : IBaseInfo, ISocialWorkerInfo
 {
 }
 
-public interface ISocialWorkerInfo : IPersonInfo
+public interface ISocialWorkerInfo : IMedPersonInfo
 {
 }

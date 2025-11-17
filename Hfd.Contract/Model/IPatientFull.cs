@@ -9,7 +9,7 @@ public interface IPatientFull : IBaseInfo, IPatientInfo
 {
 }
 
-public interface IPatientInfo : IPersonInfo
+public interface IPatientInfo : IMedPersonInfo
 {
     /// <summary>
     ///     Шкала.

@@ -2,6 +2,6 @@
 
 namespace Hfd.Models;
 
-public class NurseModel : PersonModel
+public class NurseModel : MedPersonModel
 {
 }

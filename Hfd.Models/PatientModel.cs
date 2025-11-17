@@ -2,7 +2,7 @@
 
 namespace Hfd.Models;
 
-public class PatientModel : PersonModel
+public class PatientModel : MedPersonModel
 {
     public string Scale { get; set; }
 

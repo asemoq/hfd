@@ -9,6 +9,6 @@ public interface IPsychologistFull : IBaseInfo, IPsychologistInfo
 {
 }
 
-public interface IPsychologistInfo : IPersonInfo
+public interface IPsychologistInfo : IMedPersonInfo
 {
 }

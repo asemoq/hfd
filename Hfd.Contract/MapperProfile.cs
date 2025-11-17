@@ -13,8 +13,12 @@ public partial class MapperProfile : Profile
 {
     public MapperProfile()
     {
-        this.CreateMap<INurseFull, NurseModel>().IncludeBase<IPersonInfo, PersonModel>();
-        this.CreateMap<IPatientFull, PatientModel>().IncludeBase<IPersonInfo, PersonModel>();
+        this.CreateMap<IMedPersonInfo, MedPersonModel>()
+            .IncludeBase<IPersonInfo, PersonModel>()
+            .ForMember(dest => dest.Plot, opt => opt.MapFrom<PlotResolver>());
+
+        this.CreateMap<INurseFull, NurseModel>().IncludeBase<IMedPersonInfo, MedPersonModel>();
+        this.CreateMap<IPatientFull, PatientModel>().IncludeBase<IMedPersonInfo, MedPersonModel>();
         this.CreateMap<IPatientFull, StaffContact>().ConvertUsing<StaffContactTypeConverter>();
         this.CreateMap<IPlotFull, PlotModel>();
         this.CreateMap<ISurveyFull, SurveyModel>();

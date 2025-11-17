@@ -9,6 +9,6 @@ public interface INurseFull : IBaseInfo, INurseInfo
 {
 }
 
-public interface INurseInfo : IPersonInfo
+public interface INurseInfo : IMedPersonInfo
 {
 }
