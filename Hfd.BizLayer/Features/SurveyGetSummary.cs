@@ -40,7 +40,7 @@ public static class SurveyGetSummary
                 {
                     var model = new SurveyModel()
                     {
-                        DateTime = currentDate.ToDateTime(new TimeOnly(dayTime + 2, 0)), DayTime = dayTime.ToString(),
+                        DateTime = currentDate.ToDateTime(new TimeOnly((int)dayTime + 2, 0)), DayTime = dayTime.ToString(),
                     };
 
                     var survey = surveys.SingleOrDefault(x => x.DayTime == dayTime && x.DateTime.Date == model.DateTime.Date);
