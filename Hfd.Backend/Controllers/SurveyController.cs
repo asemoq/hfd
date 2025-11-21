@@ -33,8 +33,8 @@ public class SurveyController(IMediator mediator, IMapper mapper) : ControllerBa
     /// <returns>График.</returns>
     [HttpGet("summary")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public async Task<SummaryModel> GetSummary([FromQuery] SurveyGetSummary.Request request, CancellationToken token)
-        => await mediator.Send(request, token);
+    public async Task<IEnumerable<SurveyModel>> GetSummary([FromQuery] SurveyGetSummary.Request request, CancellationToken token)
+        => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(request, token));
 
     /// <summary>
     ///     Получить последний пройденный опрос по идентификатору пациента.
@@ -42,9 +42,8 @@ public class SurveyController(IMediator mediator, IMapper mapper) : ControllerBa
     /// <returns>Опрос.</returns>
     [HttpGet("last")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public async Task<SurveyModel> GetLastByPatientId(
-        [FromQuery] SurveyGetLastByPatientId.Request request,
-        CancellationToken token) => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(request, token));
+    public async Task<SurveyModel> GetLastByPatientId([FromQuery] SurveyGetLastByPatientId.Request request, CancellationToken token)
+        => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(request, token));
 
     /// <summary>
     ///     Получить признак необходимости пройти опрос по идентификатору пациента.
@@ -62,7 +61,7 @@ public class SurveyController(IMediator mediator, IMapper mapper) : ControllerBa
     [HttpGet("{id:long}")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<SurveyModel> GetById([FromRoute] long id, CancellationToken token)
-        => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(new SurveyGetById.Request { SurveyId = id }, token));
+        => mapper.Map<SurveyModel>(await mediator.Send(new SurveyGetById.Request { SurveyId = id }, token));
 
     /// <summary>
     ///     Заполнить опрос.
@@ -73,7 +72,7 @@ public class SurveyController(IMediator mediator, IMapper mapper) : ControllerBa
     [HttpPost]
     [Produces("application/json")]
     public async Task<SurveyModel> Add(SurveyAdd.Request request, CancellationToken token)
-        => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(request, token));
+        => mapper.Map<SurveyModel>(await mediator.Send(request, token));
 
     /// <summary>
     ///     Редактировать опрос.
@@ -84,7 +83,7 @@ public class SurveyController(IMediator mediator, IMapper mapper) : ControllerBa
     [HttpPut]
     [Produces("application/json")]
     public async Task<SurveyModel> Edit(SurveyEdit.Request request, CancellationToken token)
-        => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(request, token));
+        => mapper.Map<SurveyModel>(await mediator.Send(request, token));
 
     /// <summary>
     ///     Удалить опрос.
@@ -93,5 +92,5 @@ public class SurveyController(IMediator mediator, IMapper mapper) : ControllerBa
     [HttpDelete("{id:long}")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<SurveyModel> Delete([FromRoute] long id, CancellationToken token)
-        => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(new SurveyDelete.Request { SurveyId = id }, token));
+        => mapper.Map<SurveyModel>(await mediator.Send(new SurveyDelete.Request { SurveyId = id }, token));
 }

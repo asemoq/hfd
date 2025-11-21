@@ -34,7 +34,7 @@ public class PlotController(IMediator mediator, IMapper mapper) : ControllerBase
     [HttpGet("{id:long}")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<PlotModel> GetById([FromRoute] long id, CancellationToken token)
-        => mapper.Map<IPlotFull, PlotModel>(await mediator.Send(new PlotGetById.Request { PlotId = id }, token));
+        => mapper.Map<PlotModel>(await mediator.Send(new PlotGetById.Request { PlotId = id }, token));
 
     /// <summary>
     ///     Добавить участок.
@@ -45,7 +45,7 @@ public class PlotController(IMediator mediator, IMapper mapper) : ControllerBase
     [HttpPost]
     [Produces("application/json")]
     public async Task<PlotModel> Add(PlotAdd.Request request, CancellationToken token)
-        => mapper.Map<IPlotFull, PlotModel>(await mediator.Send(request, token));
+        => mapper.Map<PlotModel>(await mediator.Send(request, token));
 
     /// <summary>
     ///     Редактировать участок.
@@ -56,7 +56,7 @@ public class PlotController(IMediator mediator, IMapper mapper) : ControllerBase
     [HttpPut]
     [Produces("application/json")]
     public async Task<PlotModel> Edit(PlotEdit.Request request, CancellationToken token)
-        => mapper.Map<IPlotFull, PlotModel>(await mediator.Send(request, token));
+        => mapper.Map<PlotModel>(await mediator.Send(request, token));
 
     /// <summary>
     ///     Удалить участок.
@@ -65,5 +65,5 @@ public class PlotController(IMediator mediator, IMapper mapper) : ControllerBase
     [HttpDelete("{id:long}")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<PlotModel> Delete([FromRoute] long id, CancellationToken token)
-        => mapper.Map<IPlotFull, PlotModel>(await mediator.Send(new PlotDelete.Request { PlotId = id }, token));
+        => mapper.Map<PlotModel>(await mediator.Send(new PlotDelete.Request { PlotId = id }, token));
 }

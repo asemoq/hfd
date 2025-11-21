@@ -34,7 +34,7 @@ public class NurseController(IMediator mediator, IMapper mapper) : ControllerBas
     [HttpGet("{id:long}")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<NurseModel> GetById([FromRoute] long id, CancellationToken token)
-        => mapper.Map<INurseFull, NurseModel>(await mediator.Send(new NurseGetById.Request { NurseId = id }, token));
+        => mapper.Map<NurseModel>(await mediator.Send(new NurseGetById.Request { NurseId = id }, token));
 
     /// <summary>
     ///     Получить медсестру по идентификатору пользователя.
@@ -43,7 +43,7 @@ public class NurseController(IMediator mediator, IMapper mapper) : ControllerBas
     [HttpGet("user/{userId}")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<NurseModel> GetByUserId([FromRoute] string userId, CancellationToken token)
-        => mapper.Map<INurseFull, NurseModel>(await mediator.Send(new NurseGetByUserId.Request { UserId = userId }, token));
+        => mapper.Map<NurseModel>(await mediator.Send(new NurseGetByUserId.Request { UserId = userId }, token));
 
     /// <summary>
     ///     Добавить медсестру.
@@ -54,7 +54,7 @@ public class NurseController(IMediator mediator, IMapper mapper) : ControllerBas
     [HttpPost]
     [Produces("application/json")]
     public async Task<NurseModel> Add(NurseAdd.Request request, CancellationToken token)
-        => mapper.Map<INurseFull, NurseModel>(await mediator.Send(request, token));
+        => mapper.Map<NurseModel>(await mediator.Send(request, token));
 
     /// <summary>
     ///     Редактировать медсестру.
@@ -65,7 +65,7 @@ public class NurseController(IMediator mediator, IMapper mapper) : ControllerBas
     [HttpPut]
     [Produces("application/json")]
     public async Task<NurseModel> Edit(NurseEdit.Request request, CancellationToken token)
-        => mapper.Map<INurseFull, NurseModel>(await mediator.Send(request, token));
+        => mapper.Map<NurseModel>(await mediator.Send(request, token));
 
     /// <summary>
     ///     Удалить медсестру.
@@ -74,5 +74,5 @@ public class NurseController(IMediator mediator, IMapper mapper) : ControllerBas
     [HttpDelete("{id:long}")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<NurseModel> Delete([FromRoute] long id, CancellationToken token)
-        => mapper.Map<INurseFull, NurseModel>(await mediator.Send(new NurseDelete.Request { NurseId = id }, token));
+        => mapper.Map<NurseModel>(await mediator.Send(new NurseDelete.Request { NurseId = id }, token));
 }

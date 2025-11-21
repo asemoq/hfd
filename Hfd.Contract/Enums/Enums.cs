@@ -73,7 +73,7 @@ public enum WeightType
     Normal = 0,
 
     /// <summary>
-    ///     Поднабор веса
+    ///     Набор веса
     /// </summary>
     WeightGain = 1,
 }

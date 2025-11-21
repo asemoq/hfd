@@ -34,7 +34,7 @@ public class PatientController(IMediator mediator, IMapper mapper) : ControllerB
     [HttpGet("{id:long}")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<PatientModel> GetById([FromRoute] long id, CancellationToken token)
-        => mapper.Map<IPatientFull, PatientModel>(await mediator.Send(new PatientGetById.Request { PatientId = id }, token));
+        => mapper.Map<PatientModel>(await mediator.Send(new PatientGetById.Request { PatientId = id }, token));
 
     /// <summary>
     ///     Получить контакты сотрудников привязанных к пациенту.
@@ -43,7 +43,7 @@ public class PatientController(IMediator mediator, IMapper mapper) : ControllerB
     [HttpGet("{id:long}/staff-contact")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<StaffContact> GetStaffContactsById([FromRoute] long id, CancellationToken token)
-        => mapper.Map<IPatientFull, StaffContact>(await mediator.Send(new PatientGetById.Request { PatientId = id }, token));
+        => mapper.Map<StaffContact>(await mediator.Send(new PatientGetById.Request { PatientId = id }, token));
 
     /// <summary>
     ///     Получить пациента по идентификатору пользователя.
@@ -52,7 +52,7 @@ public class PatientController(IMediator mediator, IMapper mapper) : ControllerB
     [HttpGet("user/{userId}")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<PatientModel> GetByUserId([FromRoute] string userId, CancellationToken token)
-        => mapper.Map<IPatientFull, PatientModel>(await mediator.Send(new PatientGetByUserId.Request { UserId = userId }, token));
+        => mapper.Map<PatientModel>(await mediator.Send(new PatientGetByUserId.Request { UserId = userId }, token));
 
     /// <summary>
     ///     Добавить пациента.
@@ -63,7 +63,7 @@ public class PatientController(IMediator mediator, IMapper mapper) : ControllerB
     [HttpPost]
     [Produces("application/json")]
     public async Task<PatientModel> Add(PatientAdd.Request request, CancellationToken token)
-        => mapper.Map<IPatientFull, PatientModel>(await mediator.Send(request, token));
+        => mapper.Map<PatientModel>(await mediator.Send(request, token));
 
     /// <summary>
     ///     Редактировать пациента.
@@ -74,7 +74,7 @@ public class PatientController(IMediator mediator, IMapper mapper) : ControllerB
     [HttpPut]
     [Produces("application/json")]
     public async Task<PatientModel> Edit(PatientEdit.Request request, CancellationToken token)
-        => mapper.Map<IPatientFull, PatientModel>(await mediator.Send(request, token));
+        => mapper.Map<PatientModel>(await mediator.Send(request, token));
 
     /// <summary>
     ///     Удалить пациента.
@@ -83,5 +83,5 @@ public class PatientController(IMediator mediator, IMapper mapper) : ControllerB
     [HttpDelete("{id:long}")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<PatientModel> Delete([FromRoute] long id, CancellationToken token)
-        => mapper.Map<IPatientFull, PatientModel>(await mediator.Send(new PatientDelete.Request { PatientId = id }, token));
+        => mapper.Map<PatientModel>(await mediator.Send(new PatientDelete.Request { PatientId = id }, token));
 }

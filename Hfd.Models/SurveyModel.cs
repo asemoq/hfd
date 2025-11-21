@@ -27,6 +27,8 @@ public class SurveyModel : BaseModel
 
     public long PatientId { get; set; }
 
+    public string DayTime { get; set; }
+
     public DateTime DateTime { get; set; }
 
     public int Score { get; set; }
