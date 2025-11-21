@@ -1,3 +1,7 @@
+using System.Linq;
+using AutoMapper;
+using Hfd.Models;
+
 namespace Hfd.BizLayer.Features;
 
 public static class SurveyGetSummary
@@ -5,7 +9,7 @@ public static class SurveyGetSummary
     /// <summary>
     ///     Request.
     /// </summary>
-    public sealed class Request : IRequest<IEnumerable<ISurveyFull>>
+    public sealed class Request : IRequest<List<SurveyModel>>
     {
         /// <summary>
         ///     Id пациента.
@@ -19,11 +23,41 @@ public static class SurveyGetSummary
     }
 
     /// <inheritdoc />
-    public sealed class Handler(IDbStorage storage) : IRequestHandler<Request, IEnumerable<ISurveyFull>>
+    public sealed class Handler(IMapper mapper, IDbStorage storage) : IRequestHandler<Request, List<SurveyModel>>
     {
         /// <inheritdoc />
-        public async Task<IEnumerable<ISurveyFull>> Handle(Request request, CancellationToken cancellationToken)
-            => await storage.GetService<ISurveyService>().GetForPeriod(request.PatientId, request.Date.Month, request.Date.Year);
+        [Obsolete("Obsolete")]
+        public async Task<List<SurveyModel>> Handle(Request request, CancellationToken cancellationToken)
+        {
+            var service = storage.GetService<ISurveyService>();
+            var surveys = await service.GetForPeriod(request.PatientId, request.Date.Month, request.Date.Year);
+            var list = new List<SurveyModel>();
+            var startDate = new DateOnly(request.Date.Year, request.Date.Month, 1);
+            var currentDate = startDate;
+            while (currentDate.Month == startDate.Month && currentDate.Year == startDate.Year)
+            {
+                foreach (DayTime dayTime in Enum.GetValues(typeof(DayTime)))
+                {
+                    var model = new SurveyModel()
+                    {
+                        DateTime = currentDate.ToDateTime(new TimeOnly(dayTime + 2, 0)), DayTime = dayTime.ToString(),
+                    };
+
+                    var survey = surveys.SingleOrDefault(x => x.DayTime == dayTime && x.DateTime.Date == model.DateTime.Date);
+                    if (survey is null)
+                    {
+                        list.Add(model);
+                        continue;
+                    }
+
+                    list.Add(mapper.Map<SurveyModel>(survey));
+                }
+
+                currentDate = currentDate.AddDays(1);
+            }
+
+            return list;
+        }
 
         /// <inheritdoc />
         public sealed class Validator : AbstractValidator<Request>

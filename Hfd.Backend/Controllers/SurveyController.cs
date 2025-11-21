@@ -33,8 +33,8 @@ public class SurveyController(IMediator mediator, IMapper mapper) : ControllerBa
     /// <returns>График.</returns>
     [HttpGet("summary")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public async Task<IEnumerable<SurveyModel>> GetSummary([FromQuery] SurveyGetSummary.Request request, CancellationToken token)
-        => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(request, token));
+    public async Task<List<SurveyModel>> GetSummary([FromQuery] SurveyGetSummary.Request request, CancellationToken token)
+        => await mediator.Send(request, token);
 
     /// <summary>
     ///     Получить последний пройденный опрос по идентификатору пациента.

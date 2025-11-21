@@ -120,11 +120,11 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
         });
     }
 
-    public async Task<IEnumerable<ISurveyFull>> GetForPeriod(long patientId, int month, int year)
+    public async Task<List<ISurveyFull>> GetForPeriod(long patientId, int month, int year)
     {
         return await this.Execute(async model
             => await model.Surveys.Where(x => x.PatientId == patientId && x.DateTime.Month == month && x.DateTime.Year == year)
-                .ToListAsync());
+                .ToListAsync<ISurveyFull>());
     }
 
     public async Task<ISurveyFull> GetLastByPatientId(long patientId)

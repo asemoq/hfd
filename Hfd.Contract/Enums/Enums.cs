@@ -160,10 +160,10 @@ public enum DayTime
     /// <summary>
     ///     Утро
     /// </summary>
-    Morning,
+    Morning = 0,
 
     /// <summary>
     ///     Вечер
     /// </summary>
-    Afternoon,
+    Afternoon = 12,
 }
