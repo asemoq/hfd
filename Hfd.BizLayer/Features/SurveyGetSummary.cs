@@ -41,7 +41,7 @@ public static class SurveyGetSummary
                 {
                     var model = new SurveyModel() { DateTime = currentDate.AddHours((int)dayTime + 2), DayTime = dayTime.ToString(), };
                     var survey = surveys.SingleOrDefault(x => x.DayTime == dayTime && x.DateTime.Date == model.DateTime.Date);
-                    if (survey is not null)
+                    if (survey is null)
                     {
                         list.Add(model);
                         continue;
