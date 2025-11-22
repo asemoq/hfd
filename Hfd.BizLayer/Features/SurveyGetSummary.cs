@@ -30,9 +30,9 @@ public static class SurveyGetSummary
         public async Task<List<SurveyModel>> Handle(Request request, CancellationToken cancellationToken)
         {
             var list = new List<SurveyModel>();
-            if (request.Date > DateTime.Today) return list;
-            var surveys = await storage.GetService<ISurveyService>().GetForPeriod(request.PatientId, request.Date.Month, request.Date.Year);
             var startDate = new DateTime(request.Date.Year, request.Date.Month, 1);
+            if (startDate > DateTime.Today) return list;
+            var surveys = await storage.GetService<ISurveyService>().GetForPeriod(request.PatientId, request.Date.Month, request.Date.Year);
             var currentDate = startDate;
             while (currentDate.Month == startDate.Month && currentDate.Year == startDate.Year)
             {
