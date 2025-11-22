@@ -29,22 +29,19 @@ public static class SurveyGetSummary
         [Obsolete("Obsolete")]
         public async Task<List<SurveyModel>> Handle(Request request, CancellationToken cancellationToken)
         {
-            var service = storage.GetService<ISurveyService>();
-            var surveys = await service.GetForPeriod(request.PatientId, request.Date.Month, request.Date.Year);
             var list = new List<SurveyModel>();
-            var startDate = new DateOnly(request.Date.Year, request.Date.Month, 1);
+            if (request.Date > DateTime.Today) return list;
+            var surveys = await storage.GetService<ISurveyService>().GetForPeriod(request.PatientId, request.Date.Month, request.Date.Year);
+            var startDate = new DateTime(request.Date.Year, request.Date.Month, 1);
             var currentDate = startDate;
             while (currentDate.Month == startDate.Month && currentDate.Year == startDate.Year)
             {
+                if (currentDate > DateTime.Today) break;
                 foreach (DayTime dayTime in Enum.GetValues(typeof(DayTime)))
                 {
-                    var model = new SurveyModel()
-                    {
-                        DateTime = currentDate.ToDateTime(new TimeOnly((int)dayTime + 2, 0)), DayTime = dayTime.ToString(),
-                    };
-
+                    var model = new SurveyModel() { DateTime = currentDate.AddHours((int)dayTime + 2), DayTime = dayTime.ToString(), };
                     var survey = surveys.SingleOrDefault(x => x.DayTime == dayTime && x.DateTime.Date == model.DateTime.Date);
-                    if (survey is null)
+                    if (survey is not null)
                     {
                         list.Add(model);
                         continue;
