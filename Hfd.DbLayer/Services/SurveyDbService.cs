@@ -20,7 +20,8 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
             await using var trans = await model.Database.BeginTransactionAsync();
             try
             {
-                var surveys = await model.Surveys.Where(x => x.PatientId == surveyInfo.PatientId && x.DateTime.Date == DateTime.UtcNow.Date)
+                var surveys = await model.Surveys
+                    .Where(x => x.PatientId == surveyInfo.PatientId && x.DateTime.ToLocalTime().Date == DateTime.Now.Date)
                     .ToListAsync();
                 if (surveys.Count == 2)
                 {
@@ -138,7 +139,8 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
     {
         return await this.Execute(async model =>
         {
-            var surveys = await model.Surveys.Where(x => x.PatientId == patientId && x.DateTime.Date == DateTime.UtcNow.Date).ToListAsync();
+            var surveys = await model.Surveys.Where(x => x.PatientId == patientId && x.DateTime.ToLocalTime().Date == DateTime.Now.Date)
+                .ToListAsync();
             var dayTime = DateTime.Now.Hour < 12 ? DayTime.Morning : DayTime.Afternoon;
             switch (surveys.Count)
             {
