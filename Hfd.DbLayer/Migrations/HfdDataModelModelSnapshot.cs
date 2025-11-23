@@ -264,6 +264,9 @@ namespace Hfd.DbLayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Number")
+                        .IsUnique();
+
                     b.ToTable("plot");
                 });
 
