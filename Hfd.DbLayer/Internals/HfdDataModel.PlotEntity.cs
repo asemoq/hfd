@@ -23,8 +23,8 @@ public partial class HfdDataModel
 public class PlotEntity : EntityBase, IPlotFull
 {
     /// <inheritdoc />
-    [Column("plot_number")]
-    public int PlotNumber { get; set; }
+    [Column("number")]
+    public int Number { get; set; }
 
     /// <inheritdoc />
     [Column("area")]

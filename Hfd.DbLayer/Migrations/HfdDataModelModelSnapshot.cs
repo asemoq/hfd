@@ -254,9 +254,9 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<int>("PlotNumber")
+                    b.Property<int>("Number")
                         .HasColumnType("integer")
-                        .HasColumnName("plot_number");
+                        .HasColumnName("number");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")

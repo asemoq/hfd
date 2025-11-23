@@ -4,7 +4,7 @@ namespace Hfd.Models;
 
 public class PlotModel : BaseModel
 {
-    public long PlotNumber { get; set; }
+    public long Number { get; set; }
 
     public string Area { get; set; }
 }

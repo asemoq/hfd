@@ -16,7 +16,7 @@ public static class PlotEdit
         public long Id { get; set; }
 
         /// <inheritdoc />
-        public int PlotNumber { get; set; }
+        public int Number { get; set; }
 
         /// <inheritdoc />
         public string Area { get; set; }

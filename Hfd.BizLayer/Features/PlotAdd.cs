@@ -11,7 +11,7 @@ public static class PlotAdd
     public sealed class Request : IPlotInfo, IRequest<IPlotFull>
     {
         /// <inheritdoc />
-        public int PlotNumber { get; set; }
+        public int Number { get; set; }
 
         /// <inheritdoc />
         public string Area { get; set; }

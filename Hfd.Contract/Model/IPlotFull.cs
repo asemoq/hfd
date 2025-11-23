@@ -19,7 +19,7 @@ public interface IPlotFull : IBaseInfo, IPlotInfo
 
 public interface IPlotInfo
 {
-    int PlotNumber { get; }
+    int Number { get; }
 
     string Area { get; }
 }
