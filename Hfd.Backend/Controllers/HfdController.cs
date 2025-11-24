@@ -44,7 +44,9 @@ public class HfdController(
     {
         var isValidPhoneNumber = FieldFormatHelper.IsValidPhoneNumber(rq.PhoneNumber);
         if (!isValidPhoneNumber) throw new HfdException("UserPhoneNumberIsNotValid");
-        var user = await userManager.FindByNameAsync(rq.PhoneNumber);
+        var phoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(rq.PhoneNumber, false)
+                          ?? throw new HfdException("UserPhoneNumberIsNotValid");
+        var user = await userManager.FindByNameAsync(phoneNumber);
         if (user == null)
         {
             throw new UserNotFoundException();
