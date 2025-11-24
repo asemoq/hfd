@@ -7,6 +7,7 @@ using AutoMapper;
 using Hfd.BizLayer.Internals;
 using Hfd.Common.Backend.Jwt;
 using Hfd.Common.Contract.Exceptions;
+using Hfd.Common.Contract.Helpers;
 using Hfd.Common.Contract.Services;
 using Hfd.Common.Models;
 using Hfd.Common.Services;
@@ -41,6 +42,8 @@ public class HfdController(
     [Produces("application/json")]
     public async Task<LoginFull> Login([FromBody] LoginInfo rq)
     {
+        var isValidPhoneNumber = FieldFormatHelper.IsValidPhoneNumber(rq.PhoneNumber);
+        if (!isValidPhoneNumber) throw new HfdException("UserPhoneNumberIsNotValid");
         var user = await userManager.FindByNameAsync(rq.PhoneNumber);
         if (user == null)
         {
