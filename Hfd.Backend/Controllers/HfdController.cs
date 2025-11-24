@@ -41,7 +41,7 @@ public class HfdController(
     [Produces("application/json")]
     public async Task<LoginFull> Login([FromBody] LoginInfo rq)
     {
-        var user = await userManager.FindByNameAsync(rq.UserName);
+        var user = await userManager.FindByNameAsync(rq.PhoneNumber);
         if (user == null)
         {
             throw new UserNotFoundException();
