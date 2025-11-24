@@ -28,7 +28,7 @@ public static class SurveyGetLastByPatientId
         {
             public Validator()
             {
-                this.RuleFor(x => x.PatientId).GreaterThan(0).WithMessage(nameof(HfdError.HFDPatientIdIsNotCorrect));
+                this.RuleFor(x => x.PatientId).GreaterThan(0).WithMessage(nameof(HfdError.PatientIdIsNotCorrect));
             }
         }
     }

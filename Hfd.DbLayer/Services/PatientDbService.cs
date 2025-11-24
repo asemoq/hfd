@@ -63,7 +63,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
                 var patient = await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId);
                 if (patient == null)
                 {
-                    throw new HfdException(nameof(HfdError.HFDPatientNotExists));
+                    throw new HfdException(nameof(HfdError.PatientNotExists));
                 }
 
                 patient.UserId = patientInfo.UserId;
@@ -105,7 +105,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
             if (nurseId != null)
             {
                 var nurse = await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId)
-                            ?? throw new HfdException(nameof(HfdError.HFDNurseNotFound));
+                            ?? throw new HfdException(nameof(HfdError.NurseNotFound));
                 query = query.AndExpression(x => x.PlotId == nurse.PlotId);
             }
 
@@ -141,14 +141,14 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
         return await this.Execute(async model =>
         {
             return await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId)
-                   ?? throw new HfdException(nameof(HfdError.HFDPatientNotFound));
+                   ?? throw new HfdException(nameof(HfdError.PatientNotFound));
         });
     }
 
     public async Task<IPatientFull> GetByUserId(string userId)
     {
         return await this.Execute(async model => await model.Patients.SingleOrDefaultAsync(x => x.UserId == userId)
-                                                 ?? throw new HfdException(nameof(HfdError.HFDPatientNotFound)));
+                                                 ?? throw new HfdException(nameof(HfdError.PatientNotFound)));
     }
 
     public async Task<IPatientFull> Delete(long patientId)
@@ -161,7 +161,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
                 var patient = await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId);
                 if (patient == null)
                 {
-                    throw new HfdException(nameof(HfdError.HFDPatientNotExists));
+                    throw new HfdException(nameof(HfdError.PatientNotExists));
                 }
 
                 model.Remove(patient);

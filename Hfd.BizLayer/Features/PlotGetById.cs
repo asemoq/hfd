@@ -28,7 +28,7 @@ public static class PlotGetById
         {
             public Validator()
             {
-                this.RuleFor(x => x.PlotId).GreaterThan(0).WithMessage(nameof(HfdError.HFDPlotIdIsNotCorrect));
+                this.RuleFor(x => x.PlotId).GreaterThan(0).WithMessage(nameof(HfdError.PlotIdIsNotCorrect));
             }
         }
     }

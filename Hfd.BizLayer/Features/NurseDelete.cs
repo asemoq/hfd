@@ -28,7 +28,7 @@ public static class NurseDelete
         {
             public Validator()
             {
-                this.RuleFor(x => x.NurseId).GreaterThan(0).WithMessage(nameof(HfdError.HFDNurseIdIsNotCorrect));
+                this.RuleFor(x => x.NurseId).GreaterThan(0).WithMessage(nameof(HfdError.NurseIdIsNotCorrect));
             }
         }
     }

@@ -28,7 +28,7 @@ public static class SurveyDelete
         {
             public Validator()
             {
-                this.RuleFor(x => x.SurveyId).GreaterThan(0).WithMessage(nameof(HfdError.HFDSurveyIdIsNotCorrect));
+                this.RuleFor(x => x.SurveyId).GreaterThan(0).WithMessage(nameof(HfdError.SurveyIdIsNotCorrect));
             }
         }
     }

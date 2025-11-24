@@ -28,7 +28,7 @@ public static class PatientGetByUserId
         {
             public Validator()
             {
-                this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.HFDPatientUserIdIsNotCorrect));
+                this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.PatientUserIdIsNotCorrect));
             }
         }
     }

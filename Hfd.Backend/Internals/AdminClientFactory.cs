@@ -21,7 +21,7 @@ public class AdminClientFactory(
 {
     public async Task<IProviderClient> CreateClient(Uri uri, int timeout = 0)
     {
-        var user = await userManager.FindByNameAsync(IdentitySeedData.AdminUserName);
+        var user = await userManager.FindByNameAsync(IdentitySeedData.AdminPhoneNumber);
         var principal = await handler.GetPrincipal(mapper.Map<UserFull>(user));
         var token = handler.CreateToken(principal, TimeSpan.FromDays(1));
         var client = factory.CreateUserClient(uri, timeout);

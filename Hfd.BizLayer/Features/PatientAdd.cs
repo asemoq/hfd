@@ -77,7 +77,7 @@ public static class PatientAdd
         {
             public Validator()
             {
-                this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.HFDPatientUserIdIsNotCorrect));
+                this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.PatientUserIdIsNotCorrect));
             }
         }
     }

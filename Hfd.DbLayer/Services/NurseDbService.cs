@@ -43,7 +43,7 @@ public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
                 var nurse = await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId);
                 if (nurse == null)
                 {
-                    throw new HfdException(nameof(HfdError.HFDNurseNotExists));
+                    throw new HfdException(nameof(HfdError.NurseNotExists));
                 }
 
                 nurse.UserId = nurseInfo.UserId;
@@ -83,13 +83,13 @@ public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
     public async Task<INurseFull> GetById(long nurseId)
     {
         return await this.Execute(async model => await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId)
-                                                 ?? throw new HfdException(nameof(HfdError.HFDNurseNotFound)));
+                                                 ?? throw new HfdException(nameof(HfdError.NurseNotFound)));
     }
 
     public async Task<INurseFull> GetByUserId(string userId)
     {
         return await this.Execute(async model => await model.Nurses.SingleOrDefaultAsync(x => x.UserId == userId)
-                                                 ?? throw new HfdException(nameof(HfdError.HFDNurseNotFound)));
+                                                 ?? throw new HfdException(nameof(HfdError.NurseNotFound)));
     }
 
     public async Task<INurseFull> Delete(long nurseId)
@@ -102,7 +102,7 @@ public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
                 var nurse = await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId);
                 if (nurse == null)
                 {
-                    throw new HfdException(nameof(HfdError.HFDNurseNotExists));
+                    throw new HfdException(nameof(HfdError.NurseNotExists));
                 }
 
                 model.Remove(nurse);

@@ -32,7 +32,7 @@ public static class NurseAdd
         {
             public Validator()
             {
-                this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.HFDNurseUserIdIsNotCorrect));
+                this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.NurseUserIdIsNotCorrect));
             }
         }
     }

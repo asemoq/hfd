@@ -82,8 +82,8 @@ public static class PatientEdit
         {
             public Validator()
             {
-                this.RuleFor(x => x.Id).GreaterThan(0).WithMessage(nameof(HfdError.HFDPatientIdIsNotCorrect));
-                this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.HFDPatientUserIdIsNotCorrect));
+                this.RuleFor(x => x.Id).GreaterThan(0).WithMessage(nameof(HfdError.PatientIdIsNotCorrect));
+                this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.PatientUserIdIsNotCorrect));
             }
         }
     }

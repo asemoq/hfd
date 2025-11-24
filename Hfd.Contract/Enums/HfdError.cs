@@ -4,57 +4,55 @@ namespace Hfd.Contract.Enums;
 
 public enum HfdError
 {
-    HFDNoError,
+    NoError,
 
     #region [ Nurse ]
 
-    HFDNurseIdIsNotCorrect,
-    HFDNurseUserIdIsNotCorrect,
-    HFDNursePhoneNumberIsNotValid,
+    NurseIdIsNotCorrect,
+    NurseUserIdIsNotCorrect,
 
-    HFDNurseNotExists,
-    HFDNurseUserNotFound,
-    HFDNurseUserExist,
-    HFDNurseNotFound,
+    NurseNotExists,
+    NurseUserNotFound,
+    NurseUserExist,
+    NurseNotFound,
 
     #endregion
 
     #region [ Patient ]
 
-    HFDPatientIdIsNotCorrect,
-    HFDPatientUserIdIsNotCorrect,
-    HFDPatientPhoneNumberIsNotValid,
+    PatientIdIsNotCorrect,
+    PatientUserIdIsNotCorrect,
 
-    HFDPatientNotExists,
-    HFDPatientNotFound,
-    HFDPatientUserNotFound,
-    HFDPatientUserExist,
+    PatientNotExists,
+    PatientNotFound,
+    PatientUserNotFound,
+    PatientUserExist,
 
     #endregion
 
     #region [ Survey ]
 
-    HFDSurveyIdIsNotCorrect,
-    HFDSurveyPatientIdIsNotCorrect,
+    SurveyIdIsNotCorrect,
+    SurveyPatientIdIsNotCorrect,
 
-    HFDSurveyAlreadyExists,
-    HFDSurveyNotExists,
-    HFDSurveyNotFound,
+    SurveyAlreadyExists,
+    SurveyNotExists,
+    SurveyNotFound,
 
     #endregion
 
     #region [ ProviderUser ]
 
-    HFDProviderUserNotExists,
-    HFDProviderUserNotFound,
+    ProviderUserNotExists,
+    ProviderUserNotFound,
 
     #endregion
 
     #region [ Plot ]
 
-    HFDPlotIdIsNotCorrect,
-    HFDPlotNotFound,
-    HFDPlotNotExists,
+    PlotIdIsNotCorrect,
+    PlotNotFound,
+    PlotNotExists,
 
     #endregion
 }
