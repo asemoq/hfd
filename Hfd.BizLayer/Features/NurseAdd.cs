@@ -49,7 +49,7 @@ public static class NurseAdd
         {
             public Validator()
             {
-                this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.NurseUserIdIsNotCorrect));
+                this.RuleFor(x => x.UserId).NotEmpty().When(x => x.User == null).WithMessage(nameof(HfdError.NurseUserIdIsNotCorrect));
             }
         }
     }

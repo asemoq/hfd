@@ -54,7 +54,7 @@ public static class NurseEdit
         {
             public Validator()
             {
-                this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.NurseUserIdIsNotCorrect));
+                this.RuleFor(x => x.UserId).NotEmpty().When(x => x.User == null).WithMessage(nameof(HfdError.NurseUserIdIsNotCorrect));
             }
         }
     }
