@@ -1,3 +1,5 @@
+using Hfd.Common.Models;
+
 namespace Hfd.BizLayer.Features;
 
 /// <summary>
@@ -18,18 +20,33 @@ public static class NurseEdit
         /// <inheritdoc />
         public string UserId { get; set; }
 
+        public UserInfo? User { get; set; }
+
         /// <inheritdoc />
         public long? PlotId { get; set; }
     }
 
     /// <inheritdoc />
-    public sealed class Handler(IDbStorage storage) : IRequestHandler<Request, INurseFull>
+    public sealed class Handler(IDbStorage storage, IUserService service, IBizContext context) : IRequestHandler<Request, INurseFull>
     {
         /// <inheritdoc />
         public async Task<INurseFull> Handle(Request request, CancellationToken cancellationToken)
         {
-            var service = storage.GetService<INurseService>();
-            return await service.Edit(request.Id, request);
+            if (request.User != null)
+            {
+                var user = await service.FindUser(request.User.PhoneNumber);
+                if (user == null)
+                {
+                    request.User.Language = context.User.Language;
+                    request.User.DefaultRole = UserRole.Nurse;
+                    request.User.Roles = [UserRole.Nurse];
+                    user = await service.CreateUser(request.User);
+                }
+
+                request.UserId = user.Id;
+            }
+
+            return await storage.GetService<INurseService>().Edit(request.Id, request);
         }
 
         /// <inheritdoc />
