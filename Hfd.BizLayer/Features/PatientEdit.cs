@@ -27,7 +27,7 @@ public static class PatientEdit
         public string Scale { get; set; }
 
         /// <inheritdoc />
-        public string Imt { get; set; }
+        public decimal Imt { get; set; }
 
         /// <inheritdoc />
         public int Klas { get; set; }
@@ -37,10 +37,10 @@ public static class PatientEdit
         public bool Dead { get; set; }
 
         /// <inheritdoc />
-        public string Gender { get; set; }
+        public Gender Gender { get; set; }
 
         /// <inheritdoc />
-        public string Birthday { get; set; }
+        public DateTime Birthday { get; set; }
 
         /// <inheritdoc />
         public string Region { get; set; }
@@ -55,10 +55,10 @@ public static class PatientEdit
         public string Diseases { get; set; }
 
         /// <inheritdoc />
-        public string Height { get; set; }
+        public decimal Height { get; set; }
 
         /// <inheritdoc />
-        public string Weight { get; set; }
+        public decimal Weight { get; set; }
 
         /// <inheritdoc />
         public string FamilyFullName { get; set; }

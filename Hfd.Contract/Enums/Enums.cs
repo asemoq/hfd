@@ -10,25 +10,6 @@ public enum FileType
     Video = 50,
 }
 
-public enum ParseMode
-{
-    Html,
-    Without,
-}
-
-public enum WaitingType
-{
-    Start,
-    SetDyspnea,
-    SetAd,
-    SetWeight,
-    SetScoreEdema,
-    SetPhotoEdema,
-    SetHeartRate,
-    SetPositionBed,
-    SetPhotoPosition,
-}
-
 public enum DyspneaType
 {
     /// <summary>
@@ -166,4 +147,10 @@ public enum DayTime
     ///     Вечер
     /// </summary>
     Afternoon = 12,
+}
+
+public enum Gender
+{
+    Male,
+    Female,
 }

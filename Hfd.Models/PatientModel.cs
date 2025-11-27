@@ -1,12 +1,10 @@
-﻿using Hfd.Common.Models;
-
-namespace Hfd.Models;
+﻿namespace Hfd.Models;
 
 public class PatientModel : MedPersonModel
 {
     public string Scale { get; set; }
 
-    public string Imt { get; set; }
+    public decimal Imt { get; set; }
 
     public int Klas { get; set; }
 
@@ -24,9 +22,9 @@ public class PatientModel : MedPersonModel
 
     public string Diseases { get; set; }
 
-    public string Height { get; set; }
+    public decimal Height { get; set; }
 
-    public string Weight { get; set; }
+    public decimal Weight { get; set; }
 
     public string FamilyFullName { get; set; }
 

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Hfd.Common.DbLayer.Internals;
+using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
 
 // ReSharper disable EntityFramework.ModelValidation.UnlimitedStringLength
@@ -33,8 +34,16 @@ public class PatientEntity : EntityBase, IPatientFull
     public string? Scale { get; set; }
 
     /// <inheritdoc />
-    [Column("imt")]
-    public string? Imt { get; set; }
+    [Column("height")]
+    public decimal Height { get; set; }
+
+    /// <inheritdoc />
+    [Column("weight")]
+    public decimal Weight { get; set; }
+
+    /// <inheritdoc />
+    [NotMapped]
+    public decimal Imt => this.Weight / this.Height;
 
     /// <inheritdoc />
     [Column("klas")]
@@ -50,11 +59,11 @@ public class PatientEntity : EntityBase, IPatientFull
 
     /// <inheritdoc />
     [Column("gender")]
-    public string? Gender { get; set; }
+    public Gender Gender { get; set; }
 
     /// <inheritdoc />
     [Column("birthday")]
-    public string? Birthday { get; set; }
+    public DateTime Birthday { get; set; }
 
     /// <inheritdoc />
     [Column("region")]
@@ -73,20 +82,12 @@ public class PatientEntity : EntityBase, IPatientFull
     public string? Diseases { get; set; }
 
     /// <inheritdoc />
-    [Column("height")]
-    public string? Height { get; set; }
-
-    /// <inheritdoc />
-    [Column("weight")]
-    public string? Weight { get; set; }
-
-    /// <inheritdoc />
     [Column("family_full_name")]
-    public string? FamilyFullName { get; set; }
+    public string FamilyFullName { get; set; }
 
     /// <inheritdoc />
     [Column("family_phone_number")]
-    public string? FamilyPhoneNumber { get; set; }
+    public string FamilyPhoneNumber { get; set; }
 
     #region Navigation
 
@@ -101,8 +102,7 @@ public class PatientEntity : EntityBase, IPatientFull
     public virtual ICollection<TshhEntity> TshhEntities { get; init; } = new HashSet<TshhEntity>();
 
     [InverseProperty(nameof(HospitalizationEntity.PatientEntity))]
-    public virtual ICollection<HospitalizationEntity> HospitalizationEntities { get; init; } =
-        new HashSet<HospitalizationEntity>();
+    public virtual ICollection<HospitalizationEntity> HospitalizationEntities { get; init; } = new HashSet<HospitalizationEntity>();
 
     #endregion
 }

@@ -159,8 +159,8 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnType("text")
                         .HasColumnName("address");
 
-                    b.Property<string>("Birthday")
-                        .HasColumnType("text")
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("birthday");
 
                     b.Property<DateTime>("CreatedAt")
@@ -180,24 +180,22 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnName("diseases");
 
                     b.Property<string>("FamilyFullName")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("family_full_name");
 
                     b.Property<string>("FamilyPhoneNumber")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("family_phone_number");
 
-                    b.Property<string>("Gender")
-                        .HasColumnType("text")
+                    b.Property<int>("Gender")
+                        .HasColumnType("integer")
                         .HasColumnName("gender");
 
-                    b.Property<string>("Height")
-                        .HasColumnType("text")
+                    b.Property<decimal>("Height")
+                        .HasColumnType("numeric")
                         .HasColumnName("height");
-
-                    b.Property<string>("Imt")
-                        .HasColumnType("text")
-                        .HasColumnName("imt");
 
                     b.Property<int>("Klas")
                         .HasColumnType("integer")
@@ -225,8 +223,8 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnType("character varying(36)")
                         .HasColumnName("user_id");
 
-                    b.Property<string>("Weight")
-                        .HasColumnType("text")
+                    b.Property<decimal>("Weight")
+                        .HasColumnType("numeric")
                         .HasColumnName("weight");
 
                     b.HasKey("Id");

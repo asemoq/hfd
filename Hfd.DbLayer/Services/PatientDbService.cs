@@ -25,7 +25,6 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
                     UserId = patientInfo.UserId,
                     PlotId = patientInfo.PlotId,
                     Scale = patientInfo.Scale,
-                    Imt = patientInfo.Imt,
                     Klas = patientInfo.Klas,
                     Dead = patientInfo.Dead,
                     Gender = patientInfo.Gender,
@@ -69,7 +68,6 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
                 patient.UserId = patientInfo.UserId;
                 patient.PlotId = patientInfo.PlotId;
                 patient.Scale = patientInfo.Scale;
-                patient.Imt = patientInfo.Imt;
                 patient.Klas = patientInfo.Klas;
                 patient.Dead = patientInfo.Dead;
                 patient.Gender = patientInfo.Gender;

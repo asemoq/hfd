@@ -1,4 +1,5 @@
 ﻿using Hfd.Common.Contract.Model;
+using Hfd.Contract.Enums;
 
 namespace Hfd.Contract.Model;
 
@@ -12,11 +13,24 @@ public interface IPatientFull : IBaseInfo, IPatientInfo
 public interface IPatientInfo : IMedPersonInfo
 {
     /// <summary>
+    ///     Рост.
+    /// </summary>
+    decimal Height { get; }
+
+    /// <summary>
+    ///     Вес.
+    /// </summary>
+    decimal Weight { get; }
+
+    /// <summary>
+    ///     Индекс массы тела.
+    /// </summary>
+    decimal Imt { get; }
+
+    /// <summary>
     ///     Шкала.
     /// </summary>
     string? Scale { get; }
-
-    string? Imt { get; }
 
     int Klas { get; }
 
@@ -25,12 +39,12 @@ public interface IPatientInfo : IMedPersonInfo
     /// <summary>
     ///     Пол.
     /// </summary>
-    string? Gender { get; }
+    Gender Gender { get; }
 
     /// <summary>
     ///     Дата рождения.
     /// </summary>
-    string? Birthday { get; }
+    DateTime Birthday { get; }
 
     /// <summary>
     ///     Регион.
@@ -53,22 +67,12 @@ public interface IPatientInfo : IMedPersonInfo
     string? Diseases { get; }
 
     /// <summary>
-    ///     Рост.
-    /// </summary>
-    string? Height { get; }
-
-    /// <summary>
-    ///     Вес.
-    /// </summary>
-    string? Weight { get; }
-
-    /// <summary>
     ///     ФИО родственника.
     /// </summary>
-    string? FamilyFullName { get; }
+    string FamilyFullName { get; }
 
     /// <summary>
     ///     Контактный номер родственника.
     /// </summary>
-    string? FamilyPhoneNumber { get; }
+    string FamilyPhoneNumber { get; }
 }
