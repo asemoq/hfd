@@ -43,7 +43,7 @@ public class PatientEntity : EntityBase, IPatientFull
 
     /// <inheritdoc />
     [NotMapped]
-    public double Imt => this.Weight / Math.Pow(this.Height / 10, 2);
+    public double Imt => Math.Round(this.Weight / Math.Pow(this.Height / 100, 2), 2);
 
     /// <inheritdoc />
     [Column("klas")]
