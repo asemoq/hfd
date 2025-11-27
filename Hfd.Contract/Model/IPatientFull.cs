@@ -8,6 +8,10 @@ namespace Hfd.Contract.Model;
 /// </summary>
 public interface IPatientFull : IBaseInfo, IPatientInfo
 {
+    /// <summary>
+    ///     Индекс массы тела.
+    /// </summary>
+    double Imt { get; }
 }
 
 public interface IPatientInfo : IMedPersonInfo
@@ -15,17 +19,13 @@ public interface IPatientInfo : IMedPersonInfo
     /// <summary>
     ///     Рост.
     /// </summary>
-    decimal Height { get; }
+    double Height { get; }
 
     /// <summary>
     ///     Вес.
     /// </summary>
-    decimal Weight { get; }
+    double Weight { get; }
 
-    /// <summary>
-    ///     Индекс массы тела.
-    /// </summary>
-    decimal Imt { get; }
 
     /// <summary>
     ///     Шкала.

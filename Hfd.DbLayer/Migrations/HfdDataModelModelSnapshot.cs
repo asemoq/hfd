@@ -193,8 +193,8 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("gender");
 
-                    b.Property<decimal>("Height")
-                        .HasColumnType("numeric")
+                    b.Property<double>("Height")
+                        .HasColumnType("double precision")
                         .HasColumnName("height");
 
                     b.Property<int>("Klas")
@@ -223,8 +223,8 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnType("character varying(36)")
                         .HasColumnName("user_id");
 
-                    b.Property<decimal>("Weight")
-                        .HasColumnType("numeric")
+                    b.Property<double>("Weight")
+                        .HasColumnType("double precision")
                         .HasColumnName("weight");
 
                     b.HasKey("Id");

@@ -22,9 +22,6 @@ public static class PatientAdd
         public string Scale { get; set; }
 
         /// <inheritdoc />
-        public decimal Imt { get; set; }
-
-        /// <inheritdoc />
         public int Klas { get; set; }
 
         /// <inheritdoc />
@@ -50,10 +47,10 @@ public static class PatientAdd
         public string Diseases { get; set; }
 
         /// <inheritdoc />
-        public decimal Height { get; set; }
+        public double Height { get; set; }
 
         /// <inheritdoc />
-        public decimal Weight { get; set; }
+        public double Weight { get; set; }
 
         /// <inheritdoc />
         public string FamilyFullName { get; set; }

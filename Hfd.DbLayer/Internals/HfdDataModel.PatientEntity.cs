@@ -35,15 +35,15 @@ public class PatientEntity : EntityBase, IPatientFull
 
     /// <inheritdoc />
     [Column("height")]
-    public decimal Height { get; set; }
+    public double Height { get; set; }
 
     /// <inheritdoc />
     [Column("weight")]
-    public decimal Weight { get; set; }
+    public double Weight { get; set; }
 
     /// <inheritdoc />
     [NotMapped]
-    public decimal Imt => this.Weight / this.Height;
+    public double Imt => this.Weight / Math.Pow(this.Height / 10, 2);
 
     /// <inheritdoc />
     [Column("klas")]
