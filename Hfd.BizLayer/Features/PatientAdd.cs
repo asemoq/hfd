@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using Hfd.Common.Contract.Exceptions;
 using Hfd.Common.Models;
 
 namespace Hfd.BizLayer.Features;
@@ -63,23 +64,14 @@ public static class PatientAdd
     }
 
     /// <inheritdoc />
-    public sealed class Handler(IDbStorage storage, IUserService service, IBizContext context) : IRequestHandler<Request, IPatientFull>
+    public sealed class Handler(IDbStorage storage, IUserService service) : IRequestHandler<Request, IPatientFull>
     {
         /// <inheritdoc />
         public async Task<IPatientFull> Handle(Request request, CancellationToken cancellationToken)
         {
-            if (request.User != null)
+            if (string.IsNullOrEmpty(request.UserId))
             {
-                var user = await service.FindUser(request.User.PhoneNumber);
-                if (user == null)
-                {
-                    request.User.Language = context.User.Language;
-                    request.User.DefaultRole = UserRole.Patient;
-                    request.User.Roles = [request.User.DefaultRole];
-                    user = await service.CreateUser(request.User);
-                }
-
-                request.UserId = user.Id;
+                request.UserId = await service.CreateOrFind(request.User, UserRole.Patient) ?? throw new UserNotFoundException();
             }
 
             return await storage.GetService<IPatientService>().Add(request);
@@ -90,7 +82,10 @@ public static class PatientAdd
         {
             public Validator()
             {
-                this.RuleFor(x => x.UserId).NotEmpty().When(x => x.User == null).WithMessage(nameof(HfdError.PatientUserIdIsNotCorrect));
+                this.RuleFor(x => x.UserId)
+                    .NotEmpty()
+                    .When(x => x.User == null || string.IsNullOrEmpty(x.User.PhoneNumber))
+                    .WithMessage(nameof(HfdError.PatientUserIdIsNotCorrect));
             }
         }
     }

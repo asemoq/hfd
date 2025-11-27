@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Hfd.Common.DbLayer.Configurations;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Model;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 // ReSharper disable EntityFramework.ModelValidation.UnlimitedStringLength
 namespace Hfd.DbLayer.Internals;
@@ -55,6 +57,19 @@ public class PlotEntity : EntityBase, IPlotFull
 
     [InverseProperty(nameof(SocialWorkerEntity.PlotEntity))]
     public virtual ICollection<SocialWorkerEntity> SocialWorkerEntities { get; init; } = new HashSet<SocialWorkerEntity>();
+
+    #endregion
+
+    #region Configuration
+
+    public class PlotConfiguration : BaseEntityConfiguration<PlotEntity>
+    {
+        public override void Configure(EntityTypeBuilder<PlotEntity> builder)
+        {
+            base.Configure(builder);
+            builder.HasIndex(x => x.Number).IsUnique();
+        }
+    }
 
     #endregion
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Hfd.Common.DbLayer.Configurations;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Model;
 
@@ -43,4 +44,10 @@ public class FileEntity : EntityBase, IFileFull
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
     [Column("data")]
     public string? Data { get; set; }
+
+    #region Configuration
+
+    public class FileConfiguration : BaseEntityConfiguration<FileEntity>;
+
+    #endregion
 }

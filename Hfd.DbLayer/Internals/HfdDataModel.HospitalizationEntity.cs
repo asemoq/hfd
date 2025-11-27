@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Hfd.Common.DbLayer.Configurations;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Model;
 
@@ -47,6 +48,12 @@ public class HospitalizationEntity : EntityBase, IHospitalizationFull
     [ForeignKey(nameof(PatientId))]
     [InverseProperty(nameof(Internals.PatientEntity.HospitalizationEntities))]
     public PatientEntity? PatientEntity { get; set; }
+
+    #endregion
+
+    #region Configuration
+
+    public class HospitalizationConfiguration : BaseEntityConfiguration<HospitalizationEntity>;
 
     #endregion
 }

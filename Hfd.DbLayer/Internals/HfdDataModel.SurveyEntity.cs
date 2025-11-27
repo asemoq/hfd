@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Hfd.Common.DbLayer.Configurations;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
@@ -105,6 +106,12 @@ public class SurveyEntity : EntityBase, ISurveyFull
     [ForeignKey(nameof(PatientId))]
     [InverseProperty(nameof(Internals.PatientEntity.SurveyEntities))]
     public PatientEntity? PatientEntity { get; set; }
+
+    #endregion
+
+    #region Configuration
+
+    public class SurveyConfiguration : BaseEntityConfiguration<SurveyEntity>;
 
     #endregion
 }

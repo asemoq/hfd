@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Hfd.Common.DbLayer.Configurations;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Model;
 
@@ -43,4 +44,12 @@ public class TshhEntity : EntityBase, ITshhFull
     /// <inheritdoc />
     [Column("creation_date")]
     public DateTime CreationDate { get; set; }
+
+    #region Configuration
+
+    public class TshhConfiguration : BaseEntityConfiguration<TshhEntity>
+    {
+    }
+
+    #endregion
 }

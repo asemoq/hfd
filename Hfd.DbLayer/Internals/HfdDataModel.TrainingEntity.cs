@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Hfd.Common.DbLayer.Configurations;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
@@ -40,4 +41,10 @@ public class TrainingEntity : EntityBase, ITrainingFull
     /// <inheritdoc />
     [Column("file_type")]
     public FileType FileType { get; set; }
+
+    #region Configuration
+
+    public class TrainingConfiguration : BaseEntityConfiguration<TrainingEntity>;
+
+    #endregion
 }

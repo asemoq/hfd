@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Hfd.Common.DbLayer.Configurations;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
@@ -22,13 +23,8 @@ public partial class HfdDataModel
 ///     Entity.
 /// </summary>
 [Table("patient")]
-public class PatientEntity : EntityBase, IPatientFull
+public class PatientEntity : PersonEntityBase, IPatientFull
 {
-    /// <inheritdoc />
-    [MaxLength(36)]
-    [Column("user_id")]
-    public string UserId { get; set; }
-
     /// <inheritdoc />
     [Column("scale")]
     public string? Scale { get; set; }
@@ -103,6 +99,12 @@ public class PatientEntity : EntityBase, IPatientFull
 
     [InverseProperty(nameof(HospitalizationEntity.PatientEntity))]
     public virtual ICollection<HospitalizationEntity> HospitalizationEntities { get; init; } = new HashSet<HospitalizationEntity>();
+
+    #endregion
+
+    #region Configuration
+
+    public class PatientConfiguration : PersonEntityConfiguration<PatientEntity>;
 
     #endregion
 }

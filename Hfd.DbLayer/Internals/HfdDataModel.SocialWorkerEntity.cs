@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Hfd.Common.DbLayer.Configurations;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Model;
 
@@ -19,22 +20,23 @@ public partial class HfdDataModel
 ///     Entity.
 /// </summary>
 [Table("social_worker")]
-public class SocialWorkerEntity : EntityBase, ISocialWorkerFull
+public class SocialWorkerEntity : PersonEntityBase, ISocialWorkerFull
 {
     /// <inheritdoc />
     [Column("plot_id")]
     public long? PlotId { get; set; }
-
-    /// <inheritdoc />
-    [MaxLength(36)]
-    [Column("user_id")]
-    public string UserId { get; set; }
 
     #region Navigation
 
     [ForeignKey(nameof(PlotId))]
     [InverseProperty(nameof(Internals.PlotEntity.SocialWorkerEntities))]
     public PlotEntity? PlotEntity { get; set; }
+
+    #endregion
+
+    #region Configuration
+
+    public class SocialWorkerConfiguration : PersonEntityConfiguration<SocialWorkerEntity>;
 
     #endregion
 }

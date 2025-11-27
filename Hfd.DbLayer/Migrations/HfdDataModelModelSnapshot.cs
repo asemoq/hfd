@@ -143,6 +143,9 @@ namespace Hfd.DbLayer.Migrations
 
                     b.HasIndex("PlotId");
 
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
                     b.ToTable("nurse");
                 });
 
@@ -231,6 +234,9 @@ namespace Hfd.DbLayer.Migrations
 
                     b.HasIndex("PlotId");
 
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
                     b.ToTable("patient");
                 });
 
@@ -299,6 +305,9 @@ namespace Hfd.DbLayer.Migrations
 
                     b.HasIndex("PlotId");
 
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
                     b.ToTable("psychologist");
                 });
 
@@ -332,6 +341,9 @@ namespace Hfd.DbLayer.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PlotId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("social_worker");
                 });
