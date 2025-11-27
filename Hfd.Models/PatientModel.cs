@@ -1,4 +1,6 @@
-﻿namespace Hfd.Models;
+﻿using System;
+
+namespace Hfd.Models;
 
 public class PatientModel : MedPersonModel
 {
@@ -12,7 +14,7 @@ public class PatientModel : MedPersonModel
 
     public string Gender { get; set; }
 
-    public string Birthday { get; set; }
+    public DateTime Birthday { get; set; }
 
     public string Region { get; set; }
 
@@ -29,4 +31,12 @@ public class PatientModel : MedPersonModel
     public string FamilyFullName { get; set; }
 
     public string FamilyPhoneNumber { get; set; }
+
+    public int Age => DateTime.Today.Year
+                      - this.Birthday.Year
+                      - 1
+                      + ((DateTime.Today.Month > this.Birthday.Month
+                          || (DateTime.Today.Month == this.Birthday.Month && DateTime.Today.Day >= this.Birthday.Day))
+                          ? 1
+                          : 0);
 }
