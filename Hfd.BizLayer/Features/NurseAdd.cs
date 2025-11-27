@@ -34,7 +34,7 @@ public static class NurseAdd
                 {
                     request.User.Language = context.User.Language;
                     request.User.DefaultRole = UserRole.Nurse;
-                    request.User.Roles = [UserRole.Nurse];
+                    request.User.Roles = [request.User.DefaultRole];
                     user = await service.CreateUser(request.User);
                 }
 

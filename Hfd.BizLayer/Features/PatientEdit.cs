@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using Hfd.Common.Models;
 
 namespace Hfd.BizLayer.Features;
 
@@ -62,16 +63,31 @@ public static class PatientEdit
 
         /// <inheritdoc />
         public string FamilyPhoneNumber { get; set; }
+
+        public UserInfo? User { get; set; }
     }
 
     /// <inheritdoc />
-    public sealed class Handler(IDbStorage storage) : IRequestHandler<Request, IPatientFull>
+    public sealed class Handler(IDbStorage storage, IUserService service, IBizContext context) : IRequestHandler<Request, IPatientFull>
     {
         /// <inheritdoc />
         public async Task<IPatientFull> Handle(Request request, CancellationToken cancellationToken)
         {
-            var service = storage.GetService<IPatientService>();
-            return await service.Edit(request.Id, request);
+            if (request.User != null)
+            {
+                var user = await service.FindUser(request.User.PhoneNumber);
+                if (user == null)
+                {
+                    request.User.Language = context.User.Language;
+                    request.User.DefaultRole = UserRole.Patient;
+                    request.User.Roles = [request.User.DefaultRole];
+                    user = await service.CreateUser(request.User);
+                }
+
+                request.UserId = user.Id;
+            }
+
+            return await storage.GetService<IPatientService>().Edit(request.Id, request);
         }
 
         /// <inheritdoc />
