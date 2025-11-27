@@ -90,7 +90,7 @@ public static class PatientAdd
         {
             public Validator()
             {
-                this.RuleFor(x => x.UserId).NotEmpty().WithMessage(nameof(HfdError.PatientUserIdIsNotCorrect));
+                this.RuleFor(x => x.UserId).NotEmpty().When(x => x.User == null).WithMessage(nameof(HfdError.PatientUserIdIsNotCorrect));
             }
         }
     }
