@@ -20,7 +20,10 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
             await using var trans = await model.Database.BeginTransactionAsync();
             try
             {
-                var patient = new PatientEntity
+                var patient = await model.Patients.SingleOrDefaultAsync(x => x.UserId == patientInfo.UserId);
+                if (patient != null) throw new AlreadyExistException(HfdError.Patient);
+
+                patient = new PatientEntity
                 {
                     UserId = patientInfo.UserId,
                     PlotId = patientInfo.PlotId,
@@ -62,6 +65,12 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
                 var patient = await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId);
                 if (patient == null) throw new NotFoundException(HfdError.Patient);
 
+                if (patient.UserId != patientInfo.UserId)
+                {
+                    var existedPatient = await model.Nurses.SingleOrDefaultAsync(x => x.UserId == patientInfo.UserId);
+                    if (existedPatient != null) throw new AlreadyExistException(HfdError.Patient);
+                }
+
                 patient.UserId = patientInfo.UserId;
                 patient.PlotId = patientInfo.PlotId;
                 patient.Scale = patientInfo.Scale;
@@ -99,8 +108,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
 
             if (nurseId != null)
             {
-                var nurse = await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId)
-                            ?? throw new NotFoundException(HfdError.Nurse);
+                var nurse = await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId) ?? throw new NotFoundException(HfdError.Nurse);
                 query = query.AndExpression(x => x.PlotId == nurse.PlotId);
             }
 

@@ -19,7 +19,10 @@ public class PlotDbService(HfdDbStorage storage, ILogger<PlotDbService> log)
             await using var trans = await model.Database.BeginTransactionAsync();
             try
             {
-                var plot = new PlotEntity { Number = plotInfo.Number, Area = plotInfo.Area, CreatedAt = DateTime.UtcNow, };
+                var plot = await model.Plots.SingleOrDefaultAsync(x => x.Number == plotInfo.Number);
+                if (plot != null) throw new AlreadyExistException(HfdError.Plot);
+
+                plot = new PlotEntity { Number = plotInfo.Number, Area = plotInfo.Area, CreatedAt = DateTime.UtcNow, };
                 await model.Plots.AddAsync(plot);
                 await model.SaveChangesAsync();
                 await trans.CommitAsync();
@@ -42,6 +45,11 @@ public class PlotDbService(HfdDbStorage storage, ILogger<PlotDbService> log)
             {
                 var plot = await model.Plots.SingleOrDefaultAsync(x => x.Id == plotId);
                 if (plot == null) throw new NotFoundException(HfdError.Plot);
+                if (plot.Number != plotInfo.Number)
+                {
+                    var existedPlot = await model.Plots.SingleOrDefaultAsync(x => x.Number == plotInfo.Number);
+                    if (existedPlot != null) throw new AlreadyExistException(HfdError.Plot);
+                }
 
                 plot.Number = plotInfo.Number;
                 plot.Area = plotInfo.Area;
