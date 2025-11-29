@@ -18,9 +18,8 @@ internal sealed class BackendSecure(IMapper mapper, UserManager<HfdIdentityUser>
         try
         {
             var id = principal.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            var username = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value;
             var uniqueId = principal.Claims.SingleOrDefault(c => c.Type == ClaimTypes.UserData);
-            var user = await userManager.FindByIdAsync(id) ?? throw new UserNotFoundException(username);
+            var user = await userManager.FindByIdAsync(id) ?? throw new UserNotFoundException();
             if (user.Iin == uniqueId?.Value)
             {
                 return mapper.Map<UserFull>(user);

@@ -16,7 +16,7 @@
         <AnalysisMode>AllEnabledByDefault</AnalysisMode>
         <AnalysisLevel>latest</AnalysisLevel>
         <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
-        <NoWarn>CA1062,CA1812,S3236,S1144,CA1034,S3246,S2365,CA1031,SA1124,SA1402,SA1623,CS8618,SA1503,SA1501</NoWarn>
+        <NoWarn>CA1062,CA1812,S3236,S1144,CA1034,S3246,S2365,CA1031,SA1124,SA1402,SA1623,CS8618,SA1503,SA1501,CA1032</NoWarn>
     </PropertyGroup>
     <ItemGroup>
         <AdditionalFiles Include="..\stylecop.json" Link="Properties\stylecop.json"/>

@@ -87,11 +87,11 @@ public static class PatientEdit
         {
             public Validator()
             {
-                this.RuleFor(x => x.Id).GreaterThan(0).WithMessage(nameof(HfdError.PatientIdIsNotCorrect));
+                this.RuleFor(x => x.Id).GreaterThan(0).WithError(ErrorType.NotCorrect, HfdError.PatientId);
                 this.RuleFor(x => x.UserId)
                     .NotEmpty()
                     .When(x => x.User == null || string.IsNullOrEmpty(x.User.PhoneNumber))
-                    .WithMessage(nameof(HfdError.PatientUserIdIsNotCorrect));
+                    .WithError(ErrorType.NotCorrect, HfdError.PatientUserId);
             }
         }
     }

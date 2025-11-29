@@ -41,10 +41,7 @@ public class PlotDbService(HfdDbStorage storage, ILogger<PlotDbService> log)
             try
             {
                 var plot = await model.Plots.SingleOrDefaultAsync(x => x.Id == plotId);
-                if (plot == null)
-                {
-                    throw new HfdException(nameof(HfdError.PlotNotExists));
-                }
+                if (plot == null) throw new NotFoundException(HfdError.Plot);
 
                 plot.Number = plotInfo.Number;
                 plot.Area = plotInfo.Area;
@@ -90,8 +87,8 @@ public class PlotDbService(HfdDbStorage storage, ILogger<PlotDbService> log)
                       .Include(x => x.PsychologistEntities)
                       .Include(x => x.SocialWorkerEntities)
                       .SingleOrDefaultAsync(x => x.Id == plotId)
-                  ?? throw new HfdException(nameof(HfdError.PlotNotFound))
-                : await model.Plots.SingleOrDefaultAsync(x => x.Id == plotId) ?? throw new HfdException(nameof(HfdError.PlotNotFound));
+                  ?? throw new NotFoundException(HfdError.Plot)
+                : await model.Plots.SingleOrDefaultAsync(x => x.Id == plotId) ?? throw new NotFoundException(HfdError.Plot);
         });
     }
 
@@ -103,10 +100,7 @@ public class PlotDbService(HfdDbStorage storage, ILogger<PlotDbService> log)
             try
             {
                 var plot = await model.Plots.SingleOrDefaultAsync(x => x.Id == plotId);
-                if (plot == null)
-                {
-                    throw new HfdException(nameof(HfdError.PlotNotExists));
-                }
+                if (plot == null) throw new NotFoundException(HfdError.Plot);
 
                 model.Remove(plot);
                 await model.SaveChangesAsync();

@@ -60,10 +60,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
             try
             {
                 var patient = await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId);
-                if (patient == null)
-                {
-                    throw new HfdException(nameof(HfdError.PatientNotExists));
-                }
+                if (patient == null) throw new NotFoundException(HfdError.Patient);
 
                 patient.UserId = patientInfo.UserId;
                 patient.PlotId = patientInfo.PlotId;
@@ -103,7 +100,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
             if (nurseId != null)
             {
                 var nurse = await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId)
-                            ?? throw new HfdException(nameof(HfdError.NurseNotFound));
+                            ?? throw new NotFoundException(HfdError.Nurse);
                 query = query.AndExpression(x => x.PlotId == nurse.PlotId);
             }
 
@@ -138,15 +135,14 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
     {
         return await this.Execute(async model =>
         {
-            return await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId)
-                   ?? throw new HfdException(nameof(HfdError.PatientNotFound));
+            return await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId) ?? throw new NotFoundException(HfdError.Patient);
         });
     }
 
     public async Task<IPatientFull> GetByUserId(string userId)
     {
         return await this.Execute(async model => await model.Patients.SingleOrDefaultAsync(x => x.UserId == userId)
-                                                 ?? throw new HfdException(nameof(HfdError.PatientNotFound)));
+                                                 ?? throw new NotFoundException(HfdError.Patient));
     }
 
     public async Task<IPatientFull> Delete(long patientId)
@@ -157,10 +153,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
             try
             {
                 var patient = await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId);
-                if (patient == null)
-                {
-                    throw new HfdException(nameof(HfdError.PatientNotExists));
-                }
+                if (patient == null) throw new NotFoundException(HfdError.Patient);
 
                 model.Remove(patient);
                 await model.SaveChangesAsync();

@@ -47,7 +47,7 @@ public static class SurveyAdd
         {
             public Validator()
             {
-                this.RuleFor(x => x.PatientId).GreaterThan(0).WithMessage(nameof(HfdError.SurveyPatientIdIsNotCorrect));
+                this.RuleFor(x => x.PatientId).GreaterThan(0).WithError(ErrorType.NotCorrect, HfdError.SurveyPatientId);
             }
         }
     }

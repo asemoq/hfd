@@ -28,7 +28,7 @@ public static class SurveyGetById
         {
             public Validator()
             {
-                this.RuleFor(x => x.SurveyId).GreaterThan(0).WithMessage(nameof(HfdError.SurveyIdIsNotCorrect));
+                this.RuleFor(x => x.SurveyId).GreaterThan(0).WithError(ErrorType.NotCorrect, HfdError.SurveyId);
             }
         }
     }

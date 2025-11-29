@@ -28,7 +28,7 @@ public static class PatientGetById
         {
             public Validator()
             {
-                this.RuleFor(x => x.PatientId).GreaterThan(0).WithMessage(nameof(HfdError.PatientIdIsNotCorrect));
+                this.RuleFor(x => x.PatientId).GreaterThan(0).WithError(ErrorType.NotCorrect, HfdError.PatientId);
             }
         }
     }

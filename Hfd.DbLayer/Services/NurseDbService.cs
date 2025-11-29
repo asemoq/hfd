@@ -41,10 +41,7 @@ public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
             try
             {
                 var nurse = await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId);
-                if (nurse == null)
-                {
-                    throw new HfdException(nameof(HfdError.NurseNotExists));
-                }
+                if (nurse == null) throw new NotFoundException(HfdError.Nurse);
 
                 nurse.UserId = nurseInfo.UserId;
                 nurse.PlotId = nurseInfo.PlotId;
@@ -83,13 +80,13 @@ public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
     public async Task<INurseFull> GetById(long nurseId)
     {
         return await this.Execute(async model => await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId)
-                                                 ?? throw new HfdException(nameof(HfdError.NurseNotFound)));
+                                                 ?? throw new NotFoundException(HfdError.Nurse));
     }
 
     public async Task<INurseFull> GetByUserId(string userId)
     {
         return await this.Execute(async model => await model.Nurses.SingleOrDefaultAsync(x => x.UserId == userId)
-                                                 ?? throw new HfdException(nameof(HfdError.NurseNotFound)));
+                                                 ?? throw new NotFoundException(HfdError.Nurse));
     }
 
     public async Task<INurseFull> Delete(long nurseId)
@@ -100,10 +97,7 @@ public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
             try
             {
                 var nurse = await model.Nurses.SingleOrDefaultAsync(x => x.Id == nurseId);
-                if (nurse == null)
-                {
-                    throw new HfdException(nameof(HfdError.NurseNotExists));
-                }
+                if (nurse == null) throw new NotFoundException(HfdError.Nurse);
 
                 model.Remove(nurse);
                 await model.SaveChangesAsync();

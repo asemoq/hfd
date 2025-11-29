@@ -1,6 +1,8 @@
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Hfd.BizLayer.Internals;
 using Hfd.Common.BizLayer;
+using Hfd.Common.Contract;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -22,5 +24,14 @@ public static class BizLayerExtensions
         services.Configure<ProviderOptions>(configuration.GetSection("providerOptions"))
             .AddTransient<IProviderOptions>(p => p.GetRequiredService<IOptions<ProviderOptions>>().Value);
         return services.AddHfdCommonBizLayerServices(assemblies);
+    }
+
+    public static IRuleBuilderOptions<T, TProperty> WithError<T, TProperty>(
+        this IRuleBuilderOptions<T, TProperty> rule,
+        ErrorType type,
+        HfdError error)
+    {
+        rule.WithMessage($"{type.ToString().ToSnakeCase()}.{error.ToString().ToSnakeCase()}");
+        return rule;
     }
 }

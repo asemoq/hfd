@@ -44,7 +44,7 @@ public static class NurseAdd
                 this.RuleFor(x => x.UserId)
                     .NotEmpty()
                     .When(x => x.User == null || string.IsNullOrEmpty(x.User.PhoneNumber))
-                    .WithMessage(nameof(HfdError.NurseUserIdIsNotCorrect));
+                    .WithError(ErrorType.NotCorrect, HfdError.NurseUserId);
             }
         }
     }

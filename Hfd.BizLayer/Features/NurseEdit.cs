@@ -46,10 +46,11 @@ public static class NurseEdit
         {
             public Validator()
             {
+                this.RuleFor(x => x.Id).GreaterThan(0).WithError(ErrorType.NotCorrect, HfdError.NurseId);
                 this.RuleFor(x => x.UserId)
                     .NotEmpty()
                     .When(x => x.User == null || string.IsNullOrEmpty(x.User.PhoneNumber))
-                    .WithMessage(nameof(HfdError.NurseUserIdIsNotCorrect));
+                    .WithError(ErrorType.NotCorrect, HfdError.NurseUserId);
             }
         }
     }

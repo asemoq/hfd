@@ -4,55 +4,42 @@ namespace Hfd.Contract.Enums;
 
 public enum HfdError
 {
-    NoError,
-
     #region [ Nurse ]
 
-    NurseIdIsNotCorrect,
-    NurseUserIdIsNotCorrect,
-
-    NurseNotExists,
-    NurseUserNotFound,
-    NurseUserExist,
-    NurseNotFound,
+    Nurse,
+    NurseId,
+    NurseUser,
+    NurseUserId,
 
     #endregion
 
     #region [ Patient ]
 
-    PatientIdIsNotCorrect,
-    PatientUserIdIsNotCorrect,
-
-    PatientNotExists,
-    PatientNotFound,
-    PatientUserNotFound,
-    PatientUserExist,
+    Patient,
+    PatientId,
+    PatientUser,
+    PatientUserId,
 
     #endregion
 
     #region [ Survey ]
 
-    SurveyIdIsNotCorrect,
-    SurveyPatientIdIsNotCorrect,
-
-    SurveyAlreadyExists,
-    SurveyNotExists,
-    SurveyNotFound,
+    Survey,
+    SurveyId,
+    SurveyPatientId,
 
     #endregion
 
     #region [ ProviderUser ]
 
-    ProviderUserNotExists,
-    ProviderUserNotFound,
+    ProviderUser,
 
     #endregion
 
     #region [ Plot ]
 
-    PlotIdIsNotCorrect,
-    PlotNotFound,
-    PlotNotExists,
+    Plot,
+    PlotId,
 
     #endregion
 }

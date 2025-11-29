@@ -28,7 +28,7 @@ public static class PlotDelete
         {
             public Validator()
             {
-                this.RuleFor(x => x.PlotId).GreaterThan(0).WithMessage(nameof(HfdError.PlotIdIsNotCorrect));
+                this.RuleFor(x => x.PlotId).GreaterThan(0).WithError(ErrorType.NotCorrect, HfdError.PlotId);
             }
         }
     }

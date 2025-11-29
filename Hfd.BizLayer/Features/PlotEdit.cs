@@ -37,6 +37,7 @@ public static class PlotEdit
         {
             public Validator()
             {
+                // this.RuleFor(x => x.Id).GreaterThan(0).WithError(ErrorType.NotCorrect, HfdError.PlotId);
             }
         }
     }

@@ -6,6 +6,7 @@ using System.Security.Claims;
 using AutoMapper;
 using Hfd.BizLayer.Internals;
 using Hfd.Common.Backend.Jwt;
+using Hfd.Common.Contract;
 using Hfd.Common.Contract.Exceptions;
 using Hfd.Common.Contract.Helpers;
 using Hfd.Common.Contract.Services;
@@ -182,7 +183,7 @@ public class HfdController(
 
             case ValidationException validationException:
             {
-                details.Message = "Validation error";
+                details.Message = "validation_error";
                 details.Details = validationException.Errors.Select(s => s.ToString()).ToArray();
                 statusCode = HttpStatusCode.BadRequest;
                 break;

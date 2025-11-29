@@ -25,7 +25,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
                     .ToListAsync();
                 if (surveys.Count == 2)
                 {
-                    throw new HfdException(nameof(HfdError.SurveyAlreadyExists));
+                    throw new AlreadyExistException(HfdError.Survey);
                 }
 
                 var survey = new SurveyEntity
@@ -45,7 +45,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
                 {
                     if (surveys.Single().DayTime == survey.DayTime)
                     {
-                        throw new HfdException(nameof(HfdError.SurveyAlreadyExists));
+                        throw new AlreadyExistException(HfdError.Survey);
                     }
                 }
 
@@ -70,10 +70,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
             try
             {
                 var survey = await model.Surveys.SingleOrDefaultAsync(x => x.Id == surveyId);
-                if (survey == null)
-                {
-                    throw new HfdException(nameof(HfdError.SurveyNotExists));
-                }
+                if (survey == null) throw new NotFoundException(HfdError.Survey);
 
                 survey.Dyspnea = surveyInfo.Dyspnea;
                 survey.AdValue = surveyInfo.AdValue;
@@ -132,7 +129,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
     {
         return await this.Execute(async model
             => await model.Surveys.OrderByDescending(x => x.DateTime).FirstOrDefaultAsync(x => x.PatientId == patientId)
-               ?? throw new HfdException(nameof(HfdError.SurveyNotFound)));
+               ?? throw new NotFoundException(HfdError.Survey));
     }
 
     public async Task<bool> NecessityByPatientId(long patientId)
@@ -157,7 +154,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
     public async Task<ISurveyFull> GetById(long surveyId)
     {
         return await this.Execute(async model => await model.Surveys.SingleOrDefaultAsync(x => x.Id == surveyId)
-                                                 ?? throw new HfdException(nameof(HfdError.SurveyNotFound)));
+                                                 ?? throw new NotFoundException(HfdError.Survey));
     }
 
     public async Task<ISurveyFull> Delete(long surveyId)
@@ -168,10 +165,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
             try
             {
                 var survey = await model.Surveys.SingleOrDefaultAsync(x => x.Id == surveyId);
-                if (survey == null)
-                {
-                    throw new HfdException(nameof(HfdError.SurveyNotExists));
-                }
+                if (survey == null) throw new NotFoundException(HfdError.Survey);
 
                 model.Remove(survey);
                 await model.SaveChangesAsync();
