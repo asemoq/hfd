@@ -35,7 +35,7 @@ public static class NurseEdit
         {
             if (string.IsNullOrEmpty(request.UserId))
             {
-                request.UserId = await service.CreateOrFind(request.User, UserRole.Nurse) ?? throw new UserNotFoundException();
+                request.UserId = await service.Create(request.User, UserRole.Nurse) ?? throw new UserNotFoundException();
             }
 
             return await storage.GetService<INurseService>().Edit(request.Id, request);

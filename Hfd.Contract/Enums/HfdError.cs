@@ -1,6 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-
-namespace Hfd.Contract.Enums;
+﻿namespace Hfd.Contract.Enums;
 
 public enum HfdError
 {
@@ -29,12 +27,6 @@ public enum HfdError
     Survey,
     SurveyId,
     SurveyPatientId,
-
-    #endregion
-
-    #region [ ProviderUser ]
-
-    ProviderUser,
 
     #endregion
 

@@ -76,7 +76,7 @@ public static class PatientEdit
         {
             if (string.IsNullOrEmpty(request.UserId))
             {
-                request.UserId = await service.CreateOrFind(request.User, UserRole.Patient) ?? throw new UserNotFoundException();
+                request.UserId = await service.Create(request.User, UserRole.Patient) ?? throw new UserNotFoundException();
             }
 
             return await storage.GetService<IPatientService>().Edit(request.Id, request);

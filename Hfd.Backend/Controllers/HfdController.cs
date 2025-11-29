@@ -13,6 +13,7 @@ using Hfd.Common.Contract.Services;
 using Hfd.Common.Models;
 using Hfd.Common.Services;
 using Hfd.Identity.Controllers;
+using Hfd.Identity.Exceptions;
 using Hfd.Identity.Model;
 using Hfd.Provider.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -46,9 +47,8 @@ public class HfdController(
     public async Task<LoginFull> Login([FromBody] LoginInfo rq)
     {
         var isValidPhoneNumber = FieldFormatHelper.IsValidPhoneNumber(rq.PhoneNumber);
-        if (!isValidPhoneNumber) throw new HfdException("UserPhoneNumberIsNotValid");
-        var phoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(rq.PhoneNumber, false)
-                          ?? throw new HfdException("UserPhoneNumberIsNotValid");
+        if (!isValidPhoneNumber) throw new InvalidPhoneNumberException();
+        var phoneNumber = FieldFormatHelper.GetFormattedPhoneNumber(rq.PhoneNumber, false) ?? throw new InvalidPhoneNumberException();
         var user = await this.UserManager.FindByNameAsync(phoneNumber);
         if (user == null)
         {
