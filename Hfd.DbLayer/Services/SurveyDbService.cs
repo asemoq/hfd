@@ -25,7 +25,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
                     .ToListAsync();
                 if (surveys.Count == 2)
                 {
-                    throw new AlreadyExistException(HfdError.Survey);
+                    throw new AlreadyExistsException(HfdError.Survey);
                 }
 
                 var survey = new SurveyEntity
@@ -45,7 +45,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
                 {
                     if (surveys.Single().DayTime == survey.DayTime)
                     {
-                        throw new AlreadyExistException(HfdError.Survey);
+                        throw new AlreadyExistsException(HfdError.Survey);
                     }
                 }
 

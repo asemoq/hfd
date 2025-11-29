@@ -20,7 +20,7 @@ public class PlotDbService(HfdDbStorage storage, ILogger<PlotDbService> log)
             try
             {
                 var plot = await model.Plots.SingleOrDefaultAsync(x => x.Number == plotInfo.Number);
-                if (plot != null) throw new AlreadyExistException(HfdError.Plot);
+                if (plot != null) throw new AlreadyExistsException(HfdError.Plot);
 
                 plot = new PlotEntity { Number = plotInfo.Number, Area = plotInfo.Area, CreatedAt = DateTime.UtcNow, };
                 await model.Plots.AddAsync(plot);
@@ -48,7 +48,7 @@ public class PlotDbService(HfdDbStorage storage, ILogger<PlotDbService> log)
                 if (plot.Number != plotInfo.Number)
                 {
                     var existedPlot = await model.Plots.SingleOrDefaultAsync(x => x.Number == plotInfo.Number);
-                    if (existedPlot != null) throw new AlreadyExistException(HfdError.Plot);
+                    if (existedPlot != null) throw new AlreadyExistsException(HfdError.Plot);
                 }
 
                 plot.Number = plotInfo.Number;

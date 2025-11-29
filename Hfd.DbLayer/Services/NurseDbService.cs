@@ -20,7 +20,7 @@ public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
             try
             {
                 var nurse = await model.Nurses.SingleOrDefaultAsync(x => x.UserId == nurseInfo.UserId);
-                if (nurse != null) throw new AlreadyExistException(HfdError.Nurse);
+                if (nurse != null) throw new AlreadyExistsException(HfdError.Nurse);
 
                 nurse = new NurseEntity { UserId = nurseInfo.UserId, PlotId = nurseInfo.PlotId, CreatedAt = DateTime.UtcNow, };
                 await model.Nurses.AddAsync(nurse);
@@ -48,7 +48,7 @@ public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
                 if (nurse.UserId != nurseInfo.UserId)
                 {
                     var existedNurse = await model.Nurses.SingleOrDefaultAsync(x => x.UserId == nurseInfo.UserId);
-                    if (existedNurse != null) throw new AlreadyExistException(HfdError.Nurse);
+                    if (existedNurse != null) throw new AlreadyExistsException(HfdError.Nurse);
                 }
 
                 nurse.UserId = nurseInfo.UserId;

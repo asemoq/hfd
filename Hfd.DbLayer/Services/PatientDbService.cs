@@ -21,7 +21,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
             try
             {
                 var patient = await model.Patients.SingleOrDefaultAsync(x => x.UserId == patientInfo.UserId);
-                if (patient != null) throw new AlreadyExistException(HfdError.Patient);
+                if (patient != null) throw new AlreadyExistsException(HfdError.Patient);
 
                 patient = new PatientEntity
                 {
@@ -68,7 +68,7 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
                 if (patient.UserId != patientInfo.UserId)
                 {
                     var existedPatient = await model.Nurses.SingleOrDefaultAsync(x => x.UserId == patientInfo.UserId);
-                    if (existedPatient != null) throw new AlreadyExistException(HfdError.Patient);
+                    if (existedPatient != null) throw new AlreadyExistsException(HfdError.Patient);
                 }
 
                 patient.UserId = patientInfo.UserId;
