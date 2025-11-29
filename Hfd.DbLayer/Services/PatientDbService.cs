@@ -131,11 +131,16 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
         });
     }
 
-    public async Task<List<IPatientFull>> GetForRequest()
+    public async Task<List<IPatientFull>> GetForReminder()
     {
         return await this.Execute(async model =>
         {
-            return await model.Patients.Where(x => x.Dead == false).ToListAsync<IPatientFull>();
+            Expression<Func<SurveyEntity, bool>> query = s
+                => s.DateTime.ToLocalTime().Date == DateTime.Now.Date && s.DateTime.ToLocalTime() <= DateTime.Now;
+            query = query.AndIf(DateTime.Now.Hour >= (int)DayTime.Afternoon, s => s.DateTime.ToLocalTime().Hour >= (int)DayTime.Afternoon);
+            return await model.Patients.Include(x => x.SurveyEntities)
+                .Where(x => !x.SurveyEntities.AsQueryable().Where(query).Any() && x.Dead == false)
+                .ToListAsync<IPatientFull>();
         });
     }
 

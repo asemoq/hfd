@@ -6,7 +6,7 @@ public class PatientModel : MedPersonModel
 {
     public string Scale { get; set; }
 
-    public decimal Imt { get; set; }
+    public double Imt { get; set; }
 
     public int Klas { get; set; }
 
@@ -24,9 +24,9 @@ public class PatientModel : MedPersonModel
 
     public string Diseases { get; set; }
 
-    public decimal Height { get; set; }
+    public double Height { get; set; }
 
-    public decimal Weight { get; set; }
+    public double Weight { get; set; }
 
     public string FamilyFullName { get; set; }
 

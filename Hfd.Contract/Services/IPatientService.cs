@@ -28,7 +28,7 @@ public interface IPatientService : IDbService
     /// <summary>
     ///     Получить список пациентов для опроса из БД.
     /// </summary>
-    Task<List<IPatientFull>> GetForRequest();
+    Task<List<IPatientFull>> GetForReminder();
 
     /// <summary>
     ///     Получить пациента из БД по идентификатору.

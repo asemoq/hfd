@@ -86,6 +86,8 @@ public static class PatientAdd
                     .NotEmpty()
                     .When(x => x.User == null || string.IsNullOrEmpty(x.User.PhoneNumber))
                     .WithError(ErrorType.NotCorrect, HfdError.PatientUserId);
+                this.RuleFor(x => x.Height).GreaterThan(0).WithError(ErrorType.NotCorrect, HfdError.PatientHeight);
+                this.RuleFor(x => x.Weight).GreaterThan(0).WithError(ErrorType.NotCorrect, HfdError.PatientWeight);
             }
         }
     }

@@ -136,18 +136,10 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
     {
         return await this.Execute(async model =>
         {
-            var surveys = await model.Surveys.Where(x => x.PatientId == patientId && x.DateTime.ToLocalTime().Date == DateTime.Now.Date)
-                .ToListAsync();
-            var dayTime = DateTime.Now.Hour < 12 ? DayTime.Morning : DayTime.Afternoon;
-            switch (surveys.Count)
-            {
-                case > 2:
-                case 2:
-                case 1 when surveys.Single().DayTime == dayTime:
-                    return false;
-            }
-
-            return true;
+            Expression<Func<SurveyEntity, bool>> query = s
+                => s.DateTime.ToLocalTime().Date == DateTime.Now.Date && s.DateTime.ToLocalTime() <= DateTime.Now;
+            query = query.AndIf(DateTime.Now.Hour >= (int)DayTime.Afternoon, s => s.DateTime.ToLocalTime().Hour >= (int)DayTime.Afternoon);
+            return !await model.Surveys.Where(query).AnyAsync(s => s.PatientId == patientId);
         });
     }
 

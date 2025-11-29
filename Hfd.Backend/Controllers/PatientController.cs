@@ -84,4 +84,13 @@ public class PatientController(IMediator mediator, IMapper mapper) : ControllerB
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<PatientModel> Delete([FromRoute] long id, CancellationToken token)
         => mapper.Map<PatientModel>(await mediator.Send(new PatientDelete.Request { PatientId = id }, token));
+
+    /// <summary>
+    ///     Получить список пациентов для напоминания о прохождении опроса.
+    /// </summary>
+    /// <returns>Список пациентов.</returns>
+    [HttpGet("remind")]
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public async Task<IEnumerable<PatientModel>> GetForReminder(CancellationToken token)
+        => mapper.Map<IPatientFull, PatientModel>(await mediator.Send(new PatientGetForReminder.Request(), token));
 }

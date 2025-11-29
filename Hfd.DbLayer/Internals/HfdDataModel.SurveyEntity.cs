@@ -34,7 +34,7 @@ public class SurveyEntity : EntityBase, ISurveyFull
     public IPatientFull PatientModel => this.PatientEntity!;
 
     [NotMapped]
-    public DayTime DayTime => this.DateTime.ToLocalTime().Hour < 12 ? DayTime.Morning : DayTime.Afternoon;
+    public DayTime DayTime => this.DateTime.ToLocalTime().Hour < (int)DayTime.Afternoon ? DayTime.Morning : DayTime.Afternoon;
 
     /// <inheritdoc />
     [NotMapped]

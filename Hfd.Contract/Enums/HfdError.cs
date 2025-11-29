@@ -19,6 +19,8 @@ public enum HfdError
     PatientId,
     PatientUser,
     PatientUserId,
+    PatientWeight,
+    PatientHeight,
 
     #endregion
 

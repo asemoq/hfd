@@ -15,7 +15,7 @@ public sealed class ConductTheSurveyJob(IDbStorage storage, IAdminClientFactory 
     {
         if (options.TgUri == null) return;
         using var client = await factory.CreateClient(options.TgUri);
-        var patients = await storage.GetService<IPatientService>().GetForRequest();
+        var patients = await storage.GetService<IPatientService>().GetForReminder();
         foreach (var patient in patients)
         {
             if (!Guid.TryParse(patient.UserId, out var guid)) continue;
