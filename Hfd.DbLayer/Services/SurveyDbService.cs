@@ -138,7 +138,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
         {
             Expression<Func<SurveyEntity, bool>> query = s
                 => s.DateTime.ToLocalTime().Date == DateTime.Now.Date && s.DateTime.ToLocalTime() <= DateTime.Now;
-            query = query.AndIf(DateTime.Now.Hour >= (int)DayTime.Afternoon, s => s.DateTime.ToLocalTime().Hour >= (int)DayTime.Afternoon);
+            query = query.AndIf(DateTime.Now.Hour > (int)DayTime.Afternoon, s => s.DateTime.ToLocalTime().Hour > (int)DayTime.Afternoon);
             return !await model.Surveys.Where(query).AnyAsync(s => s.PatientId == patientId);
         });
     }
