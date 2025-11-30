@@ -79,11 +79,13 @@ public class HfdController(
         using var client = factory.CreateUserClient(providerOptions.TgUri!);
         var phoneNumber = await client.Login(data);
         var user = await this.UserManager.Users.Where(x => x.PhoneNumber == phoneNumber.ToString()).FirstOrDefaultAsync();
+
         if (user == null)
         {
             throw new UserNotFoundException();
         }
 
+        await signInManager.SignInAsync(user, false);
         return true;
     }
 
