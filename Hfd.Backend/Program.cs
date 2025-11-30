@@ -7,16 +7,14 @@ using Hfd.Common.Services;
 using Hfd.Contract;
 using Hfd.DbLayer;
 using Hfd.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
-var corsPolicyName = "HFDCorsPolicy";
+var corsPolicyName = "CorsPolicy";
 Assembly[] assemblies =
 [
     typeof(Hfd.Common.Backend.AssemblyInfo).Assembly,
@@ -37,7 +35,8 @@ System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = new System.Glob
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHfdContractServices(assemblies)
+builder.Services.AddCors(corsPolicyName)
+    .AddHfdContractServices(assemblies)
     .AddHfdDbLayerServices(assemblies)
     .AddHfdBizLayerServices(builder.Configuration, assemblies)
     .AddIdentityServices(builder.Configuration)
@@ -59,18 +58,17 @@ builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttri
     });
 
 builder.Services.AddSwaggerGen("HFD API", "v1", assemblies, options => options.FixCustomSchemaIds().SetActionTagAndOrder().SetJwtSecurity())
-    .AddSwaggerGenNewtonsoftSupport()
-    .AddCors(corsPolicyName);
+    .AddSwaggerGenNewtonsoftSupport();
 
 var app = builder.Build();
 app.UseExceptionHandler("/api/error");
 app.UseStaticFiles();
 app.UseSwagger();
 app.UseRouting();
+app.UseCors(corsPolicyName);
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.UseCors(corsPolicyName);
 app.Services.MigrateHfdDbLayer();
 
 await IdentitySeedData.EnsurePopulated(app.Services);
