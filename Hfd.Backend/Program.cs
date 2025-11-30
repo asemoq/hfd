@@ -57,7 +57,7 @@ builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttri
         options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
     });
 
-builder.Services.AddSwaggerGen("HFD API", "v1", assemblies, options => options.FixCustomSchemaIds().SetActionTagAndOrder().SetJwtSecurity())
+builder.Services.AddSwaggerGen("HFD API", "v1", assemblies, options => options.FixCustomSchemaIds().SetActionTagAndOrder())
     .AddSwaggerGenNewtonsoftSupport();
 
 var app = builder.Build();
