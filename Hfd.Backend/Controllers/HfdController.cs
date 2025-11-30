@@ -2,10 +2,8 @@
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
-using System.Security.Claims;
 using AutoMapper;
 using Hfd.BizLayer.Internals;
-using Hfd.Common.Backend.Jwt;
 using Hfd.Common.Contract;
 using Hfd.Common.Contract.Exceptions;
 using Hfd.Common.Contract.Helpers;
@@ -44,7 +42,7 @@ public class HfdController(
     [HttpPost("/login"), Display(Order = 1)]
     [Consumes("application/json")]
     [Produces("application/json")]
-    public async Task<LoginFull> Login([FromBody] LoginInfo rq)
+    public async Task<bool> Login([FromBody] LoginInfo rq)
     {
         var isValidPhoneNumber = FieldFormatHelper.IsValidPhoneNumber(rq.PhoneNumber);
         if (!isValidPhoneNumber) throw new InvalidPhoneNumberException();
@@ -62,26 +60,20 @@ public class HfdController(
             throw new UnauthorizedException();
         }
 
-        var handler = this.Context.Services.GetRequiredService<IJwtHandler>();
-        var principal = await handler.GetPrincipal(this.Mapper.Map<UserFull>(user));
-        var token = handler.CreateToken(principal, TimeSpan.FromDays(7));
-
-        var rs = new LoginFull { UserName = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token, };
-
-        return rs;
+        return true;
     }
 
     [SwaggerResponse(StatusCodes.Status200OK, "Login information")]
     [HttpPost("/provider-login"), Display(Order = 2)]
     [Consumes("application/json")]
     [Produces("application/json")]
-    public async Task<LoginFull> Login([FromQuery] string providerType, [FromBody] object data)
+    public async Task<bool> Login([FromQuery] string providerType, [FromBody] object data)
     {
         var factory = this.Context.Services.GetRequiredService<IClientFactory<IProviderClient>>();
         var providerOptions = this.Context.Services.GetRequiredService<IProviderOptions>();
         if (providerType != "tg")
         {
-            return null!;
+            return false!;
         }
 
         using var client = factory.CreateUserClient(providerOptions.TgUri!);
@@ -92,14 +84,17 @@ public class HfdController(
             throw new UserNotFoundException();
         }
 
-        var handler = this.Context.Services.GetRequiredService<IJwtHandler>();
-        var principal = await handler.GetPrincipal(this.Mapper.Map<UserFull>(user));
+        return true;
+    }
 
-        var token = handler.CreateToken(principal, TimeSpan.FromDays(7));
-
-        var rs = new LoginFull { UserName = principal.Claims.Single(c => c.Type == ClaimTypes.Name).Value, Token = token, };
-
-        return rs;
+    [SwaggerResponse(StatusCodes.Status200OK, "Login information")]
+    [HttpPost("/logout"), Display(Order = 1)]
+    [Consumes("application/json")]
+    [Produces("application/json")]
+    public async Task<bool> Logout()
+    {
+        await signInManager.SignOutAsync();
+        return true;
     }
 
     /// <summary>

@@ -3,13 +3,13 @@ using Hfd.Backend.Internals;
 using Hfd.BizLayer;
 using Hfd.BizLayer.Internals;
 using Hfd.Common.Backend;
-using Hfd.Common.Backend.Jwt;
 using Hfd.Common.Services;
 using Hfd.Contract;
 using Hfd.DbLayer;
 using Hfd.Identity;
-using Hfd.Provider.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -42,9 +42,7 @@ builder.Services.AddCors(corsPolicyName)
     .AddHfdDbLayerServices(assemblies)
     .AddHfdBizLayerServices(builder.Configuration, assemblies)
     .AddIdentityServices(builder.Configuration)
-    .AddJwtAuthentication()
     .AddQuartzJobs(builder.Configuration)
-    .AddTransient<IBackendSecure, BackendSecure>()
     .AddTransient<IAdminClientFactory, AdminClientFactory>();
 builder.Services.AddServices();
 builder.Services.AddHttpContextAccessor().AddHttpClient();
