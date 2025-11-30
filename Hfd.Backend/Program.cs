@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
-var corsPolicyName = "CorsPolicy";
+var corsPolicyName = "HFDCorsPolicy";
 Assembly[] assemblies =
 [
     typeof(Hfd.Common.Backend.AssemblyInfo).Assembly,
@@ -37,8 +37,7 @@ System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = new System.Glob
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(corsPolicyName)
-    .AddHfdContractServices(assemblies)
+builder.Services.AddHfdContractServices(assemblies)
     .AddHfdDbLayerServices(assemblies)
     .AddHfdBizLayerServices(builder.Configuration, assemblies)
     .AddIdentityServices(builder.Configuration)
@@ -60,17 +59,18 @@ builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttri
     });
 
 builder.Services.AddSwaggerGen("HFD API", "v1", assemblies, options => options.FixCustomSchemaIds().SetActionTagAndOrder().SetJwtSecurity())
-    .AddSwaggerGenNewtonsoftSupport();
+    .AddSwaggerGenNewtonsoftSupport()
+    .AddCors(corsPolicyName);
 
 var app = builder.Build();
 app.UseExceptionHandler("/api/error");
 app.UseStaticFiles();
 app.UseSwagger();
 app.UseRouting();
-app.UseCors(corsPolicyName);
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.UseCors(corsPolicyName);
 app.Services.MigrateHfdDbLayer();
 
 await IdentitySeedData.EnsurePopulated(app.Services);
