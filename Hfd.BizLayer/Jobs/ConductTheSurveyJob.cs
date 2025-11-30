@@ -22,7 +22,7 @@ public sealed class ConductTheSurveyJob(IDbStorage storage, IAdminClientFactory 
 
             try
             {
-                await client.SendNotification(guid.ToString(), context.Aborted);
+                await client.SendNotification("158b9181-cb6e-4c29-8a8e-ecc03a3a3ad0", context.Aborted);
             }
             catch (ApiException e)
             {
