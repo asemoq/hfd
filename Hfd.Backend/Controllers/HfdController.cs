@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.Json;
 using AutoMapper;
+using Grpc.Core;
 using Hfd.BizLayer.Internals;
 using Hfd.Common.Backend.Controllers;
 using Hfd.Common.Contract.Exceptions;
@@ -66,11 +67,18 @@ public class HfdController(
     {
         if (providerType != "tg") return false!;
         if (string.IsNullOrEmpty(data.ToString())) return false!;
-        var response = await service.Login(new LoginData() { Data = data.ToString()! });
-        var user = await userManager.Users.Where(x => x.PhoneNumber == response.PhoneNumber).FirstOrDefaultAsync();
-        if (user == null) throw new UserNotFoundException();
-        await signInManager.SignInAsync(user, false);
-        return true;
+        try
+        {
+            var response = await service.Login(new LoginData() { Data = data.ToString()! });
+            var user = await userManager.Users.Where(x => x.PhoneNumber == response.PhoneNumber).FirstOrDefaultAsync();
+            if (user == null) throw new UserNotFoundException();
+            await signInManager.SignInAsync(user, false);
+            return true;
+        }
+        catch (RpcException e)
+        {
+            throw new HfdException(e.Message, [e.StackTrace!, e.Status.Detail]);
+        }
     }
 
     [SwaggerResponse(StatusCodes.Status200OK, "Login information")]
