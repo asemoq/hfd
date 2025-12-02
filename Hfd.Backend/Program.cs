@@ -1,14 +1,14 @@
 using System.Reflection;
-using Hfd.Backend.Internals;
 using Hfd.BizLayer;
-using Hfd.BizLayer.Internals;
 using Hfd.Common.Backend;
 using Hfd.Common.Services;
 using Hfd.Contract;
 using Hfd.DbLayer;
 using Hfd.Identity;
+using Hfd.Provider.Grpc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -21,17 +21,13 @@ Assembly[] assemblies =
     typeof(Hfd.Common.BizLayer.AssemblyInfo).Assembly,
     typeof(Hfd.Common.Contract.AssemblyInfo).Assembly,
     typeof(Hfd.Common.DbLayer.AssemblyInfo).Assembly,
+    typeof(Hfd.Provider.Grpc.AssemblyInfo).Assembly,
     typeof(Hfd.Identity.AssemblyInfo).Assembly,
     typeof(Hfd.Contract.AssemblyInfo).Assembly,
     typeof(Hfd.BizLayer.AssemblyInfo).Assembly,
     typeof(Hfd.DbLayer.AssemblyInfo).Assembly,
     typeof(Hfd.Backend.AssemblyInfo).Assembly,
 ];
-
-System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
-System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("en-US");
-System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = new System.Globalization.CultureInfo("en-US");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,8 +36,8 @@ builder.Services.AddCors(corsPolicyName)
     .AddHfdDbLayerServices(assemblies)
     .AddHfdBizLayerServices(builder.Configuration, assemblies)
     .AddIdentityServices(builder.Configuration)
-    .AddQuartzJobs(builder.Configuration)
-    .AddTransient<IAdminClientFactory, AdminClientFactory>();
+    .AddGrpcServices(builder.Configuration.GetValue<string>("providerOptions:tgUri")!)
+    .AddQuartzJobs(builder.Configuration);
 builder.Services.AddServices();
 builder.Services.AddHttpContextAccessor().AddHttpClient();
 builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json;
 using AutoMapper;
 using Hfd.BizLayer.Internals;
 using Hfd.Common.Backend.Controllers;
@@ -10,12 +11,14 @@ using Hfd.Common.Models;
 using Hfd.Common.Services;
 using Hfd.Identity.Exceptions;
 using Hfd.Identity.Model;
-using Hfd.Provider.Services;
+using Hfd.Provider.Grpc.Model;
+using Hfd.Provider.Grpc.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using RestEase;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Hfd.Backend.Controllers;
@@ -26,10 +29,20 @@ namespace Hfd.Backend.Controllers;
 public class HfdController(
     IBizContext context,
     IMapper mapper,
+    IProviderService service,
     UserManager<HfdIdentityUser> userManager,
     SignInManager<HfdIdentityUser> signInManager)
     : BaseController(context)
 {
+    private interface IProviderClient : IAuthorizedClient
+    {
+        /// <summary>
+        /// Изменить язык текущего пользователя.
+        /// </summary>
+        [Post("/update-language")]
+        Task<UserFull> UpdateLanguage(CancellationToken token = default);
+    }
+
     [SwaggerResponse(StatusCodes.Status200OK, "Login information")]
     [HttpPost("/login"), Display(Order = 1)]
     [Consumes("application/json")]
@@ -51,13 +64,10 @@ public class HfdController(
     [Produces("application/json")]
     public async Task<bool> Login([FromQuery] string providerType, [FromBody] object data)
     {
-        var factory = this.Context.Services.GetRequiredService<IClientFactory<IProviderClient>>();
-        var providerOptions = this.Context.Services.GetRequiredService<IProviderOptions>();
         if (providerType != "tg") return false!;
-
-        using var client = factory.CreateUserClient(providerOptions.TgUri!);
-        var phoneNumber = await client.Login(data);
-        var user = await userManager.Users.Where(x => x.PhoneNumber == phoneNumber.ToString()).FirstOrDefaultAsync();
+        if (string.IsNullOrEmpty(data.ToString())) return false!;
+        var response = await service.Login(new LoginData() { Data = data.ToString()! });
+        var user = await userManager.Users.Where(x => x.PhoneNumber == response.PhoneNumber).FirstOrDefaultAsync();
         if (user == null) throw new UserNotFoundException();
         await signInManager.SignInAsync(user, false);
         return true;

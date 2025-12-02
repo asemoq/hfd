@@ -26,7 +26,6 @@ public interface IPatientInfo : IMedPersonInfo
     /// </summary>
     double Weight { get; }
 
-
     /// <summary>
     ///     Шкала.
     /// </summary>
