@@ -77,7 +77,7 @@ public class HfdController(
         }
         catch (RpcException e)
         {
-            throw new HfdException(e.Message, [e.StackTrace!, e.Status.Detail]);
+            throw new HfdException(e.Message);
         }
     }
 
