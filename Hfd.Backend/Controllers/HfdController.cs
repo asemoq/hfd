@@ -35,7 +35,7 @@ public class HfdController(
     SignInManager<HfdIdentityUser> signInManager)
     : BaseController(context)
 {
-    private interface IProviderClient : IAuthorizedClient
+    public interface IProviderClient : IAuthorizedClient
     {
         /// <summary>
         /// Изменить язык текущего пользователя.
