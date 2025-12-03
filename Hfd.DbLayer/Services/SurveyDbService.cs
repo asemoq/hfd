@@ -29,7 +29,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
                 var minDayWeight = await model.Surveys
                     .Where(x => x.PatientId == surveyInfo.PatientId
                                 && (x.DateTime.ToLocalTime().Date == DateTime.Now.Date.AddDays(-1)
-                                    || x.DateTime.ToLocalTime().Date <= DateTime.Now.Date))
+                                    || x.DateTime.ToLocalTime().Date == DateTime.Now.Date))
                     .Select(x => x.WeightValue)
                     .MinAsync();
                 var minWeekWeight = await model.Surveys
