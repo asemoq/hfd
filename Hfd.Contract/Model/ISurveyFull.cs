@@ -94,3 +94,9 @@ public interface ISurveyInfo
     // /// </summary>
     // byte[] EdemaPhoto { get; }
 }
+
+public static class SurveyConstants
+{
+    public const double WeightGainCoefficient = 1 + (WeightGainPercent / 100);
+    private const double WeightGainPercent = 3.4;
+}
