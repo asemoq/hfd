@@ -2,6 +2,7 @@
 using AutoMapper;
 using Hfd.BizLayer.Features;
 using Hfd.Common.Contract;
+using Hfd.Common.Contract.Defaults;
 using Hfd.Common.Models;
 using Hfd.Contract.Model;
 using Hfd.Models;
@@ -14,8 +15,8 @@ namespace Hfd.Backend.Controllers;
 /// </summary>
 [ApiController]
 [Route("nurse")]
-[Authorize(Roles = "Administrator")]
 [Display(Order = 2, Name = "Медсестры")]
+[Authorize(Roles = "Administrator", AuthenticationSchemes = WebAuthenticationDefaults.AuthenticationScheme)]
 public class NurseController(IMediator mediator, IMapper mapper) : ControllerBase
 {
     /// <summary>
