@@ -18,7 +18,7 @@ namespace Hfd.DbLayer.Migrations
                 type: "text",
                 nullable: false,
                 defaultValue: "");
-            migrationBuilder.Sql(@"UPDATE survey SET day_time_value = to_char(date_time,'tt');");
+            migrationBuilder.Sql(@"UPDATE survey SET day_time_value = to_char(date_time,'AM');");
         }
 
         /// <inheritdoc />

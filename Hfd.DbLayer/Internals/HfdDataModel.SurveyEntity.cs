@@ -88,6 +88,10 @@ public class SurveyEntity : EntityBase, ISurveyFull
 
     /// <inheritdoc />
     [NotMapped]
+    public DateTime LocalTime => this.DateTime.ToLocalTime();
+
+    /// <inheritdoc />
+    [NotMapped]
     public int Score => (int)this.Dyspnea
                         + (int)this.Ad
                         + (int)this.Weight

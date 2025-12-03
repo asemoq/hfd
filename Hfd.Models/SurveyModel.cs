@@ -31,6 +31,8 @@ public class SurveyModel : BaseModel
 
     public DateTime DateTime { get; set; }
 
+    public DateTime LocalTime { get; set; }
+
     public int Score { get; set; }
 
     public string? ScoreZone { get; set; }

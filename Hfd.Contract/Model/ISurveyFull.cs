@@ -15,6 +15,8 @@ public interface ISurveyFull : ISurveyModel
 
     DayTime DayTime { get; }
 
+    DateTime LocalTime { get; }
+
     string DayTimeValue { get; }
 }
 
