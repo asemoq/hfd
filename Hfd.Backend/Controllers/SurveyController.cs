@@ -56,6 +56,15 @@ public class SurveyController(IMediator mediator, IMapper mapper) : ControllerBa
         => await mediator.Send(request, token);
 
     /// <summary>
+    ///     Получить признак необходимости пройти опрос по идентификатору пациента.
+    /// </summary>
+    /// <returns>Опрос.</returns>
+    [HttpGet("local-time")]
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public Task<DateTime> GetLocalTime(CancellationToken token)
+        => Task.FromResult(DateTime.Now);
+
+    /// <summary>
     ///     Получить опрос по идентификатору.
     /// </summary>
     /// <returns>Опрос.</returns>
