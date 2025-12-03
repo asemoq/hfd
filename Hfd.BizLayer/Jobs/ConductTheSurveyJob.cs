@@ -1,8 +1,8 @@
 using AutoMapper;
 using Hfd.Common.Contract.Attributes;
+using Hfd.Common.Models;
 using Hfd.Provider.Grpc.Model;
 using Hfd.Provider.Grpc.Services;
-using RestEase;
 
 namespace Hfd.BizLayer.Jobs;
 
@@ -19,16 +19,16 @@ public sealed class ConductTheSurveyJob(IDbStorage storage, IProviderService ser
         foreach (var patient in patients)
         {
             if (!Guid.TryParse(patient.UserId, out var guid)) continue;
-
             try
             {
                 var user = await userService.Find(guid.ToString());
-                if (user != null) await service.ConductTheSurvey(mapper.Map<UserData>(user));
+                if (user == null) return;
+                await userService.ChangeRole(guid.ToString(), UserRole.Patient);
+                await service.ConductTheSurvey(mapper.Map<UserData>(user));
             }
-            catch (ApiException e)
+            catch
             {
-                Console.WriteLine(e.Content);
-                throw;
+                // ignored
             }
         }
     }
