@@ -5,6 +5,7 @@ using AutoMapper;
 using Grpc.Core;
 using Hfd.BizLayer.Internals;
 using Hfd.Common.Backend.Controllers;
+using Hfd.Common.Contract.Defaults;
 using Hfd.Common.Contract.Exceptions;
 using Hfd.Common.Contract.Helpers;
 using Hfd.Common.Contract.Services;
@@ -46,8 +47,7 @@ public class HfdController(
 
     [SwaggerResponse(StatusCodes.Status200OK, "Login information")]
     [HttpPost("/login"), Display(Order = 1)]
-    [Consumes("application/json")]
-    [Produces("application/json")]
+    [Consumes("application/json"), Produces("application/json")]
     public async Task<bool> Login([FromBody] LoginInfo rq)
     {
         var isValidPhoneNumber = FieldFormatHelper.IsValidPhoneNumber(rq.PhoneNumber);
@@ -61,8 +61,7 @@ public class HfdController(
 
     [SwaggerResponse(StatusCodes.Status200OK, "Login information")]
     [HttpPost("/provider-login"), Display(Order = 2)]
-    [Consumes("application/json")]
-    [Produces("application/json")]
+    [Consumes("application/json"), Produces("application/json")]
     public async Task<bool> Login([FromQuery] string providerType, [FromBody] object data)
     {
         if (providerType != "tg") return false!;
@@ -83,8 +82,7 @@ public class HfdController(
 
     [SwaggerResponse(StatusCodes.Status200OK, "Login information")]
     [HttpPost("/logout"), Display(Order = 1)]
-    [Consumes("application/json")]
-    [Produces("application/json")]
+    [Consumes("application/json"), Produces("application/json")]
     public async Task<bool> Logout()
     {
         await signInManager.SignOutAsync();
@@ -97,9 +95,8 @@ public class HfdController(
     /// <param name="language">Язык.</param>
     /// <returns>Учетная запись.</returns>
     [SwaggerResponse(StatusCodes.Status200OK, "User has been updated")]
-    [HttpPut("/change-language"), Authorize, Display(Order = 5)]
-    [Consumes("application/json")]
-    [Produces("application/json")]
+    [Consumes("application/json"), Produces("application/json")]
+    [HttpPut("/change-language"), Authorize(AuthenticationSchemes = WebAuthenticationDefaults.AuthenticationScheme), Display(Order = 5)]
     public async Task<UserFull> ChangeLanguage([FromQuery] Language language)
     {
         var user = await userManager.FindByIdAsync(this.Context.User?.Id!) ?? throw new UserNotFoundException();
