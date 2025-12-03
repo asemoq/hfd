@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -24,9 +23,24 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
                 var surveys = await model.Surveys
                     .Where(x => x.PatientId == surveyInfo.PatientId && x.DateTime.ToLocalTime().Date == DateTime.Now.Date)
                     .ToListAsync();
-                if (surveys.Count == 2)
+                if (surveys.Count == 2) throw new AlreadyExistsException(HfdError.Survey);
+
+                var weight = WeightType.Normal;
+                var minDayWeight = await model.Surveys
+                    .Where(x => x.PatientId == surveyInfo.PatientId
+                                && (x.DateTime.ToLocalTime().Date == DateTime.Now.Date.AddDays(-1)
+                                    || x.DateTime.ToLocalTime().Date <= DateTime.Now.Date))
+                    .Select(x => x.WeightValue)
+                    .MinAsync();
+                var minWeekWeight = await model.Surveys
+                    .Where(x => x.PatientId == surveyInfo.PatientId
+                                && x.DateTime.ToLocalTime().Date >= DateTime.Now.Date.AddDays(-7)
+                                && x.DateTime.ToLocalTime().Date <= DateTime.Now.Date)
+                    .Select(x => x.WeightValue)
+                    .MinAsync();
+                if (surveyInfo.WeightValue - minWeekWeight > 2 || surveyInfo.WeightValue - minDayWeight > 0.7)
                 {
-                    throw new AlreadyExistsException(HfdError.Survey);
+                    weight = WeightType.WeightGain;
                 }
 
                 var survey = new SurveyEntity
@@ -34,6 +48,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
                     Dyspnea = surveyInfo.Dyspnea,
                     AdValue = surveyInfo.AdValue,
                     WeightValue = surveyInfo.WeightValue,
+                    Weight = weight,
                     Edema = surveyInfo.Edema,
                     HeartRateValue = surveyInfo.HeartRateValue,
                     PositionInBed = surveyInfo.PositionInBed,
@@ -43,14 +58,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
                     CreatedAt = DateTime.UtcNow,
                 };
 
-                if (surveys.Count == 1)
-                {
-                    if (surveys.Single().DateType == survey.DateType)
-                    {
-                        throw new AlreadyExistsException(HfdError.Survey);
-                    }
-                }
-
+                if (surveys.Count == 1 && surveys.Single().DateType == survey.DateType) throw new AlreadyExistsException(HfdError.Survey);
                 await model.Surveys.AddAsync(survey);
                 await model.SaveChangesAsync();
                 await trans.CommitAsync();
@@ -76,7 +84,6 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
 
                 survey.Dyspnea = surveyInfo.Dyspnea;
                 survey.AdValue = surveyInfo.AdValue;
-                survey.WeightValue = surveyInfo.WeightValue;
                 survey.Edema = surveyInfo.Edema;
                 survey.HeartRateValue = surveyInfo.HeartRateValue;
                 survey.PositionInBed = surveyInfo.PositionInBed;

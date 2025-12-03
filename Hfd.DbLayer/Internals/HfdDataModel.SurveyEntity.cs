@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Globalization;
 using Hfd.Common.DbLayer.Configurations;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Enums;
@@ -54,8 +53,8 @@ public class SurveyEntity : EntityBase, ISurveyFull
     public double WeightValue { get; set; }
 
     /// <inheritdoc />
-    [NotMapped]
-    public WeightType Weight => WeightType.Normal;
+    [Column("weight")]
+    public WeightType Weight { get; set; }
 
     /// <inheritdoc />
     [Column("edema")]
