@@ -37,10 +37,11 @@ public static class SurveyGetSummary
             while (currentDate.Month == startDate.Month && currentDate.Year == startDate.Year)
             {
                 if (currentDate > DateTime.Today) break;
-                foreach (DateType dayTime in Enum.GetValues(typeof(DateType)))
+                foreach (DateType dateType in Enum.GetValues(typeof(DateType)))
                 {
-                    var model = new SurveyModel() { DateTime = currentDate.AddHours((int)dayTime + 2), DayTime = dayTime.ToString(), };
-                    var survey = surveys.SingleOrDefault(x => x.DateType == dayTime && x.DateTime.Date == model.DateTime.Date);
+                    var hours = dateType == DateType.AM ? 4 : 18;
+                    var model = new SurveyModel() { DateTime = currentDate.AddHours(hours), DateType = dateType.ToString(), };
+                    var survey = surveys.SingleOrDefault(x => x.DateType == dateType && x.DateTime.Date == model.DateTime.Date);
                     if (survey is null)
                     {
                         list.Add(model);
