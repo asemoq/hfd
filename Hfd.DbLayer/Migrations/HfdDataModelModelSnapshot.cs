@@ -369,6 +369,11 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("date_time");
 
+                    b.Property<string>("DayTimeValue")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("day_time_value");
+
                     b.Property<int>("Dyspnea")
                         .HasColumnType("integer")
                         .HasColumnName("dyspnea");

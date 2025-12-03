@@ -39,6 +39,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
                     PositionInBed = surveyInfo.PositionInBed,
                     PatientId = surveyInfo.PatientId,
                     DateTime = DateTime.UtcNow,
+                    DayTimeValue = DateTime.Now.ToString("tt", CultureInfo.InvariantCulture),
                     CreatedAt = DateTime.UtcNow,
                 };
 
@@ -137,11 +138,12 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
     {
         return await this.Execute(async model =>
         {
-            var isPm = Enum.Parse<DayTime>(DateTime.Now.ToString("tt", CultureInfo.InvariantCulture)) == DayTime.PM;
-            Expression<Func<SurveyEntity, bool>> query = s
-                => s.DateTime.ToLocalTime().Date == DateTime.Now.Date && s.DateTime.ToLocalTime() <= DateTime.Now;
-            query = query.AndIf(isPm, s => s.DateTime.ToLocalTime().Hour > 12);
-            return !await model.Surveys.Where(query).AnyAsync(s => s.PatientId == patientId);
+            var dayTime = DateTime.Now.ToString("tt", CultureInfo.InvariantCulture);
+            return !await model.Surveys.Where(s
+                    => s.DateTime.ToLocalTime().Date == DateTime.Now.Date
+                       && s.DateTime.ToLocalTime() <= DateTime.Now
+                       && s.DayTimeValue == dayTime)
+                .AnyAsync(s => s.PatientId == patientId);
         });
     }
 

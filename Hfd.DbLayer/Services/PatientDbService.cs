@@ -136,10 +136,11 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
     {
         return await this.Execute(async model =>
         {
-            var isPm = Enum.Parse<DayTime>(DateTime.Now.ToString("tt", CultureInfo.InvariantCulture)) == DayTime.PM;
+            var dayTime = DateTime.Now.ToString("tt", CultureInfo.InvariantCulture);
             Expression<Func<SurveyEntity, bool>> query = s
-                => s.DateTime.ToLocalTime().Date == DateTime.Now.Date && s.DateTime.ToLocalTime() <= DateTime.Now;
-            query = query.AndIf(isPm, s => s.DateTime.ToLocalTime().Hour > 12);
+                => s.DateTime.ToLocalTime().Date == DateTime.Now.Date
+                   && s.DateTime.ToLocalTime() <= DateTime.Now
+                   && s.DayTimeValue == dayTime;
             return await model.Patients.Include(x => x.SurveyEntities)
                 .Where(x => !x.SurveyEntities.AsQueryable().Where(query).Any() && x.Dead == false)
                 .ToListAsync<IPatientFull>();

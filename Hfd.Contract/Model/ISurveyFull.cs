@@ -14,6 +14,8 @@ public interface ISurveyFull : ISurveyModel
     IPatientFull PatientModel { get; }
 
     DayTime DayTime { get; }
+
+    string DayTimeValue { get; }
 }
 
 public interface ISurveyModel : IBaseInfo, ISurveyInfo
