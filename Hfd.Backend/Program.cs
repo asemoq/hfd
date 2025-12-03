@@ -6,7 +6,10 @@ using Hfd.Contract;
 using Hfd.DbLayer;
 using Hfd.Identity;
 using Hfd.Provider.Grpc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +17,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
+var multiSchemePolicy = new AuthorizationPolicyBuilder(IdentityConstants.ApplicationScheme, JwtBearerDefaults.AuthenticationScheme)
+    .RequireAuthenticatedUser()
+    .Build();
 var corsPolicyName = "CorsPolicy";
 Assembly[] assemblies =
 [
@@ -36,6 +42,8 @@ builder.Services.AddCors(corsPolicyName)
     .AddHfdDbLayerServices(assemblies)
     .AddHfdBizLayerServices(builder.Configuration, assemblies)
     .AddIdentityServices(builder.Configuration)
+    .AddJwtAuthentication()
+    .AddAuthorization(o => o.DefaultPolicy = multiSchemePolicy)
     .AddGrpcServices(builder.Configuration.GetValue<string>("providerOptions:tgUri")!)
     .AddQuartzJobs(builder.Configuration);
 builder.Services.AddServices();
