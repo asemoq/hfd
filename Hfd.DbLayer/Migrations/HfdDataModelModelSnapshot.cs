@@ -398,6 +398,10 @@ namespace Hfd.DbLayer.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
+                    b.Property<int>("Weight")
+                        .HasColumnType("integer")
+                        .HasColumnName("weight");
+
                     b.Property<double>("WeightValue")
                         .HasColumnType("double precision")
                         .HasColumnName("weight_value");
