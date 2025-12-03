@@ -4,6 +4,7 @@ using Hfd.BizLayer.Features;
 using Hfd.Common.Contract;
 using Hfd.Common.Contract.Defaults;
 using Hfd.Common.Models;
+using Hfd.Contract.Enums;
 using Hfd.Contract.Model;
 using Hfd.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -55,14 +56,15 @@ public class SurveyController(IMediator mediator, IMapper mapper) : ControllerBa
     public async Task<bool> NecessityByPatientId([FromQuery] SurveyNecessityByPatientId.Request request, CancellationToken token)
         => await mediator.Send(request, token);
 
-    /// <summary>
-    ///     Получить признак необходимости пройти опрос по идентификатору пациента.
-    /// </summary>
-    /// <returns>Опрос.</returns>
     [HttpGet("local-time")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public Task<DateTime> GetLocalTime(CancellationToken token)
         => Task.FromResult(DateTime.Now);
+
+    [HttpGet("is-afternoon")]
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public Task<bool> IsAfternoon(CancellationToken token)
+        => Task.FromResult(DateTime.Now.Hour > (int)DayTime.Afternoon);
 
     /// <summary>
     ///     Получить опрос по идентификатору.
