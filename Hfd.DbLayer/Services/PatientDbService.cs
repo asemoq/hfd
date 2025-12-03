@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -135,9 +136,10 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
     {
         return await this.Execute(async model =>
         {
+            var isPm = Enum.Parse<DayTime>(DateTime.Now.ToString("tt", CultureInfo.InvariantCulture)) == DayTime.PM;
             Expression<Func<SurveyEntity, bool>> query = s
                 => s.DateTime.ToLocalTime().Date == DateTime.Now.Date && s.DateTime.ToLocalTime() <= DateTime.Now;
-            query = query.AndIf(DateTime.Now.Hour > (int)DayTime.Afternoon, s => s.DateTime.ToLocalTime().Hour > (int)DayTime.Afternoon);
+            query = query.AndIf(isPm, s => s.DateTime.ToLocalTime().Hour > 12);
             return await model.Patients.Include(x => x.SurveyEntities)
                 .Where(x => !x.SurveyEntities.AsQueryable().Where(query).Any() && x.Dead == false)
                 .ToListAsync<IPatientFull>();

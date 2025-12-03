@@ -64,7 +64,7 @@ public class SurveyController(IMediator mediator, IMapper mapper) : ControllerBa
     [HttpGet("is-afternoon")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public Task<bool> IsAfternoon(CancellationToken token)
-        => Task.FromResult(DateTime.Now.Hour > (int)DayTime.Afternoon);
+        => Task.FromResult(DateTime.Now.Hour > 12);
 
     /// <summary>
     ///     Получить опрос по идентификатору.

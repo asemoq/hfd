@@ -141,12 +141,14 @@ public enum DayTime
     /// <summary>
     ///     Утро
     /// </summary>
-    Morning = 0,
+    // ReSharper disable once InconsistentNaming
+    AM,
 
     /// <summary>
     ///     Вечер
     /// </summary>
-    Afternoon = 12,
+    // ReSharper disable once InconsistentNaming
+    PM,
 }
 
 public enum Gender

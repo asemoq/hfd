@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using Hfd.Common.DbLayer.Configurations;
 using Hfd.Common.DbLayer.Internals;
 using Hfd.Contract.Enums;
@@ -34,7 +35,7 @@ public class SurveyEntity : EntityBase, ISurveyFull
     public IPatientFull PatientModel => this.PatientEntity!;
 
     [NotMapped]
-    public DayTime DayTime => this.DateTime.ToLocalTime().Hour < (int)DayTime.Afternoon ? DayTime.Morning : DayTime.Afternoon;
+    public DayTime DayTime => Enum.Parse<DayTime>(this.DateTime.ToLocalTime().ToString("tt", CultureInfo.InvariantCulture));
 
     /// <inheritdoc />
     [NotMapped]
