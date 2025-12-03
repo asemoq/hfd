@@ -13,7 +13,7 @@ public interface ISurveyFull : ISurveyModel
     /// </summary>
     IPatientFull PatientModel { get; }
 
-    DayTime DayTime { get; }
+    DateType DateType { get; }
 
     DateTime LocalTime { get; }
 

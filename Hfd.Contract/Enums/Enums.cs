@@ -136,7 +136,7 @@ public enum ZoneType
     Red = 2,
 }
 
-public enum DayTime
+public enum DateType
 {
     /// <summary>
     ///     Утро

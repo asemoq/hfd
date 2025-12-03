@@ -35,7 +35,7 @@ public class SurveyEntity : EntityBase, ISurveyFull
     public IPatientFull PatientModel => this.PatientEntity!;
 
     [NotMapped]
-    public DayTime DayTime => Enum.Parse<DayTime>(this.DayTimeValue);
+    public DateType DateType => Enum.Parse<DateType>(this.DayTimeValue);
 
     [Column("day_time_value")]
     public string DayTimeValue { get; set; }

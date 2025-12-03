@@ -136,13 +136,10 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
     {
         return await this.Execute(async model =>
         {
-            var dayTime = DateTime.Now.ToString("tt", CultureInfo.InvariantCulture);
-            Expression<Func<SurveyEntity, bool>> query = s
-                => s.DateTime.ToLocalTime().Date == DateTime.Now.Date
-                   && s.DateTime.ToLocalTime() <= DateTime.Now
-                   && s.DayTimeValue == dayTime;
             return await model.Patients.Include(x => x.SurveyEntities)
-                .Where(x => !x.SurveyEntities.AsQueryable().Where(query).Any() && x.Dead == false)
+                .Where(x => !x.SurveyEntities.Any(s
+                                => s.DateTime.ToLocalTime().Date == DateTime.Now.Date && s.DayTimeValue == DateTime.Now.DateType())
+                            && x.Dead == false)
                 .ToListAsync<IPatientFull>();
         });
     }

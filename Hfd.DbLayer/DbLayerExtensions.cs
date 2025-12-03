@@ -1,4 +1,5 @@
 global using System;
+global using System.Globalization;
 global using System.Reflection;
 global using Hfd.Common.Contract;
 global using Hfd.Common.DbLayer;
@@ -26,4 +27,6 @@ public static class DbLayerExtensions
         model?.Database.Migrate();
         serviceProvider.GetService<ILogger<HfdDataModel>>()?.DisposedDataModel();
     }
+
+    public static string DateType(this DateTime date) => date.ToString("tt", CultureInfo.InvariantCulture);
 }

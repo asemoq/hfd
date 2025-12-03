@@ -45,7 +45,7 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
 
                 if (surveys.Count == 1)
                 {
-                    if (surveys.Single().DayTime == survey.DayTime)
+                    if (surveys.Single().DateType == survey.DateType)
                     {
                         throw new AlreadyExistsException(HfdError.Survey);
                     }
@@ -138,12 +138,10 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
     {
         return await this.Execute(async model =>
         {
-            var dayTime = DateTime.Now.ToString("tt", CultureInfo.InvariantCulture);
-            return !await model.Surveys.Where(s
-                    => s.DateTime.ToLocalTime().Date == DateTime.Now.Date
-                       && s.DateTime.ToLocalTime() <= DateTime.Now
-                       && s.DayTimeValue == dayTime)
-                .AnyAsync(s => s.PatientId == patientId);
+            return !await model.Surveys.AnyAsync(s
+                => s.DateTime.ToLocalTime().Date == DateTime.Now.Date
+                   && s.DayTimeValue == DateTime.Now.DateType()
+                   && s.PatientId == patientId);
         });
     }
 
