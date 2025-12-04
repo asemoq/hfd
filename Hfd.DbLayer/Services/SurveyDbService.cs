@@ -26,13 +26,16 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
                 if (surveys.Count == 2) throw new AlreadyExistsException(HfdError.Survey);
 
                 var weight = WeightType.Normal;
-                var minWeekWeight = await model.Surveys
+                var weights = model.Surveys
                     .Where(x => x.PatientId == surveyInfo.PatientId
                                 && x.DateTime.ToLocalTime().Date >= DateTime.Now.Date.AddDays(-7)
                                 && x.DateTime.ToLocalTime().Date <= DateTime.Now.Date)
-                    .Select(x => x.WeightValue)
-                    .MinAsync();
-                if (surveyInfo.WeightValue > minWeekWeight * SurveyConstants.WeightGainCoefficient) weight = WeightType.WeightGain;
+                    .Select(x => x.WeightValue);
+                if (await weights.AnyAsync())
+                {
+                    var minWeekWeight = await weights.MinAsync();
+                    if (surveyInfo.WeightValue > minWeekWeight * SurveyConstants.WeightGainCoefficient) weight = WeightType.WeightGain;
+                }
 
                 var survey = new SurveyEntity
                 {
