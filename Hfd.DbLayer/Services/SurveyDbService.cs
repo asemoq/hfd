@@ -136,10 +136,9 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
     {
         return await this.Execute(async model =>
         {
+            var currentDateType = DateTime.Now.DateType();
             return !await model.Surveys.AnyAsync(s
-                => s.DateTime.ToLocalTime().Date == DateTime.Now.Date
-                   && s.DayTimeValue == DateTime.Now.DateType()
-                   && s.PatientId == patientId);
+                => s.DateTime.ToLocalTime().Date == DateTime.Now.Date && s.DayTimeValue == currentDateType && s.PatientId == patientId);
         });
     }
 

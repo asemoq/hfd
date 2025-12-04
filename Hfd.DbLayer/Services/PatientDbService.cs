@@ -136,9 +136,10 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
     {
         return await this.Execute(async model =>
         {
+            var currentDateType = DateTime.Now.DateType();
             return await model.Patients.Include(x => x.SurveyEntities)
                 .Where(x => !x.SurveyEntities.Any(s
-                                => s.DateTime.ToLocalTime().Date == DateTime.Now.Date && s.DayTimeValue == DateTime.Now.DateType())
+                                => s.DateTime.ToLocalTime().Date == DateTime.Now.Date && s.DayTimeValue == currentDateType)
                             && x.Dead == false)
                 .ToListAsync<IPatientFull>();
         });
