@@ -153,12 +153,6 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
         });
     }
 
-    public async Task<IPatientFull> GetByUserId(string userId)
-    {
-        return await this.Execute(async model => await model.Patients.SingleOrDefaultAsync(x => x.UserId == userId)
-                                                 ?? throw new NotFoundException(HfdError.Patient));
-    }
-
     public async Task<IPatientFull> Delete(long patientId)
     {
         return await this.Execute(async model =>

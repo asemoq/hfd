@@ -38,15 +38,6 @@ public class NurseController(IMediator mediator, IMapper mapper) : ControllerBas
         => mapper.Map<NurseModel>(await mediator.Send(new NurseGetById.Request { NurseId = id }, token));
 
     /// <summary>
-    ///     Получить медсестру по идентификатору пользователя.
-    /// </summary>
-    /// <returns>Медсестра.</returns>
-    [HttpGet("user/{userId}")]
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public async Task<NurseModel> GetByUserId([FromRoute] string userId, CancellationToken token)
-        => mapper.Map<NurseModel>(await mediator.Send(new NurseGetByUserId.Request { UserId = userId }, token));
-
-    /// <summary>
     ///     Добавить медсестру.
     /// </summary>
     /// <returns>Медсестра.</returns>

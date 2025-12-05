@@ -91,12 +91,6 @@ public class NurseDbService(HfdDbStorage storage, ILogger<NurseDbService> log)
                                                  ?? throw new NotFoundException(HfdError.Nurse));
     }
 
-    public async Task<INurseFull> GetByUserId(string userId)
-    {
-        return await this.Execute(async model => await model.Nurses.SingleOrDefaultAsync(x => x.UserId == userId)
-                                                 ?? throw new NotFoundException(HfdError.Nurse));
-    }
-
     public async Task<INurseFull> Delete(long nurseId)
     {
         return await this.Execute(async model =>

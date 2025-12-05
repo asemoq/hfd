@@ -47,15 +47,6 @@ public class PatientController(IMediator mediator, IMapper mapper) : ControllerB
         => mapper.Map<StaffContact>(await mediator.Send(new PatientGetById.Request { PatientId = id }, token));
 
     /// <summary>
-    ///     Получить пациента по идентификатору пользователя.
-    /// </summary>
-    /// <returns>Пациент.</returns>
-    [HttpGet("user/{userId}")]
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public async Task<PatientModel> GetByUserId([FromRoute] string userId, CancellationToken token)
-        => mapper.Map<PatientModel>(await mediator.Send(new PatientGetByUserId.Request { UserId = userId }, token));
-
-    /// <summary>
     ///     Добавить пациента.
     /// </summary>
     /// <returns>Пациент.</returns>

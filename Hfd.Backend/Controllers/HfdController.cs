@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using Grpc.Core;
+using Hfd.Backend.Internals;
 using Hfd.BizLayer.Internals;
 using Hfd.Common.Backend.Controllers;
 using Hfd.Common.Contract.Defaults;
@@ -19,7 +20,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using RestEase;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Hfd.Backend.Controllers;
@@ -35,15 +35,6 @@ public class HfdController(
     SignInManager<HfdIdentityUser> signInManager)
     : BaseController(context)
 {
-    public interface IProviderClient : IAuthorizedClient
-    {
-        /// <summary>
-        /// Изменить язык текущего пользователя.
-        /// </summary>
-        [Post("/update-language")]
-        Task<UserFull> UpdateLanguage(CancellationToken token = default);
-    }
-
     [SwaggerResponse(StatusCodes.Status200OK, "Login information")]
     [HttpPost("/login"), Display(Order = 1)]
     [Consumes("application/json"), Produces("application/json")]
