@@ -13,6 +13,7 @@ using Hfd.Common.Models;
 using Hfd.Common.Services;
 using Hfd.Identity.Exceptions;
 using Hfd.Identity.Model;
+using Hfd.Models;
 using Hfd.Provider.Grpc.Model;
 using Hfd.Provider.Grpc.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -99,4 +100,11 @@ public class HfdController(
         await client.UpdateLanguage();
         return mapper.Map<UserFull>(user);
     }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    [ProducesResponseType(typeof(UserFull), StatusCodes.Status200OK)]
+    [HttpGet("/self"), Authorize(AuthenticationSchemes = WebAuthenticationDefaults.AuthenticationScheme)]
+    [Produces("application/json")]
+    public Task<UserModel> GetUiUserSelf(CancellationToken token = default)
+        => Task.FromResult(mapper.Map<UserModel>(this.Context.User))!;
 }

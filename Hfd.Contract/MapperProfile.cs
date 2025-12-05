@@ -22,5 +22,6 @@ public partial class MapperProfile : Profile
         this.CreateMap<IPatientFull, StaffContact>().ConvertUsing<StaffContactTypeConverter>();
         this.CreateMap<IPlotFull, PlotModel>();
         this.CreateMap<ISurveyFull, SurveyModel>();
+        this.CreateMap<UserFull, UserModel>().AfterMap<UserRoleAction>();
     }
 }

@@ -30,6 +30,11 @@ public interface INurseService : IDbService
     Task<INurseFull> GetById(long nurseId);
 
     /// <summary>
+    ///     Получить медсестру из БД по идентификатору пользователя.
+    /// </summary>
+    Task<INurseFull> GetByUserId(string userId);
+
+    /// <summary>
     ///     Удалить медсестру.
     /// </summary>
     Task<INurseFull> Delete(long nurseId);

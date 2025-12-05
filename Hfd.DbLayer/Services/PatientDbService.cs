@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -151,6 +150,12 @@ public class PatientDbService(HfdDbStorage storage, ILogger<PatientDbService> lo
         {
             return await model.Patients.SingleOrDefaultAsync(x => x.Id == patientId) ?? throw new NotFoundException(HfdError.Patient);
         });
+    }
+
+    public async Task<IPatientFull> GetByUserId(string userId)
+    {
+        return await this.Execute(async model => await model.Patients.SingleOrDefaultAsync(x => x.UserId == userId)
+                                                 ?? throw new NotFoundException(HfdError.Patient));
     }
 
     public async Task<IPatientFull> Delete(long patientId)

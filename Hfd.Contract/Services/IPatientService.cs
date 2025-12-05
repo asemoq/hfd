@@ -36,6 +36,11 @@ public interface IPatientService : IDbService
     Task<IPatientFull> GetById(long patientId);
 
     /// <summary>
+    ///     Получить пациента из БД по идентификатору пользователя.
+    /// </summary>
+    Task<IPatientFull> GetByUserId(string userId);
+
+    /// <summary>
     ///     Удалить пациента.
     /// </summary>
     Task<IPatientFull> Delete(long patientId);
