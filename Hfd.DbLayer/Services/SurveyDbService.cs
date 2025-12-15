@@ -128,6 +128,16 @@ public class SurveyDbService(HfdDbStorage storage, ILogger<SurveyDbService> log)
                 .ToListAsync<ISurveyFull>());
     }
 
+    public async Task<List<ISurveyFull>> GetForPeriod(long patientId, DateTime startDate, DateTime finishDate)
+    {
+        return await this.Execute(async model
+            => await model.Surveys
+                .Where(x => x.PatientId == patientId
+                            && x.DateTime.ToLocalTime().Date >= startDate
+                            && x.DateTime.ToLocalTime().Date <= finishDate)
+                .ToListAsync<ISurveyFull>());
+    }
+
     public async Task<ISurveyFull> GetLastByPatientId(long patientId)
     {
         return await this.Execute(async model

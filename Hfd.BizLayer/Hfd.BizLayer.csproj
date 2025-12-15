@@ -32,6 +32,9 @@
     <Compile Update="Features\Plot*.cs">
       <DependentUpon>Plot.md</DependentUpon>
     </Compile>
+    <Compile Update="Features\Summary*.cs">
+      <DependentUpon>Summary.md</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

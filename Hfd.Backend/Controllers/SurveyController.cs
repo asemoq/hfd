@@ -30,15 +30,6 @@ public class SurveyController(IMediator mediator, IMapper mapper) : ControllerBa
         => mapper.Map<ISurveyFull, SurveyModel>(await mediator.Send(request, token));
 
     /// <summary>
-    ///     Получить график.
-    /// </summary>
-    /// <returns>График.</returns>
-    [HttpGet("summary")]
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public async Task<List<SurveyModel>> GetSummary([FromQuery] SurveyGetSummary.Request request, CancellationToken token)
-        => await mediator.Send(request, token);
-
-    /// <summary>
     ///     Получить последний пройденный опрос по идентификатору пациента.
     /// </summary>
     /// <returns>Опрос.</returns>
@@ -55,16 +46,6 @@ public class SurveyController(IMediator mediator, IMapper mapper) : ControllerBa
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<bool> NecessityByPatientId([FromQuery] SurveyNecessityByPatientId.Request request, CancellationToken token)
         => await mediator.Send(request, token);
-
-    [HttpGet("local-time")]
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public Task<DateTime> GetLocalTime(CancellationToken token)
-        => Task.FromResult(DateTime.Now);
-
-    [HttpGet("is-afternoon")]
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public Task<bool> IsAfternoon(CancellationToken token)
-        => Task.FromResult(DateTime.Now.Hour > 12);
 
     /// <summary>
     ///     Получить опрос по идентификатору.

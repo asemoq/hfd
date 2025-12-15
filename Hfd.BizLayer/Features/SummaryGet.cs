@@ -1,10 +1,10 @@
-using System.Linq;
+﻿using System.Linq;
 using AutoMapper;
 using Hfd.Models;
 
 namespace Hfd.BizLayer.Features;
 
-public static class SurveyGetSummary
+public static class SummaryGet
 {
     /// <summary>
     ///     Request.
@@ -26,7 +26,6 @@ public static class SurveyGetSummary
     public sealed class Handler(IMapper mapper, IDbStorage storage) : IRequestHandler<Request, List<SurveyModel>>
     {
         /// <inheritdoc />
-        [Obsolete("Obsolete")]
         public async Task<List<SurveyModel>> Handle(Request request, CancellationToken cancellationToken)
         {
             var list = new List<SurveyModel>();

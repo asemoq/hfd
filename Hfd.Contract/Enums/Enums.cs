@@ -1,4 +1,6 @@
-﻿namespace Hfd.Contract.Enums;
+﻿using System.Runtime.Serialization;
+
+namespace Hfd.Contract.Enums;
 
 public enum FileType
 {
@@ -116,6 +118,24 @@ public enum PositionInBedType
     ///     Сидя
     /// </summary>
     Sitting = 3,
+}
+
+public enum Indicator
+{
+    /// <summary>
+    ///     Вес
+    /// </summary>
+    [EnumMember(Value = "weight")] Weight = 0,
+
+    /// <summary>
+    ///     Давление
+    /// </summary>
+    [EnumMember(Value = "ad")] Ad = 1,
+
+    /// <summary>
+    ///     Пульс
+    /// </summary>
+    [EnumMember(Value = "heart_rate")] HeartRate = 2,
 }
 
 public enum ZoneType

@@ -31,6 +31,11 @@ public interface ISurveyService : IDbService
     Task<List<ISurveyFull>> GetForPeriod(long patientId, int month, int year);
 
     /// <summary>
+    ///     Получить список опросов из БД.
+    /// </summary>
+    Task<List<ISurveyFull>> GetForPeriod(long patientId, DateTime startDate, DateTime finishDate);
+
+    /// <summary>
     ///     Получить последний пройденный опрос по идентификатору пациента.
     /// </summary>
     Task<ISurveyFull> GetLastByPatientId(long patientId);
