@@ -42,7 +42,8 @@ public static class SummaryGetByIndicator
             var period = request.FinishDate - request.StartDate;
             if (period.TotalDays <= 0) return null;
             var surveys = await storage.GetService<ISurveyService>().GetForPeriod(request.PatientId, request.StartDate, request.FinishDate);
-            return surveys.Select(s => new SurveyChartModel()
+            return surveys.OrderBy(x => x.DateTime)
+                .Select(s => new SurveyChartModel()
                 {
                     Date = s.DateTime.ToLocalTime().Date,
                     Value = request.Indicator switch
