@@ -45,7 +45,7 @@ public static class SummaryGetByIndicator
             return surveys.OrderBy(x => x.DateTime)
                 .Select(s => new SurveyChartModel()
                 {
-                    Date = s.DateTime.ToLocalTime().Date,
+                    Date = s.DateTime.ToLocalTime(),
                     Value = request.Indicator switch
                     {
                         Indicator.Weight => s.WeightValue,
