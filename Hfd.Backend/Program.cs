@@ -42,6 +42,7 @@ builder.Services.AddCors(corsPolicyName)
 builder.Services.AddServices();
 builder.Services.AddHttpContextAccessor().AddHttpClient();
 builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
+    .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true)
     .AddMvcOptions(options =>
     {
         options.InputFormatters.RemoveType<SystemTextJsonInputFormatter>();
