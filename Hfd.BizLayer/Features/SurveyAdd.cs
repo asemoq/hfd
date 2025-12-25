@@ -49,8 +49,11 @@ public static class SurveyAdd
             {
                 this.RuleFor(x => x.PatientId).GreaterThan(0).WithError(ErrorType.NotCorrect, HfdError.SurveyPatientId);
                 this.RuleFor(x => x.AdValue).LessThanOrEqualTo(180).WithError(ErrorType.NotCorrect, HfdError.SurveyAd);
-                this.RuleFor(x => x.WeightValue).LessThanOrEqualTo(700).WithError(ErrorType.NotCorrect, HfdError.SurveyWeight);
-                this.RuleFor(x => x.HeartRateValue).LessThanOrEqualTo(220).WithError(ErrorType.NotCorrect, HfdError.SurveyHeartRate);
+                this.RuleFor(x => x.AdValue).GreaterThanOrEqualTo(50).WithError(ErrorType.NotCorrect, HfdError.SurveyAd);
+                this.RuleFor(x => x.WeightValue).LessThanOrEqualTo(500).WithError(ErrorType.NotCorrect, HfdError.SurveyWeight);
+                this.RuleFor(x => x.WeightValue).GreaterThanOrEqualTo(10).WithError(ErrorType.NotCorrect, HfdError.SurveyWeight);
+                this.RuleFor(x => x.HeartRateValue).LessThanOrEqualTo(230).WithError(ErrorType.NotCorrect, HfdError.SurveyHeartRate);
+                this.RuleFor(x => x.HeartRateValue).GreaterThanOrEqualTo(35).WithError(ErrorType.NotCorrect, HfdError.SurveyHeartRate);
             }
         }
     }
