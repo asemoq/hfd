@@ -48,6 +48,9 @@ public static class SurveyAdd
             public Validator()
             {
                 this.RuleFor(x => x.PatientId).GreaterThan(0).WithError(ErrorType.NotCorrect, HfdError.SurveyPatientId);
+                this.RuleFor(x => x.AdValue).LessThanOrEqualTo(180).WithError(ErrorType.NotCorrect, HfdError.SurveyAd);
+                this.RuleFor(x => x.WeightValue).LessThanOrEqualTo(700).WithError(ErrorType.NotCorrect, HfdError.SurveyWeight);
+                this.RuleFor(x => x.HeartRateValue).LessThanOrEqualTo(220).WithError(ErrorType.NotCorrect, HfdError.SurveyHeartRate);
             }
         }
     }
