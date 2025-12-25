@@ -53,6 +53,7 @@ public static class SummaryGetByIndicator
                         Indicator.HeartRate => s.HeartRateValue,
                         _ => 0,
                     },
+                    Name = request.Indicator.ToString(),
                 })
                 .ToList();
         }
