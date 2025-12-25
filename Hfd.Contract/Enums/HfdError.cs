@@ -30,6 +30,7 @@ public enum HfdError
     SurveyWeight,
     SurveyHeartRate,
     SurveyPatientId,
+    SurveyIndicator,
 
     #endregion
 

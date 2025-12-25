@@ -53,7 +53,6 @@ public static class SummaryGetByIndicator
                         Indicator.HeartRate => s.HeartRateValue,
                         _ => 0,
                     },
-                    Name = request.Indicator.ToString(),
                 })
                 .ToList();
         }
@@ -64,6 +63,7 @@ public static class SummaryGetByIndicator
             public Validator()
             {
                 this.RuleFor(x => x.PatientId).GreaterThan(0).WithError(ErrorType.NotCorrect, HfdError.SurveyPatientId);
+                this.RuleFor(x => x.Indicator).IsInEnum().WithError(ErrorType.NotCorrect, HfdError.SurveyIndicator);
             }
         }
     }

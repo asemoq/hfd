@@ -125,17 +125,17 @@ public enum Indicator
     /// <summary>
     ///     Вес
     /// </summary>
-    [EnumMember(Value = "weight")] Weight = 0,
+    Weight = 0,
 
     /// <summary>
     ///     Давление
     /// </summary>
-    [EnumMember(Value = "ad")] Ad = 1,
+    Ad = 1,
 
     /// <summary>
     ///     Пульс
     /// </summary>
-    [EnumMember(Value = "heart_rate")] HeartRate = 2,
+    HeartRate = 2,
 }
 
 public enum ZoneType
@@ -169,10 +169,4 @@ public enum DateType
     /// </summary>
     // ReSharper disable once InconsistentNaming
     PM,
-}
-
-public enum Gender
-{
-    Male,
-    Female,
 }

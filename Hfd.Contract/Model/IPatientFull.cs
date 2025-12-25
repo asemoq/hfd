@@ -1,4 +1,5 @@
 ﻿using Hfd.Common.Contract.Model;
+using Hfd.Common.Models;
 using Hfd.Contract.Enums;
 
 namespace Hfd.Contract.Model;

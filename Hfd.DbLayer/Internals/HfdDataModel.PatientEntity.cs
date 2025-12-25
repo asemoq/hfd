@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Hfd.Common.DbLayer.Configurations;
 using Hfd.Common.DbLayer.Internals;
-using Hfd.Contract.Enums;
+using Hfd.Common.Models;
 using Hfd.Contract.Model;
 
 // ReSharper disable EntityFramework.ModelValidation.UnlimitedStringLength
