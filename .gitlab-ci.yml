@@ -11,6 +11,8 @@ workflow:
     on_job_failure: all
 
 build:
+  only:
+    - master
   stage: build
   script:
     - echo $APPSETTINGS > $APPSETTINGS_PATH
@@ -19,6 +21,8 @@ build:
     name: build
 
 deploy:
+  only:
+    - master
   stage: deploy
   script:
     - docker rm -f hfd || true
