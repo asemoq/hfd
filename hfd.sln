@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".root", ".root", "{DD883B50
 		Dockerfile = Dockerfile
 		stylecop.json = stylecop.json
 		.gitmodules = .gitmodules
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{5B75BF1A-E42E-4FCD-8B93-F885953A6A84}"
